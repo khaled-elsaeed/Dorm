@@ -1,0 +1,128 @@
+{
+    "created_by": "khaled Zahran",
+    "creation_date": "2024",
+    "description": "JSON file containing a list of academic programs grouped by faculties.",
+    "faculties": [
+      {
+        "id": 1,
+        "faculty": "Faculty of Business",
+        "programs": [
+          "Entrepreneurship & Innovation Program",
+          "Management Program",
+          "Finance & Investment Program",
+          "Accounting & Information Systems Program",
+          "Marketing Program",
+          "Logistics & Supply-Chain Management Program",
+          "Economics & Political Sciences Program"
+        ]
+      },
+      {
+        "id": 2,
+        "faculty": "Faculty of Textile Science Engineering",
+        "programs": [
+          "Textile Material Science & Engineering Program",
+          "Textile Polymer & Color Chemistry Engineering Program",
+          "Textile & Apparel Management & Merchandising Program",
+          "Textile & Fashion Design Program"
+        ]
+      },
+      {
+        "id": 3,
+        "faculty": "Faculty of Engineering",
+        "programs": [
+          "Media Engineering & Technology Program",
+          "Engineering & Technology Implementation of Civil Works Program",
+          "Product Development Engineering Program",
+          "Aeronautical & Aerospace Engineering Program",
+          "Petroleum & Gas Engineering Program",
+          "Environmental Architecture & Technology Program",
+          "Mechatronics Engineering Program",
+          "Energy Engineering Program",
+          "Biomedical Engineering Program"
+        ]
+      },
+      {
+        "id": 4,
+        "faculty": "Faculty of Computer Science & Engineering",
+        "programs": [
+          "Computer Engineering Program",
+          "Artificial Intelligence Engineering Program",
+          "Computer Science Program",
+          "Artificial Intelligence Science Program",
+          "Biomedical Informatics Program"
+        ]
+      },
+      {
+        "id": 5,
+        "faculty": "Faculty of Science",
+        "programs": [
+          "Industrial Chemistry Program",
+          "Molecular Biology Program",
+          "Forensic Science Program",
+          "Molecular Biotechnology Program"
+        ]
+      },
+      {
+        "id": 6,
+        "faculty": "Faculty of Medicine",
+        "programs": [
+          "Medicine & Surgery Program"
+        ]
+      },
+      {
+        "id": 7,
+        "faculty": "Faculty of Dentistry",
+        "programs": [
+          "Dentistry Program"
+        ]
+      },
+      {
+        "id": 8,
+        "faculty": "Faculty of Pharmacy",
+        "programs": [
+          "Doctor Of Pharmacy (PharmD) Program"
+        ]
+      },
+      {
+        "id": 9,
+        "faculty": "Faculty of Social & Human Sciences",
+        "programs": [
+          "Mass Media & Communication"
+        ]
+      },
+      {
+        "id": 10,
+        "faculty": "Faculty of Applied Health Sciences Technology",
+        "programs": [
+          "Medical Laboratory Technology Program",
+          "Technology of Radiology & Medical Imaging Program",
+          "Technology of Prosthetic Dentistry Program",
+          "Technology of Anesthesia & Intensive Care Program",
+          "Technology of Respiratory Therapy Program",
+          "Technology of Prosthetic & Orthotic Devices Program",
+          "Occupational Therapy Program",
+          "Technology of Optics Program"
+        ]
+      },
+      {
+        "id": 11,
+        "faculty": "Faculty of Nursing Sciences",
+        "programs": [
+          "Nursing Science Program"
+        ]
+      },
+      {
+        "id": 12,
+        "faculty": "Faculty of Law",
+        "programs": [
+          "Law Program"
+        ]
+      },
+      {
+        "id": 13,
+        "faculty": "Faculty of Graduate Studies",
+        "programs": []
+      }
+    ]
+  }
+  

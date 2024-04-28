@@ -1,0 +1,189 @@
+[
+    {
+      "type":"header",
+      "version":"5.0.2"
+    },
+    {
+      "type":"json",
+      "name":"nmuFacultyPrograms"
+    },
+    {
+      "type":"table",
+      "name":"programs",
+      "data":[
+        {
+          "faculty_id": 1,
+          "program_name_en": "Entrepreneurship & Innovation Program"
+        },
+        {
+          "faculty_id": 1,
+          "program_name_en": "Management Program"
+        },
+        {
+          "faculty_id": 1,
+          "program_name_en": "Finance & Investment Program"
+        },
+        {
+          "faculty_id": 1,
+          "program_name_en": "Accounting & Information Systems Program"
+        },
+        {
+          "faculty_id": 1,
+          "program_name_en": "Marketing Program"
+        },
+        {
+          "faculty_id": 1,
+          "program_name_en": "Logistics & Supply-Chain Management Program"
+        },
+        {
+          "faculty_id": 1,
+          "program_name_en": "Economics & Political Sciences Program"
+        },
+        {
+          "faculty_id": 2,
+          "program_name_en": "Textile Material Science & Engineering Program"
+        },
+        {
+          "faculty_id": 2,
+          "program_name_en": "Textile Polymer & Color Chemistry Engineering Program"
+        },
+        {
+          "faculty_id": 2,
+          "program_name_en": "Textile & Apparel Management & Merchandising Program"
+        },
+        {
+          "faculty_id": 2,
+          "program_name_en": "Textile & Fashion Design Program"
+        },
+        {
+          "faculty_id": 3,
+          "program_name_en": "Media Engineering & Technology Program"
+        },
+        {
+          "faculty_id": 3,
+          "program_name_en": "Engineering & Technology Implementation of Civil Works Program"
+        },
+        {
+          "faculty_id": 3,
+          "program_name_en": "Product Development Engineering Program"
+        },
+        {
+          "faculty_id": 3,
+          "program_name_en": "Aeronautical & Aerospace Engineering Program"
+        },
+        {
+          "faculty_id": 3,
+          "program_name_en": "Petroleum & Gas Engineering Program"
+        },
+        {
+          "faculty_id": 3,
+          "program_name_en": "Environmental Architecture & Technology Program"
+        },
+        {
+          "faculty_id": 3,
+          "program_name_en": "Mechatronics Engineering Program"
+        },
+        {
+          "faculty_id": 3,
+          "program_name_en": "Energy Engineering Program"
+        },
+        {
+          "faculty_id": 3,
+          "program_name_en": "Biomedical Engineering Program"
+        },
+        {
+          "faculty_id": 4,
+          "program_name_en": "Computer Engineering Program"
+        },
+        {
+          "faculty_id": 4,
+          "program_name_en": "Artificial Intelligence Engineering Program"
+        },
+        {
+          "faculty_id": 4,
+          "program_name_en": "Computer Science Program"
+        },
+        {
+          "faculty_id": 4,
+          "program_name_en": "Artificial Intelligence Science Program"
+        },
+        {
+          "faculty_id": 4,
+          "program_name_en": "Biomedical Informatics Program"
+        },
+        {
+          "faculty_id": 5,
+          "program_name_en": "Industrial Chemistry Program"
+        },
+        {
+          "faculty_id": 5,
+          "program_name_en": "Molecular Biology Program"
+        },
+        {
+          "faculty_id": 5,
+          "program_name_en": "Forensic Science Program"
+        },
+        {
+          "faculty_id": 5,
+          "program_name_en": "Molecular Biotechnology Program"
+        },
+        {
+          "faculty_id": 6,
+          "program_name_en": "Medicine & Surgery Program"
+        },
+        {
+          "faculty_id": 7,
+          "program_name_en": "Dentistry Program"
+        },
+        {
+          "faculty_id": 8,
+          "program_name_en": "Doctor Of Pharmacy (PharmD) Program"
+        },
+        {
+          "faculty_id": 9,
+          "program_name_en": "Mass Media & Communication"
+        },
+        {
+          "faculty_id": 10,
+          "program_name_en": "Medical Laboratory Technology Program"
+        },
+        {
+          "faculty_id": 10,
+          "program_name_en": "Technology of Radiology & Medical Imaging Program"
+        },
+        {
+          "faculty_id": 10,
+          "program_name_en": "Technology of Prosthetic Dentistry Program"
+        },
+        {
+          "faculty_id": 10,
+          "program_name_en": "Technology of Anesthesia & Intensive Care Program"
+        },
+        {
+          "faculty_id": 10,
+          "program_name_en": "Technology of Respiratory Therapy Program"
+        },
+        {
+          "faculty_id": 10,
+          "program_name_en": "Technology of Prosthetic & Orthotic Devices Program"
+        },
+        {
+          "faculty_id": 10,
+          "program_name_en": "Occupational Therapy Program"
+        },
+        {
+          "faculty_id": 10,
+          "program_name_en": "Technology of Optics Program"
+        },
+        {
+          "faculty_id": 11,
+          "program_name_en": "Nursing Science Program"
+        },
+        {
+          "faculty_id": 12,
+          "program_name_en": "Law Program"
+        }
+      ]
+      
+    }
+  ]

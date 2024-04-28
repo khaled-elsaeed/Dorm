@@ -1,0 +1,136 @@
+:root {
+    --main-color:#95171b;
+    --primary-color: #51b37f;
+    --success-bg-color: #d4edda;
+    --success-text-color: #155724;
+    --error-bg-color: #f8d7da;
+    --error-text-color: #721c24;
+    --border-color: #f5c6cb;
+    --box-padding: 15px;
+    --box-border-radius: 5px;
+  }
+  
+  .message-box {
+    display: none;
+  }
+  
+  .message-box {
+    background-color: #ffffff;
+    color: var(--error-text-color);
+    padding: var(--box-padding);
+    border-radius: var(--box-border-radius);
+    margin-bottom: 20px;
+    border: 1px solid var(--border-color);
+    margin-top: 20px;
+  }
+  .message-box.success {
+    background-color: var(--success-bg-color);
+    color: var(--success-text-color);
+    border-color: var(--border-color);
+  }
+  .message-box.error {
+    background-color: var(--error-bg-color);
+    color: var(--error-text-color);
+    border-color: var(--border-color);
+  }
+  
+  .radio-buttons {
+    width: 100%;
+    margin: 0 auto;
+    text-align: center;
+  }
+  
+  .custom-radio input {
+    display: none;
+  }
+  
+  .radio-btn {
+    margin: 10px;
+    width: 80px; /* Adjusted width */
+    height: 80px; /* Adjusted height */
+    border: 3px solid transparent;
+    display: inline-block;
+    border-radius: 10px;
+    position: relative;
+    text-align: center;
+    box-shadow: 0 0 10px var(--main-color);
+    cursor: pointer;
+  }
+  
+  .radio-btn > .checkmark {
+    color: #ffffff;
+    background-color: var(--main-color);
+    font-size: 16px; /* Adjusted font size */
+    position: absolute;
+    top: -8px; /* Adjusted position */
+    left: 50%;
+    transform: translateX(-50%) scale(1.5);
+    border-radius: 50%;
+    padding: 3px;
+    width: 24px; /* Adjusted width */
+    height: 24px; /* Adjusted height */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: 0.5s;
+    pointer-events: none;
+    opacity: 0;
+  }
+  
+  .radio-btn .hobbies-icon {
+    width: 40px; /* Adjusted width */
+    height: 40px; /* Adjusted height */
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+  }
+  
+  .radio-btn .hobbies-icon img {
+    display: block;
+    width: 100%;
+  }
+  
+  .radio-btn .hobbies-icon i {
+    color: var(--main-color);
+    font-size: 24px; /* Adjusted font size */
+    line-height: 40px; /* Adjusted line-height */
+  }
+  
+  .radio-btn .hobbies-icon h3 {
+    color: #555;
+    font-size: 10px; /* Adjusted font size */
+    line-height: 12px; /* Adjusted line-height */
+    margin: 0;
+    padding: 0;
+    text-align: center;
+  }
+  
+  .custom-radio input:checked + .radio-btn {
+    border: 2px solid var(--main-color);
+  }
+  
+  .custom-radio input:checked + .radio-btn > .checkmark {
+    opacity: 1;
+    transform: translateX(-50%) scale(1);
+  }
+  
+  @media screen and (max-width: 600px) {
+    .radio-btn {
+      width: 60px; /* Adjusted width for smaller screens */
+      height: 60px; /* Adjusted height for smaller screens */
+    }
+    .radio-btn .hobbies-icon {
+      width: 30px; /* Adjusted width for smaller screens */
+      height: 30px; /* Adjusted height for smaller screens */
+    }
+    .radio-btn .hobbies-icon i {
+      font-size: 18px; /* Adjusted font size for smaller screens */
+      line-height: 30px; /* Adjusted line-height for smaller screens */
+    }
+    .radio-btn .hobbies-icon h3 {
+      font-size: 8px; /* Adjusted font size for smaller screens */
+      line-height: 10px; /* Adjusted line-height for smaller screens */
+    }
+  }
+  

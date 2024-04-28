@@ -1,0 +1,69 @@
+[
+    {
+      "type":"header",
+      "version":"5.0.2"
+    },
+    {
+      "type":"json",
+      "name":"nmuFaculties"
+    },
+    {
+      "type":"table",
+      "name":"faculities",
+      "data":[
+        {
+          "id": 1,
+          "faculty_name_en": "Faculty of Business"
+        },
+        {
+          "id": 2,
+          "faculty_name_en": "Faculty of Textile Science Engineering"
+        },
+        {
+          "id": 3,
+          "faculty_name_en": "Faculty of Engineering"
+        },
+        {
+          "id": 4,
+          "faculty_name_en": "Faculty of Computer Science & Engineering"
+        },
+        {
+          "id": 5,
+          "faculty_name_en": "Faculty of Science"
+        },
+        {
+          "id": 6,
+          "faculty_name_en": "Faculty of Medicine"
+        },
+        {
+          "id": 7,
+          "faculty_name_en": "Faculty of Dentistry"
+        },
+        {
+          "id": 8,
+          "faculty_name_en": "Faculty of Pharmacy"
+        },
+        {
+          "id": 9,
+          "faculty_name_en": "Faculty of Social & Human Sciences"
+        },
+        {
+          "id": 10,
+          "faculty_name_en": "Faculty of Applied Health Sciences Technology"
+        },
+        {
+          "id": 11,
+          "faculty_name_en": "Faculty of Nursing Sciences"
+        },
+        {
+          "id": 12,
+          "faculty_name_en": "Faculty of Law"
+        },
+        {
+          "id": 13,
+          "faculty_name_en": "Faculty of Graduate Studies"
+        }
+      ]
+      
+    }
+  ]

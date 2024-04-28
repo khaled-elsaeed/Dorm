@@ -1,0 +1,284 @@
+2024-04-14 10:16:20 Database error: SQLSTATE[42S22]: Column not found: 1054 Unknown column 'adminIds' in 'field list' | File: C:\xampp\htdocs\NMU\handlers\adminhandler.php | Line: 34
+2024-04-14 10:46:30 Authentication failed - Email not found: khaled.elsaeidzahran2@gmail.com | File: C:\xampp\htdocs\NMU\handlers\adminhandler.php | Line: 34
+2024-04-14 11:01:36 Authentication failed for email: john.doe@nmu.edu.eg - Incorrect password | File: C:\xampp\htdocs\NMU\handlers\adminhandler.php | Line: 34
+2024-04-14 11:01:41 Authentication failed for email: john.doe@nmu.edu.eg - Incorrect password | File: C:\xampp\htdocs\NMU\handlers\adminhandler.php | Line: 34
+2024-04-14 11:05:56 Admin with ID 1 authenticated successfully. | File: C:\xampp\htdocs\NMU\handlers\adminhandler.php | Line: 34
+2024-04-14 12:46:16 Error fetching maintenance: SQLSTATE[42S22]: Column not found: 1054 Unknown column 'members.firstName' in 'field list' | File: C:\xampp\htdocs\NMU\classes\Maintenance.php | Line: 47
+2024-04-14 12:58:21 Error: PDOException: SQLSTATE[42S22]: Column not found: 1054 Unknown column 'members.firstName' in 'field list' in C:\xampp\htdocs\NMU\classes\Maintenance.php:35
+Stack trace:
+#0 C:\xampp\htdocs\NMU\classes\Maintenance.php(35): PDOStatement->execute()
+#1 C:\xampp\htdocs\NMU\handlers\maintenacehandler.php(56): Maintenance->getMaintenanceRequest()
+#2 C:\xampp\htdocs\NMU\handlers\maintenacehandler.php(36): MaintenanceHandler->fetchMaintenanceRequests()
+#3 C:\xampp\htdocs\NMU\handlers\index.php(52): MaintenanceHandler->handleAction('fetchMaintenanc...')
+#4 {main} An error occurred: SQLSTATE[42S22]: Column not found: 1054 Unknown column 'members.firstName' in 'field list' | File: C:\xampp\htdocs\NMU\classes\Maintenance.php | Line: 41
+2024-04-14 13:02:44 Error: PDOException: SQLSTATE[42S22]: Column not found: 1054 Unknown column 'members.firstName' in 'field list' in C:\xampp\htdocs\NMU\classes\Maintenance.php:46
+Stack trace:
+#0 C:\xampp\htdocs\NMU\classes\Maintenance.php(46): PDOStatement->execute()
+#1 C:\xampp\htdocs\NMU\handlers\maintenacehandler.php(56): Maintenance->getMaintenanceRequest()
+#2 C:\xampp\htdocs\NMU\handlers\maintenacehandler.php(36): MaintenanceHandler->fetchMaintenanceRequests()
+#3 C:\xampp\htdocs\NMU\handlers\index.php(52): MaintenanceHandler->handleAction('fetchMaintenanc...')
+#4 {main} An error occurred: SQLSTATE[42S22]: Column not found: 1054 Unknown column 'members.firstName' in 'field list' | File: C:\xampp\htdocs\NMU\classes\Maintenance.php | Line: 52
+2024-04-14 13:05:10 Error: PDOException: SQLSTATE[42S22]: Column not found: 1054 Unknown column 'members.firstName' in 'field list' in C:\xampp\htdocs\NMU\classes\Maintenance.php:46
+Stack trace:
+#0 C:\xampp\htdocs\NMU\classes\Maintenance.php(46): PDOStatement->execute()
+#1 C:\xampp\htdocs\NMU\handlers\maintenacehandler.php(56): Maintenance->getMaintenanceRequest()
+#2 C:\xampp\htdocs\NMU\handlers\maintenacehandler.php(36): MaintenanceHandler->fetchMaintenanceRequests()
+#3 C:\xampp\htdocs\NMU\handlers\index.php(52): MaintenanceHandler->handleAction('fetchMaintenanc...')
+#4 {main} An error occurred: SQLSTATE[42S22]: Column not found: 1054 Unknown column 'members.firstName' in 'field list' | File: C:\xampp\htdocs\NMU\classes\Maintenance.php | Line: 52
+2024-04-14 13:07:50 Error: PDOException: SQLSTATE[42S22]: Column not found: 1054 Unknown column 'members.firstName' in 'field list' in C:\xampp\htdocs\NMU\classes\Maintenance.php:46
+Stack trace:
+#0 C:\xampp\htdocs\NMU\classes\Maintenance.php(46): PDOStatement->execute()
+#1 C:\xampp\htdocs\NMU\handlers\maintenacehandler.php(57): Maintenance->getMaintenanceRequest()
+#2 C:\xampp\htdocs\NMU\handlers\maintenacehandler.php(36): MaintenanceHandler->fetchMaintenanceRequests()
+#3 C:\xampp\htdocs\NMU\handlers\index.php(52): MaintenanceHandler->handleAction('fetchMaintenanc...')
+#4 {main} An error occurred: SQLSTATE[42S22]: Column not found: 1054 Unknown column 'members.firstName' in 'field list' | File: C:\xampp\htdocs\NMU\classes\Maintenance.php | Line: 52
+2024-04-14 14:52:01 Admin with ID 1 authenticated successfully. | File: C:\xampp\htdocs\NMU\handlers\adminhandler.php | Line: 34
+2024-04-14 16:06:20 Admin with ID 1 authenticated successfully. | File: C:\xampp\htdocs\NMU\handlers\adminhandler.php | Line: 34
+2024-04-18 14:56:40 Error: PDOException: SQLSTATE[42S22]: Column not found: 1054 Unknown column 'member.residentId' in 'on clause' in C:\xampp\htdocs\NMU\classes\Resident.php:68
+Stack trace:
+#0 C:\xampp\htdocs\NMU\classes\Resident.php(68): PDOStatement->execute()
+#1 C:\xampp\htdocs\NMU\handlers\residenthandler.php(52): Resident->getAllResidentNameAndId()
+#2 C:\xampp\htdocs\NMU\handlers\residenthandler.php(16): ResidentHandler->getAllResidentNameAndId()
+#3 C:\xampp\htdocs\NMU\handlers\index.php(83): ResidentHandler->handleAction('fetchResidents')
+#4 {main} An error occurred: SQLSTATE[42S22]: Column not found: 1054 Unknown column 'member.residentId' in 'on clause' | File: C:\xampp\htdocs\NMU\classes\Resident.php | Line: 74
+2024-04-18 14:58:41 Error: PDOException: SQLSTATE[42S22]: Column not found: 1054 Unknown column 'member.residentId' in 'on clause' in C:\xampp\htdocs\NMU\classes\Resident.php:68
+Stack trace:
+#0 C:\xampp\htdocs\NMU\classes\Resident.php(68): PDOStatement->execute()
+#1 C:\xampp\htdocs\NMU\handlers\residenthandler.php(52): Resident->getAllResidentNameAndId()
+#2 C:\xampp\htdocs\NMU\handlers\residenthandler.php(16): ResidentHandler->getAllResidentNameAndId()
+#3 C:\xampp\htdocs\NMU\handlers\index.php(83): ResidentHandler->handleAction('fetchResidents')
+#4 {main} An error occurred: SQLSTATE[42S22]: Column not found: 1054 Unknown column 'member.residentId' in 'on clause' | File: C:\xampp\htdocs\NMU\classes\Resident.php | Line: 74
+2024-04-18 17:37:53 Authentication failed for email: john.doe@nmu.edu.eg - Incorrect password | File: C:\xampp\htdocs\NMU\handlers\adminhandler.php | Line: 34
+2024-04-18 17:37:57 Admin with ID 1 authenticated successfully. | File: C:\xampp\htdocs\NMU\handlers\adminhandler.php | Line: 34
+2024-04-18 17:44:47 Error: PDOException: SQLSTATE[42S22]: Column not found: 1054 Unknown column 'members.firstName' in 'field list' in C:\xampp\htdocs\NMU\classes\Maintenance.php:46
+Stack trace:
+#0 C:\xampp\htdocs\NMU\classes\Maintenance.php(46): PDOStatement->execute()
+#1 C:\xampp\htdocs\NMU\handlers\maintenancehandler.php(57): Maintenance->getMaintenanceRequest()
+#2 C:\xampp\htdocs\NMU\handlers\maintenancehandler.php(36): MaintenanceHandler->fetchMaintenanceRequests()
+#3 C:\xampp\htdocs\NMU\handlers\index.php(62): MaintenanceHandler->handleAction('fetchMaintenanc...')
+#4 {main} An error occurred: SQLSTATE[42S22]: Column not found: 1054 Unknown column 'members.firstName' in 'field list' | File: C:\xampp\htdocs\NMU\classes\Maintenance.php | Line: 52
+2024-04-18 17:47:06 Error: PDOException: SQLSTATE[42S22]: Column not found: 1054 Unknown column 'members.firstName' in 'field list' in C:\xampp\htdocs\NMU\classes\Maintenance.php:46
+Stack trace:
+#0 C:\xampp\htdocs\NMU\classes\Maintenance.php(46): PDOStatement->execute()
+#1 C:\xampp\htdocs\NMU\handlers\maintenancehandler.php(57): Maintenance->getMaintenanceRequest()
+#2 C:\xampp\htdocs\NMU\handlers\maintenancehandler.php(36): MaintenanceHandler->fetchMaintenanceRequests()
+#3 C:\xampp\htdocs\NMU\handlers\index.php(62): MaintenanceHandler->handleAction('fetchMaintenanc...')
+#4 {main} An error occurred: SQLSTATE[42S22]: Column not found: 1054 Unknown column 'members.firstName' in 'field list' | File: C:\xampp\htdocs\NMU\classes\Maintenance.php | Line: 52
+2024-04-18 17:47:08 Error: PDOException: SQLSTATE[42S22]: Column not found: 1054 Unknown column 'members.firstName' in 'field list' in C:\xampp\htdocs\NMU\classes\Maintenance.php:46
+Stack trace:
+#0 C:\xampp\htdocs\NMU\classes\Maintenance.php(46): PDOStatement->execute()
+#1 C:\xampp\htdocs\NMU\handlers\maintenancehandler.php(57): Maintenance->getMaintenanceRequest()
+#2 C:\xampp\htdocs\NMU\handlers\maintenancehandler.php(36): MaintenanceHandler->fetchMaintenanceRequests()
+#3 C:\xampp\htdocs\NMU\handlers\index.php(62): MaintenanceHandler->handleAction('fetchMaintenanc...')
+#4 {main} An error occurred: SQLSTATE[42S22]: Column not found: 1054 Unknown column 'members.firstName' in 'field list' | File: C:\xampp\htdocs\NMU\classes\Maintenance.php | Line: 52
+2024-04-18 17:47:17 Error: PDOException: SQLSTATE[42S22]: Column not found: 1054 Unknown column 'members.firstName' in 'field list' in C:\xampp\htdocs\NMU\classes\Maintenance.php:46
+Stack trace:
+#0 C:\xampp\htdocs\NMU\classes\Maintenance.php(46): PDOStatement->execute()
+#1 C:\xampp\htdocs\NMU\handlers\maintenancehandler.php(57): Maintenance->getMaintenanceRequest()
+#2 C:\xampp\htdocs\NMU\handlers\maintenancehandler.php(36): MaintenanceHandler->fetchMaintenanceRequests()
+#3 C:\xampp\htdocs\NMU\handlers\index.php(62): MaintenanceHandler->handleAction('fetchMaintenanc...')
+#4 {main} An error occurred: SQLSTATE[42S22]: Column not found: 1054 Unknown column 'members.firstName' in 'field list' | File: C:\xampp\htdocs\NMU\classes\Maintenance.php | Line: 52
+2024-04-19 08:25:01 Admin with ID 1 authenticated successfully. | File: C:\xampp\htdocs\NMU\handlers\adminhandler.php | Line: 34
+2024-04-19 08:55:07 Admin with ID 1 authenticated successfully. | File: C:\xampp\htdocs\NMU\handlers\adminhandler.php | Line: 34
+2024-04-19 10:05:26 Authentication failed for email: john.doe@nmu.edu.eg - Incorrect password | File: C:\xampp\htdocs\NMU\handlers\adminhandler.php | Line: 34
+2024-04-19 10:08:32 Admin with ID 1 authenticated successfully. | File: C:\xampp\htdocs\NMU\handlers\adminhandler.php | Line: 34
+2024-04-19 11:14:30 Admin with ID 1 authenticated successfully. | File: C:\xampp\htdocs\NMU\handlers\adminhandler.php | Line: 34
+2024-04-19 13:01:44 Authentication failed for email: john.doe@nmu.edu.eg - Incorrect password | File: C:\xampp\htdocs\NMU\handlers\adminhandler.php | Line: 38
+2024-04-19 13:06:48 Authentication failed for email: john.doe@nmu.edu.eg - Incorrect password | File: C:\xampp\htdocs\NMU\handlers\adminhandler.php | Line: 38
+2024-04-19 13:07:32 Authentication failed for email: john.doe@nmu.edu.eg - Incorrect password | File: C:\xampp\htdocs\NMU\handlers\adminhandler.php | Line: 38
+2024-04-19 13:08:03 Authentication failed for email: john.doe@nmu.edu.eg - Incorrect password | File: C:\xampp\htdocs\NMU\handlers\adminhandler.php | Line: 38
+2024-04-19 13:09:48 Authentication failed for email: john.doe@nmu.edu.eg - Incorrect password | File: C:\xampp\htdocs\NMU\handlers\adminhandler.php | Line: 38
+2024-04-19 13:13:47 Authentication failed for email: john.doe@nmu.edu.eg - Incorrect password | File: C:\xampp\htdocs\NMU\handlers\adminhandler.php | Line: 38
+2024-04-19 13:13:58 Authentication failed for email: john.doe@nmu.edu.eg - Incorrect password | File: C:\xampp\htdocs\NMU\handlers\adminhandler.php | Line: 38
+2024-04-19 13:14:52 Authentication failed for email: john.doe@nmu.edu.eg - Incorrect password | File: C:\xampp\htdocs\NMU\handlers\adminhandler.php | Line: 38
+2024-04-19 13:16:58 Authentication failed - Email not found: khaled@gmail.com | File: C:\xampp\htdocs\NMU\handlers\adminhandler.php | Line: 35
+2024-04-19 13:17:02 Authentication failed - Email not found: khaled@gmail.com | File: C:\xampp\htdocs\NMU\handlers\adminhandler.php | Line: 35
+2024-04-19 13:24:09 Authentication failed for email: john.doe@nmu.edu.eg - Incorrect password | File: C:\xampp\htdocs\NMU\handlers\adminhandler.php | Line: 36
+2024-04-19 14:21:51 Authentication failed - Email not found: user1@gmail.com | File: C:\xampp\htdocs\NMU\handlers\adminhandler.php | Line: 36
+2024-04-19 14:22:04 Authentication failed for email: john.doe@nmu.edu.eg - Incorrect password | File: C:\xampp\htdocs\NMU\handlers\adminhandler.php | Line: 36
+2024-04-19 17:01:32 Error: PDOException: SQLSTATE[42S22]: Column not found: 1054 Unknown column 'apartmentCount' in 'field list' in C:\xampp\htdocs\NMU\classes\Dorm.php:232
+Stack trace:
+#0 C:\xampp\htdocs\NMU\classes\Dorm.php(232): PDOStatement->execute()
+#1 C:\xampp\htdocs\NMU\classes\Dorm.php(171): Dorm->getBuildingApartmentCount('35')
+#2 C:\xampp\htdocs\NMU\handlers\dormhandler.php(269): Dorm->addApartment('35', '210')
+#3 C:\xampp\htdocs\NMU\handlers\dormhandler.php(36): DormHandler->addApartment()
+#4 C:\xampp\htdocs\NMU\handlers\index.php(62): DormHandler->handleAction('addApartment')
+#5 {main} An error occurred: SQLSTATE[42S22]: Column not found: 1054 Unknown column 'apartmentCount' in 'field list' | File: C:\xampp\htdocs\NMU\classes\Dorm.php | Line: 187
+2024-04-23 01:00:15 Error: PDOException: SQLSTATE[42000]: Syntax error or access violation: 1064 You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near '.firstName,
+            member.middleName,
+            member.lastName,
+  ...' at line 3 in C:\xampp\htdocs\folders\NMU\classes\Resident.php:102
+Stack trace:
+#0 C:\xampp\htdocs\folders\NMU\classes\Resident.php(102): PDOStatement->execute()
+#1 C:\xampp\htdocs\folders\NMU\handlers\residenthandler.php(76): Resident->getAllResidentInfo()
+#2 C:\xampp\htdocs\folders\NMU\handlers\residenthandler.php(18): ResidentHandler->getAllResidentInfo()
+#3 C:\xampp\htdocs\folders\NMU\handlers\index.php(63): ResidentHandler->handleAction('fetchResidentIn...')
+#4 {main} An error occurred: SQLSTATE[42000]: Syntax error or access violation: 1064 You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near '.firstName,
+            member.middleName,
+            member.lastName,
+  ...' at line 3 | File: C:\xampp\htdocs\folders\NMU\classes\Resident.php | Line: 108
+2024-04-24 03:37:38 Error: PDOException: SQLSTATE[42S22]: Column not found: 1054 Unknown column 'roomId' in 'field list' in C:\xampp\htdocs\projects\Dorm\classes\Dorm.php:250
+Stack trace:
+#0 C:\xampp\htdocs\projects\Dorm\classes\Dorm.php(250): PDOStatement->execute()
+#1 C:\xampp\htdocs\projects\Dorm\classes\Dorm.php(214): Dorm->getOccupiedRoomCount(Object(PDO))
+#2 C:\xampp\htdocs\projects\Dorm\handlers\dormhandler.php(325): Dorm->getRoomOccupancyRate()
+#3 C:\xampp\htdocs\projects\Dorm\handlers\dormhandler.php(38): DormHandler->getRoomOccupancyRate()
+#4 C:\xampp\htdocs\projects\Dorm\handlers\index.php(63): DormHandler->handleAction('fetchRoomOccupa...')
+#5 {main} An error occurred: SQLSTATE[42S22]: Column not found: 1054 Unknown column 'roomId' in 'field list' | File: C:\xampp\htdocs\projects\Dorm\classes\Dorm.php | Line: 221
+2024-04-24 03:37:38 Error: PDOException: SQLSTATE[42S22]: Column not found: 1054 Unknown column 'residentId' in 'field list' in C:\xampp\htdocs\projects\Dorm\classes\Resident.php:41
+Stack trace:
+#0 C:\xampp\htdocs\projects\Dorm\classes\Resident.php(41): PDOStatement->execute()
+#1 C:\xampp\htdocs\projects\Dorm\handlers\residenthandler.php(48): Resident->getOccupiedResidentsCount()
+#2 C:\xampp\htdocs\projects\Dorm\handlers\residenthandler.php(14): ResidentHandler->getOccupiedResidentsCount()
+#3 C:\xampp\htdocs\projects\Dorm\handlers\index.php(63): ResidentHandler->handleAction('fetchOccupiedRe...')
+#4 {main} An error occurred: SQLSTATE[42S22]: Column not found: 1054 Unknown column 'residentId' in 'field list' | File: C:\xampp\htdocs\projects\Dorm\classes\Resident.php | Line: 47
+2024-04-24 03:38:02 Error: PDOException: SQLSTATE[42S22]: Column not found: 1054 Unknown column 'residentId' in 'field list' in C:\xampp\htdocs\projects\Dorm\classes\Resident.php:41
+Stack trace:
+#0 C:\xampp\htdocs\projects\Dorm\classes\Resident.php(41): PDOStatement->execute()
+#1 C:\xampp\htdocs\projects\Dorm\handlers\residenthandler.php(48): Resident->getOccupiedResidentsCount()
+#2 C:\xampp\htdocs\projects\Dorm\handlers\residenthandler.php(14): ResidentHandler->getOccupiedResidentsCount()
+#3 C:\xampp\htdocs\projects\Dorm\handlers\index.php(63): ResidentHandler->handleAction('fetchOccupiedRe...')
+#4 {main} An error occurred: SQLSTATE[42S22]: Column not found: 1054 Unknown column 'residentId' in 'field list' | File: C:\xampp\htdocs\projects\Dorm\classes\Resident.php | Line: 47
+2024-04-24 03:38:02 Error: PDOException: SQLSTATE[42S22]: Column not found: 1054 Unknown column 'roomId' in 'field list' in C:\xampp\htdocs\projects\Dorm\classes\Dorm.php:250
+Stack trace:
+#0 C:\xampp\htdocs\projects\Dorm\classes\Dorm.php(250): PDOStatement->execute()
+#1 C:\xampp\htdocs\projects\Dorm\classes\Dorm.php(214): Dorm->getOccupiedRoomCount(Object(PDO))
+#2 C:\xampp\htdocs\projects\Dorm\handlers\dormhandler.php(325): Dorm->getRoomOccupancyRate()
+#3 C:\xampp\htdocs\projects\Dorm\handlers\dormhandler.php(38): DormHandler->getRoomOccupancyRate()
+#4 C:\xampp\htdocs\projects\Dorm\handlers\index.php(63): DormHandler->handleAction('fetchRoomOccupa...')
+#5 {main} An error occurred: SQLSTATE[42S22]: Column not found: 1054 Unknown column 'roomId' in 'field list' | File: C:\xampp\htdocs\projects\Dorm\classes\Dorm.php | Line: 221
+2024-04-24 03:52:50 Error: PDOException: SQLSTATE[42S22]: Column not found: 1054 Unknown column 'room.roomId' in 'on clause' in C:\xampp\htdocs\projects\Dorm\classes\Maintenance.php:46
+Stack trace:
+#0 C:\xampp\htdocs\projects\Dorm\classes\Maintenance.php(46): PDOStatement->execute()
+#1 C:\xampp\htdocs\projects\Dorm\handlers\maintenancehandler.php(57): Maintenance->getMaintenanceRequest()
+#2 C:\xampp\htdocs\projects\Dorm\handlers\maintenancehandler.php(36): MaintenanceHandler->fetchMaintenanceRequests()
+#3 C:\xampp\htdocs\projects\Dorm\handlers\index.php(63): MaintenanceHandler->handleAction('fetchMaintenanc...')
+#4 {main} An error occurred: SQLSTATE[42S22]: Column not found: 1054 Unknown column 'room.roomId' in 'on clause' | File: C:\xampp\htdocs\projects\Dorm\classes\Maintenance.php | Line: 52
+2024-04-24 04:02:59 Error: PDOException: SQLSTATE[42S22]: Column not found: 1054 Unknown column 'room.roomId' in 'on clause' in C:\xampp\htdocs\projects\Dorm\classes\Maintenance.php:46
+Stack trace:
+#0 C:\xampp\htdocs\projects\Dorm\classes\Maintenance.php(46): PDOStatement->execute()
+#1 C:\xampp\htdocs\projects\Dorm\handlers\maintenancehandler.php(57): Maintenance->getMaintenanceRequest()
+#2 C:\xampp\htdocs\projects\Dorm\handlers\maintenancehandler.php(36): MaintenanceHandler->fetchMaintenanceRequests()
+#3 C:\xampp\htdocs\projects\Dorm\handlers\index.php(63): MaintenanceHandler->handleAction('fetchMaintenanc...')
+#4 {main} An error occurred: SQLSTATE[42S22]: Column not found: 1054 Unknown column 'room.roomId' in 'on clause' | File: C:\xampp\htdocs\projects\Dorm\classes\Maintenance.php | Line: 52
+2024-04-24 04:24:12 Error: PDOException: SQLSTATE[42S22]: Column not found: 1054 Unknown column 'member.memberId' in 'on clause' in C:\xampp\htdocs\projects\Dorm\classes\Resident.php:102
+Stack trace:
+#0 C:\xampp\htdocs\projects\Dorm\classes\Resident.php(102): PDOStatement->execute()
+#1 C:\xampp\htdocs\projects\Dorm\handlers\residenthandler.php(76): Resident->getAllResidentInfo()
+#2 C:\xampp\htdocs\projects\Dorm\handlers\residenthandler.php(18): ResidentHandler->getAllResidentInfo()
+#3 C:\xampp\htdocs\projects\Dorm\handlers\index.php(63): ResidentHandler->handleAction('fetchResidentIn...')
+#4 {main} An error occurred: SQLSTATE[42S22]: Column not found: 1054 Unknown column 'member.memberId' in 'on clause' | File: C:\xampp\htdocs\projects\Dorm\classes\Resident.php | Line: 108
+2024-04-24 04:24:18 Error: PDOException: SQLSTATE[42S22]: Column not found: 1054 Unknown column 'member.memberId' in 'on clause' in C:\xampp\htdocs\projects\Dorm\classes\Resident.php:102
+Stack trace:
+#0 C:\xampp\htdocs\projects\Dorm\classes\Resident.php(102): PDOStatement->execute()
+#1 C:\xampp\htdocs\projects\Dorm\handlers\residenthandler.php(76): Resident->getAllResidentInfo()
+#2 C:\xampp\htdocs\projects\Dorm\handlers\residenthandler.php(18): ResidentHandler->getAllResidentInfo()
+#3 C:\xampp\htdocs\projects\Dorm\handlers\index.php(63): ResidentHandler->handleAction('fetchResidentIn...')
+#4 {main} An error occurred: SQLSTATE[42S22]: Column not found: 1054 Unknown column 'member.memberId' in 'on clause' | File: C:\xampp\htdocs\projects\Dorm\classes\Resident.php | Line: 108
+2024-04-24 04:27:05 Error: PDOException: SQLSTATE[42S22]: Column not found: 1054 Unknown column 'room.roomId' in 'on clause' in C:\xampp\htdocs\projects\Dorm\classes\Maintenance.php:46
+Stack trace:
+#0 C:\xampp\htdocs\projects\Dorm\classes\Maintenance.php(46): PDOStatement->execute()
+#1 C:\xampp\htdocs\projects\Dorm\handlers\maintenancehandler.php(57): Maintenance->getMaintenanceRequest()
+#2 C:\xampp\htdocs\projects\Dorm\handlers\maintenancehandler.php(36): MaintenanceHandler->fetchMaintenanceRequests()
+#3 C:\xampp\htdocs\projects\Dorm\handlers\index.php(63): MaintenanceHandler->handleAction('fetchMaintenanc...')
+#4 {main} An error occurred: SQLSTATE[42S22]: Column not found: 1054 Unknown column 'room.roomId' in 'on clause' | File: C:\xampp\htdocs\projects\Dorm\classes\Maintenance.php | Line: 52
+2024-04-24 04:27:08 Error: PDOException: SQLSTATE[42S22]: Column not found: 1054 Unknown column 'room.roomId' in 'on clause' in C:\xampp\htdocs\projects\Dorm\classes\Maintenance.php:46
+Stack trace:
+#0 C:\xampp\htdocs\projects\Dorm\classes\Maintenance.php(46): PDOStatement->execute()
+#1 C:\xampp\htdocs\projects\Dorm\handlers\maintenancehandler.php(57): Maintenance->getMaintenanceRequest()
+#2 C:\xampp\htdocs\projects\Dorm\handlers\maintenancehandler.php(36): MaintenanceHandler->fetchMaintenanceRequests()
+#3 C:\xampp\htdocs\projects\Dorm\handlers\index.php(63): MaintenanceHandler->handleAction('fetchMaintenanc...')
+#4 {main} An error occurred: SQLSTATE[42S22]: Column not found: 1054 Unknown column 'room.roomId' in 'on clause' | File: C:\xampp\htdocs\projects\Dorm\classes\Maintenance.php | Line: 52
+2024-04-24 04:27:11 Error: PDOException: SQLSTATE[42S22]: Column not found: 1054 Unknown column 'room.roomId' in 'on clause' in C:\xampp\htdocs\projects\Dorm\classes\Maintenance.php:46
+Stack trace:
+#0 C:\xampp\htdocs\projects\Dorm\classes\Maintenance.php(46): PDOStatement->execute()
+#1 C:\xampp\htdocs\projects\Dorm\handlers\maintenancehandler.php(57): Maintenance->getMaintenanceRequest()
+#2 C:\xampp\htdocs\projects\Dorm\handlers\maintenancehandler.php(36): MaintenanceHandler->fetchMaintenanceRequests()
+#3 C:\xampp\htdocs\projects\Dorm\handlers\index.php(63): MaintenanceHandler->handleAction('fetchMaintenanc...')
+#4 {main} An error occurred: SQLSTATE[42S22]: Column not found: 1054 Unknown column 'room.roomId' in 'on clause' | File: C:\xampp\htdocs\projects\Dorm\classes\Maintenance.php | Line: 52
+2024-04-24 04:29:07 Error: PDOException: SQLSTATE[42S22]: Column not found: 1054 Unknown column 'room.roomId' in 'on clause' in C:\xampp\htdocs\projects\Dorm\classes\Maintenance.php:46
+Stack trace:
+#0 C:\xampp\htdocs\projects\Dorm\classes\Maintenance.php(46): PDOStatement->execute()
+#1 C:\xampp\htdocs\projects\Dorm\handlers\maintenancehandler.php(57): Maintenance->getMaintenanceRequest()
+#2 C:\xampp\htdocs\projects\Dorm\handlers\maintenancehandler.php(36): MaintenanceHandler->fetchMaintenanceRequests()
+#3 C:\xampp\htdocs\projects\Dorm\handlers\index.php(63): MaintenanceHandler->handleAction('fetchMaintenanc...')
+#4 {main} An error occurred: SQLSTATE[42S22]: Column not found: 1054 Unknown column 'room.roomId' in 'on clause' | File: C:\xampp\htdocs\projects\Dorm\classes\Maintenance.php | Line: 52
+2024-04-24 04:29:08 Error: PDOException: SQLSTATE[42S22]: Column not found: 1054 Unknown column 'room.roomId' in 'on clause' in C:\xampp\htdocs\projects\Dorm\classes\Maintenance.php:46
+Stack trace:
+#0 C:\xampp\htdocs\projects\Dorm\classes\Maintenance.php(46): PDOStatement->execute()
+#1 C:\xampp\htdocs\projects\Dorm\handlers\maintenancehandler.php(57): Maintenance->getMaintenanceRequest()
+#2 C:\xampp\htdocs\projects\Dorm\handlers\maintenancehandler.php(36): MaintenanceHandler->fetchMaintenanceRequests()
+#3 C:\xampp\htdocs\projects\Dorm\handlers\index.php(63): MaintenanceHandler->handleAction('fetchMaintenanc...')
+#4 {main} An error occurred: SQLSTATE[42S22]: Column not found: 1054 Unknown column 'room.roomId' in 'on clause' | File: C:\xampp\htdocs\projects\Dorm\classes\Maintenance.php | Line: 52
+2024-04-24 04:29:24 Error: PDOException: SQLSTATE[42S22]: Column not found: 1054 Unknown column 'member.memberId' in 'on clause' in C:\xampp\htdocs\projects\Dorm\classes\Resident.php:65
+Stack trace:
+#0 C:\xampp\htdocs\projects\Dorm\classes\Resident.php(65): PDOStatement->execute()
+#1 C:\xampp\htdocs\projects\Dorm\handlers\residenthandler.php(62): Resident->getAllResidentNameAndId()
+#2 C:\xampp\htdocs\projects\Dorm\handlers\residenthandler.php(16): ResidentHandler->getAllResidentNameAndId()
+#3 C:\xampp\htdocs\projects\Dorm\handlers\index.php(63): ResidentHandler->handleAction('fetchResidents')
+#4 {main} An error occurred: SQLSTATE[42S22]: Column not found: 1054 Unknown column 'member.memberId' in 'on clause' | File: C:\xampp\htdocs\projects\Dorm\classes\Resident.php | Line: 71
+2024-04-24 04:29:25 Error: PDOException: SQLSTATE[42S22]: Column not found: 1054 Unknown column 'member.memberId' in 'on clause' in C:\xampp\htdocs\projects\Dorm\classes\Resident.php:102
+Stack trace:
+#0 C:\xampp\htdocs\projects\Dorm\classes\Resident.php(102): PDOStatement->execute()
+#1 C:\xampp\htdocs\projects\Dorm\handlers\residenthandler.php(76): Resident->getAllResidentInfo()
+#2 C:\xampp\htdocs\projects\Dorm\handlers\residenthandler.php(18): ResidentHandler->getAllResidentInfo()
+#3 C:\xampp\htdocs\projects\Dorm\handlers\index.php(63): ResidentHandler->handleAction('fetchResidentIn...')
+#4 {main} An error occurred: SQLSTATE[42S22]: Column not found: 1054 Unknown column 'member.memberId' in 'on clause' | File: C:\xampp\htdocs\projects\Dorm\classes\Resident.php | Line: 108
+2024-04-24 04:29:26 Error: PDOException: SQLSTATE[42S22]: Column not found: 1054 Unknown column 'room.roomId' in 'on clause' in C:\xampp\htdocs\projects\Dorm\classes\Maintenance.php:46
+Stack trace:
+#0 C:\xampp\htdocs\projects\Dorm\classes\Maintenance.php(46): PDOStatement->execute()
+#1 C:\xampp\htdocs\projects\Dorm\handlers\maintenancehandler.php(57): Maintenance->getMaintenanceRequest()
+#2 C:\xampp\htdocs\projects\Dorm\handlers\maintenancehandler.php(36): MaintenanceHandler->fetchMaintenanceRequests()
+#3 C:\xampp\htdocs\projects\Dorm\handlers\index.php(63): MaintenanceHandler->handleAction('fetchMaintenanc...')
+#4 {main} An error occurred: SQLSTATE[42S22]: Column not found: 1054 Unknown column 'room.roomId' in 'on clause' | File: C:\xampp\htdocs\projects\Dorm\classes\Maintenance.php | Line: 52
+2024-04-24 04:29:29 Error: PDOException: SQLSTATE[42S22]: Column not found: 1054 Unknown column 'room.roomId' in 'on clause' in C:\xampp\htdocs\projects\Dorm\classes\Maintenance.php:46
+Stack trace:
+#0 C:\xampp\htdocs\projects\Dorm\classes\Maintenance.php(46): PDOStatement->execute()
+#1 C:\xampp\htdocs\projects\Dorm\handlers\maintenancehandler.php(57): Maintenance->getMaintenanceRequest()
+#2 C:\xampp\htdocs\projects\Dorm\handlers\maintenancehandler.php(36): MaintenanceHandler->fetchMaintenanceRequests()
+#3 C:\xampp\htdocs\projects\Dorm\handlers\index.php(63): MaintenanceHandler->handleAction('fetchMaintenanc...')
+#4 {main} An error occurred: SQLSTATE[42S22]: Column not found: 1054 Unknown column 'room.roomId' in 'on clause' | File: C:\xampp\htdocs\projects\Dorm\classes\Maintenance.php | Line: 52
+2024-04-24 04:29:31 Error: PDOException: SQLSTATE[42S22]: Column not found: 1054 Unknown column 'room.roomId' in 'on clause' in C:\xampp\htdocs\projects\Dorm\classes\Maintenance.php:46
+Stack trace:
+#0 C:\xampp\htdocs\projects\Dorm\classes\Maintenance.php(46): PDOStatement->execute()
+#1 C:\xampp\htdocs\projects\Dorm\handlers\maintenancehandler.php(57): Maintenance->getMaintenanceRequest()
+#2 C:\xampp\htdocs\projects\Dorm\handlers\maintenancehandler.php(36): MaintenanceHandler->fetchMaintenanceRequests()
+#3 C:\xampp\htdocs\projects\Dorm\handlers\index.php(63): MaintenanceHandler->handleAction('fetchMaintenanc...')
+#4 {main} An error occurred: SQLSTATE[42S22]: Column not found: 1054 Unknown column 'room.roomId' in 'on clause' | File: C:\xampp\htdocs\projects\Dorm\classes\Maintenance.php | Line: 52
+2024-04-24 04:29:40 Error: PDOException: SQLSTATE[42S22]: Column not found: 1054 Unknown column 'member.memberId' in 'on clause' in C:\xampp\htdocs\projects\Dorm\classes\Resident.php:102
+Stack trace:
+#0 C:\xampp\htdocs\projects\Dorm\classes\Resident.php(102): PDOStatement->execute()
+#1 C:\xampp\htdocs\projects\Dorm\handlers\residenthandler.php(76): Resident->getAllResidentInfo()
+#2 C:\xampp\htdocs\projects\Dorm\handlers\residenthandler.php(18): ResidentHandler->getAllResidentInfo()
+#3 C:\xampp\htdocs\projects\Dorm\handlers\index.php(63): ResidentHandler->handleAction('fetchResidentIn...')
+#4 {main} An error occurred: SQLSTATE[42S22]: Column not found: 1054 Unknown column 'member.memberId' in 'on clause' | File: C:\xampp\htdocs\projects\Dorm\classes\Resident.php | Line: 108
+2024-04-24 04:29:44 Error: PDOException: SQLSTATE[42S22]: Column not found: 1054 Unknown column 'member.memberId' in 'on clause' in C:\xampp\htdocs\projects\Dorm\classes\Resident.php:102
+Stack trace:
+#0 C:\xampp\htdocs\projects\Dorm\classes\Resident.php(102): PDOStatement->execute()
+#1 C:\xampp\htdocs\projects\Dorm\handlers\residenthandler.php(76): Resident->getAllResidentInfo()
+#2 C:\xampp\htdocs\projects\Dorm\handlers\residenthandler.php(18): ResidentHandler->getAllResidentInfo()
+#3 C:\xampp\htdocs\projects\Dorm\handlers\index.php(63): ResidentHandler->handleAction('fetchResidentIn...')
+#4 {main} An error occurred: SQLSTATE[42S22]: Column not found: 1054 Unknown column 'member.memberId' in 'on clause' | File: C:\xampp\htdocs\projects\Dorm\classes\Resident.php | Line: 108
+2024-04-24 04:29:48 Error: PDOException: SQLSTATE[42S22]: Column not found: 1054 Unknown column 'member.memberId' in 'on clause' in C:\xampp\htdocs\projects\Dorm\classes\Resident.php:102
+Stack trace:
+#0 C:\xampp\htdocs\projects\Dorm\classes\Resident.php(102): PDOStatement->execute()
+#1 C:\xampp\htdocs\projects\Dorm\handlers\residenthandler.php(76): Resident->getAllResidentInfo()
+#2 C:\xampp\htdocs\projects\Dorm\handlers\residenthandler.php(18): ResidentHandler->getAllResidentInfo()
+#3 C:\xampp\htdocs\projects\Dorm\handlers\index.php(63): ResidentHandler->handleAction('fetchResidentIn...')
+#4 {main} An error occurred: SQLSTATE[42S22]: Column not found: 1054 Unknown column 'member.memberId' in 'on clause' | File: C:\xampp\htdocs\projects\Dorm\classes\Resident.php | Line: 108
+2024-04-24 05:10:43 Error: PDOException: SQLSTATE[42S22]: Column not found: 1054 Unknown column 'room.roomId' in 'on clause' in C:\xampp\htdocs\projects\Dorm\classes\Maintenance.php:46
+Stack trace:
+#0 C:\xampp\htdocs\projects\Dorm\classes\Maintenance.php(46): PDOStatement->execute()
+#1 C:\xampp\htdocs\projects\Dorm\handlers\maintenancehandler.php(57): Maintenance->getMaintenanceRequest()
+#2 C:\xampp\htdocs\projects\Dorm\handlers\maintenancehandler.php(36): MaintenanceHandler->fetchMaintenanceRequests()
+#3 C:\xampp\htdocs\projects\Dorm\handlers\index.php(63): MaintenanceHandler->handleAction('fetchMaintenanc...')
+#4 {main} An error occurred: SQLSTATE[42S22]: Column not found: 1054 Unknown column 'room.roomId' in 'on clause' | File: C:\xampp\htdocs\projects\Dorm\classes\Maintenance.php | Line: 52
+2024-04-24 14:48:02 Authentication failed - Email not found: jdfakdf@gmail.com | File: C:\xampp\htdocs\projects\Dorm\handlers\adminhandler.php | Line: 39
+2024-04-24 14:48:25 Authentication failed for email: khaled.zahran@nmu.edu.eg - Incorrect password | File: C:\xampp\htdocs\projects\Dorm\handlers\adminhandler.php | Line: 39
+2024-04-24 14:48:38 Error: PDOException: SQLSTATE[42S22]: Column not found: 1054 Unknown column 'room.roomId' in 'on clause' in C:\xampp\htdocs\projects\Dorm\classes\Maintenance.php:46
+Stack trace:
+#0 C:\xampp\htdocs\projects\Dorm\classes\Maintenance.php(46): PDOStatement->execute()
+#1 C:\xampp\htdocs\projects\Dorm\handlers\maintenancehandler.php(57): Maintenance->getMaintenanceRequest()
+#2 C:\xampp\htdocs\projects\Dorm\handlers\maintenancehandler.php(36): MaintenanceHandler->fetchMaintenanceRequests()
+#3 C:\xampp\htdocs\projects\Dorm\handlers\index.php(63): MaintenanceHandler->handleAction('fetchMaintenanc...')
+#4 {main} An error occurred: SQLSTATE[42S22]: Column not found: 1054 Unknown column 'room.roomId' in 'on clause' | File: C:\xampp\htdocs\projects\Dorm\classes\Maintenance.php | Line: 52

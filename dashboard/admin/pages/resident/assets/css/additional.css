@@ -1,0 +1,89 @@
+.modal-content {
+    padding: 20px;
+    color: black; /* Change text color to black */
+  }
+  
+  /* Set text color to black for elements inside the modal content */
+  .modal-content h2,
+  .modal-content .details div,
+  .modal-content .details span {
+    color: black;
+  }
+  
+  
+  
+        .container {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 20px;
+        }
+  
+        .card {
+    width: 300px; /* Adjust the width as needed */
+    height: 240px; /* Adjust the height as needed */
+    border-radius: 10px; /* Adjust the border radius as needed */
+    padding: 5px; /* Adjust the padding as needed */
+    box-shadow: 0 5px 10px rgba(0, 0, 0, 0.1); /* Adjust the box shadow as needed */
+    background-image: linear-gradient(to right top, #95171b, #9c1927, #a31c33, #a82040, #ad264c);      
+    overflow: hidden;
+    position: relative;
+    opacity: 0;
+    transform: translateY(20px);
+    transition: opacity 0.5s ease, transform 0.5s ease;
+    margin: 10px; /* Add margin to create spacing between cards */
+  }
+  
+  .card:hover {
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2); /* Adjust the box shadow on hover as needed */
+    transform: translateY(-3px);
+  }
+  
+  .card-content {
+    padding: 5px; /* Adjust the padding inside the card as needed */
+    margin-bottom: 10px; /* Add margin at the bottom */
+    transform: translateY(20px);
+    color: #fff;
+    text-align: center;
+    transition: transform 0.5s ease;
+  }
+  
+  
+        .details {
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            color: #fff;
+        }
+  
+        .details div {
+            display: flex;
+            align-items: center;
+            margin-bottom: 5px;
+        }
+  
+        .details div span {
+            margin-left: 5px;
+        }
+  
+        .details svg {
+            /* font-size: 0.5rem; */
+            margin-right: 10px;
+        }
+  
+        .info-button {
+            background-color: #fff;
+            color: #FF4B2B;
+            border: none;
+            padding: 8px 10px;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+            margin-top: 5px;
+            margin-bottom: 10px;
+        }
+  
+        .info-button:hover {
+            background-color: #f0f0f0;
+        }
+   

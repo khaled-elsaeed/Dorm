@@ -1,0 +1,450 @@
+<!doctype html>
+<html lang="en">
+   <head>
+      <meta charset="utf-8" />
+      <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+      <link rel="apple-touch-icon" sizes="76x76" href="assets/img/favicon.ico">
+      <title>Registration Form</title>
+      <meta content='width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0' name='viewport' />
+      <meta name="viewport" content="width=device-width" />
+      <link rel="apple-touch-icon" sizes="76x76" href="assets/img/apple-icon.png" />
+      <link rel="icon" type="image/png" href="assets/img/favicon.png" />
+      <!-- Fonts and icons -->
+      <link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700|Roboto+Slab:400,700|Material+Icons" />
+      <link rel="stylesheet" href="assets/vendors/font-awesome-4.7.0/css/font-awesome.min.css">
+      <!-- CSS Files -->
+      <link href="assets/css/bootstrap.min.css" rel="stylesheet" />
+      <link href="assets/css/material-bootstrap-wizard.css" rel="stylesheet" />
+
+
+      <!-- Additional CSS for demo purpose (remove in production) -->
+      <link href="assets/css/demo.css" rel="stylesheet" />
+      
+   </head>
+   <body>
+      <div class="image-container set-full-height" style="background-image: linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.5)), url('assets/img/background.jpg')">
+                 <!--   Creative Tim Branding   -->
+                 <a href="../index.html">
+                  <div class="logo-container">
+                     <div class="logo">
+                        <img src="assets/img/logo.png">
+                     </div>
+                  </div>
+               </a>
+               <!--   Big container   -->
+               <div class="container">
+                  <div class="row">
+                     <div class="col-sm-8 col-sm-offset-2">
+                        <!--      Wizard container        -->
+                        <div class="wizard-container" id="wizard-container">
+                           <div class="card wizard-card" data-color="main-color" id="wizardProfile">
+                              <form id="form" action="../../handlers/index.php?action=createmember" method="POST" enctype="multipart/form-data">
+                                 <div class="wizard-navigation">
+                                    <ul>
+                                       <li><a href="#about" data-toggle="tab">About</a></li>
+                                       <li><a href="#address" data-toggle="tab">Address</a></li>
+                                       <li><a href="#faculty-info" data-toggle="tab">Faculty</a></li>
+                                       <li><a href="#parentinfo" data-toggle="tab">Parent Info</a></li>
+                                       <li><a href="#moreInfo" data-toggle="tab">Additional Info</a></li>
+                                       <li><a href="#invoice" data-toggle="tab">Invoice Info</a></li>
+                                    </ul>
+                                 </div>
+                                 <div class="tab-content">
+                                    <div class="tab-pane" id="about">
+                                       <div class="row">
+                                          <div class="col-sm-4 col-sm-offset-1">
+                                             <div class="picture-container">
+                                                <div class="picture">
+                                                   <img src="assets/img/default-avatar.png" class="picture-src" id="wizardPicturePreview" title=""/>
+                                                   <input type="file" id="wizard-picture">
+                                                </div>
+                                                <h6>Choose Picture</h6>
+                                             </div>
+                                          </div>
+                                          <div class="col-sm-6">
+                                             <div class="row">
+                                                <div class="col-sm-12">
+                                                   <div class="input-group">
+                                                      <span class="input-group-addon">
+                                                      <i class="material-icons">account_box</i>
+                                                      </span>
+                                                      <div class="form-group label-floating">
+                                                         <label class="control-label">First Name</label>
+                                                         <input name="firstName" type="text" class="form-control">
+                                                      </div>
+                                                   </div>
+                                                </div>
+                                                <div class="col-sm-12">
+                                                   <div class="input-group">
+                                                      <span class="input-group-addon">
+                                                      <i class="material-icons">account_box</i>
+                                                      </span>
+                                                      <div class="form-group label-floating">
+                                                         <label class="control-label">Middle Name</label>
+                                                         <input name="middleName" type="text" class="form-control">
+                                                      </div>
+                                                   </div>
+                                                </div>
+                                                <div class="col-sm-12">
+                                                   <div class="input-group">
+                                                      <span class="input-group-addon">
+                                                      <i class="material-icons">account_box</i>
+                                                      </span>
+                                                      <div class="form-group label-floating">
+                                                         <label class="control-label">Last Name</label>
+                                                         <input name="lastName" type="text" class="form-control">
+                                                      </div>
+                                                   </div>
+                                                </div>
+                                             </div>
+                                          </div>
+                                          <div class="col-sm-10">
+                                             <div class="row">
+                                                <div class="col-sm-4">
+                                                   <div class="input-group">
+                                                      <span class="input-group-addon">
+                                                      <i class="material-icons">date_range</i>
+                                                      </span>
+                                                      <div class="form-group label-floating">
+                                                         <!-- <label class="control-label">Birth Date</label> -->
+                                                         <input name="birthDate" type="date" class="form-control">
+                                                      </div>
+                                                   </div>
+                                                </div>
+                                                <div class="col-sm-4">
+                                                   <div class="input-group">
+                                                      <span class="input-group-addon">
+                                                      <i class="material-icons">badge</i>
+                                                      </span>
+                                                      <div class="form-group label-floating">
+                                                         <label class="control-label">Government ID</label>
+                                                         <input name="govtIssuedId" type="text" class="form-control">
+                                                      </div>
+                                                   </div>
+                                                </div>
+                                                <div class="col-sm-4">
+                                                   <div class="input-group">
+                                                      <span class="input-group-addon">
+                                                      <i class="material-icons">public</i>
+                                                      </span>
+                                                      <div class="form-group">
+                                                         <label class="control-label">Nationality</label>
+                                                         <select name="nationality" id="nationality" class="form-control">
+                                                         </select>
+                                                      </div>
+                                                   </div>
+                                                </div>
+                                                <div class="col-sm-12">
+                                                   <div class="input-group">
+                                                      <span class="input-group-addon">
+                                                      <i class="material-icons">email</i>
+                                                      </span>
+                                                      <div class="form-group label-floating">
+                                                         <label class="control-label">Email</label>
+                                                         <input name="email" type="email" class="form-control">
+                                                      </div>
+                                                   </div>
+                                                </div>
+                                                <div class="col-sm-12">
+                                                   <div class="input-group">
+                                                      <span class="input-group-addon">
+                                                      <i class="material-icons">wc</i>
+                                                      </span>
+                                                      <div class="form-group">
+                                                         <label class="control-label">Gender</label>
+                                                         <select id="gender" name="gender" class="form-control" >
+                                                            <option value="">Select Gender</option>
+                                                            <option value="male">Male</option>
+                                                            <option value="female">Female</option>
+                                                         </select>
+                                                      </div>
+                                                   </div>
+                                                </div>
+                                                <!-- End of Gender Selection -->
+                                             </div>
+                                          </div>
+                                       </div>
+                                    </div>
+                                    <div class="tab-pane" id="address">
+                                       <div class="row">
+                                          <div class="col-sm-12">
+                                             <h4 class="info-text"> Are you living in a nice area? </h4>
+                                          </div>
+                                          <div class="col-sm-6">
+                                             <div class="input-group">
+                                                <span class="input-group-addon">
+                                                <i class="material-icons">map</i>
+                                                </span>
+                                                <div class="form-group ">
+                                                   <label class="control-label">Governorate</label>
+                                                   <select name="governorate" id="governorate" class="form-control">
+                                                   </select>
+                                                </div>
+                                             </div>
+                                          </div>
+                                          <div class="col-sm-5 ">
+                                             <div class="input-group">
+                                                <span class="input-group-addon">
+                                                <i class="material-icons">location_on</i>
+                                                </span>
+                                                <div class="form-group">
+                                                   <label class="control-label">City</label>
+                                                   <select name="city" id="city" class="form-control">
+                                                      <option disabled="" selected="">Select a city</option>
+                                                   </select>
+                                                </div>
+                                             </div>
+                                          </div>
+                                          <div class="col-sm-7 ">
+                                             <div class="input-group">
+                                                <span class="input-group-addon">
+                                                <i class="material-icons">person_pin_circle</i>
+                                                </span>
+                                                <div class="form-group label-floating">
+                                                   <label class="control-label">Street Name</label>
+                                                   <input type="text" name="street" class="form-control">
+                                                </div>
+                                             </div>
+                                          </div>
+                                          <div class="col-sm-3">
+                                             <div class="input-group">
+                                                <span class="input-group-addon">
+                                                <i class="material-icons">call</i>
+                                                </span>
+                                                <div class="form-group label-floating">
+                                                   <label class="control-label">Phone Number</label>
+                                                   <input type="text" name="phoneNumber" class="form-control">
+                                                </div>
+                                             </div>
+                                          </div>
+                                       </div>
+                                    </div>
+                                    <div class="tab-pane" id="faculty-info">
+                                       <div class="row">
+                                          <div class="col-sm-12">
+                                             <h4 class="info-text"> Are you living in a nice area? </h4>
+                                          </div>
+                                          <div class="col-sm-4">
+                                             <div class="input-group">
+                                                <span class="input-group-addon">
+                                                <i class="material-icons">apartment</i>
+                                                </span>
+                                                <div class="form-group">
+                                                   <label class="control-label">Faculty</label>
+                                                   <select name="faculty" id="faculty" class="form-control">
+                                                   </select>
+                                                </div>
+                                             </div>
+                                          </div>
+                                          <div class="col-sm-4 ">
+                                             <div class="input-group">
+                                                <span class="input-group-addon">
+                                                <i class="material-icons">domain</i>
+                                                </span>
+                                                <div class="form-group">
+                                                   <label class="control-label">Program</label>
+                                                   <select name="program" id="program" class="form-control">
+                                                   </select>
+                                                </div>
+                                             </div>
+                                          </div>
+                                          <div class="col-sm-4">
+                                             <div class="input-group">
+                                                <span class="input-group-addon">
+                                                <i class="material-icons">domain</i>
+                                                </span>
+                                                <div class="form-group">
+                                                   <label class="control-label">Student ID</label>
+                                                   <input type="text" name="studentId" class="form-control">
+                                                </div>
+                                             </div>
+                                          </div>
+                                          <div class="col-sm-6 ">
+                                             <div class="form-group label-floating">
+                                                <label class="control-label">Level</label>
+                                                <select name="level" class="form-control">
+                                                   <option disabled="" selected=""></option>
+                                                   <option value="0"> level 1 - newcomer </option>
+                                                   <option value="1"> level 1 </option>
+                                                   <option value="2"> level 2 </option>
+                                                   <option value="3"> level 3 </option>
+                                                   <option value="4"> level 4 </option>
+                                                   <option value="5"> level 5 </option>
+                                                </select>
+                                             </div>
+                                          </div>
+                                          <div class="col-sm-4" id="cgpaContainer">
+                                             <div class="form-group label-floating">
+                                                <label class="control-label">Cgpa</label>
+                                                <input type="text" name="cgpa" id="cgpa" class="form-control">
+                                             </div>
+                                          </div>
+                                          <div id="certContainer">
+                                             <div class="col-sm-7">
+                                                <div class="form-group label-floating">
+                                                   <label class="control-label">Certificate Type</label>
+                                                   <select name="certificate" class="form-control">
+                                                      <option disabled="" selected=""></option>
+                                                      <option value="EgyptianCert">Egyptian Secondary Education Certificate (Thanaweya Amma)</option>
+                                                      <option value="other">Secondary Education Equivalency Certificate</option>
+                                                   </select>
+                                                </div>
+                                             </div>
+                                             <div class="col-sm-3">
+                                                <div class="form-group label-floating">
+                                                   <label class="control-label">Certificate Score</label>
+                                                   <input type="text" name="certificateScore" class="form-control">
+                                                </div>
+                                             </div>
+                                          </div>
+                                       </div>
+                                    </div>
+                                    <div class="tab-pane" id="parentinfo">
+                                       <div class="row">
+                                          <div class="col-sm-12">
+                                             <h4 class="info-text"> Are you living in a nice area? </h4>
+                                          </div>
+                                          <div class="col-sm-6 ">
+                                             <div class="input-group">
+                                                <span class="input-group-addon">
+                                                <i class="material-icons">account_box</i>
+                                                </span>
+                                                <div class="form-group label-floating">
+                                                   <label class="control-label">Parent First Name</label>
+                                                   <input name="parentFirstName" type="text" class="form-control">
+                                                </div>
+                                             </div>
+                                          </div>
+                                          <div class="col-sm-6 ">
+                                             <div class="input-group">
+                                                <span class="input-group-addon">
+                                                <i class="material-icons">account_box</i>
+                                                </span>
+                                                <div class="form-group label-floating">
+                                                   <label class="control-label">Parent Last Name</label>
+                                                   <input name="parentLastName" type="text" class="form-control">
+                                                </div>
+                                             </div>
+                                          </div>
+                                          <div class="col-sm-6 ">
+                                             <div class="input-group">
+                                                <span class="input-group-addon">
+                                                <i class="material-icons">call</i>
+                                                </span>
+                                                <div class="form-group label-floating">
+                                                   <label class="control-label">Parent Number</label>
+                                                   <input type="text" name="parentPhoneNumber" class="form-control">
+                                                </div>
+                                             </div>
+                                          </div>
+                                          <div class="col-sm-6 ">
+                                             <div class="input-group">
+                                                <span class="input-group-addon">
+                                                <i class="material-icons">person_pin_circle</i>
+                                                </span>
+                                                <div class="form-group">
+                                                   <label class="control-label">Parents Location</label>
+                                                   <select name="parentLocation" class="form-control">
+                                                      <option disabled="" selected=""> Select Location</option>
+                                                      <option value="abroad"> Abroad </option>
+                                                      <option value="local"> Local </option>
+                                                   </select>
+                                                </div>
+                                             </div>
+                                          </div>
+                                       </div>
+                                    </div>
+                                    <div class="tab-pane" id="moreInfo">
+                                       <div class="col-sm-12">
+                                          <h4 class="info-text">Do you have any siblings (sister or brother) in our Dorm?</h4>
+                                       </div>
+                                       <div class="col-sm-12">
+                                          <div class="form-group label-floating">
+                                             <label class="control-label">Living Area</label>
+                                             <select id="haveSiblings" name="haveSiblings" class="form-control">
+                                                <option disabled="" selected=""></option>
+                                                <option value="yes">Yes</option>
+                                                <option value="no">No</option>
+                                             </select>
+                                          </div>
+                                       </div>
+                                       <div class="col-sm-12">
+                                          <h4 class="info-text">Have you lived in our dormitory before?</h4>
+                                       </div>
+                                       <div class="col-sm-12">
+                                          <div class="form-group label-floating">
+                                             <label class="control-label">Lived in Dormitory Before</label>
+                                             <select id="oldResident" name="oldResident" class="form-control">
+                                                <option disabled="" selected=""></option>
+                                                <option value="yes">Yes</option>
+                                                <option value="no">No</option>
+                                             </select>
+                                          </div>
+                                       </div>
+                                    </div>
+                                    <div class="tab-pane" id="invoice">
+                                       <div class="col-sm-12">
+                                          <h4 class="info-text">Upload Invoice</h4>
+                                       </div>
+                                       <div class="col-sm-12">
+                                          <div class="form-group">
+                                             <div class="drop-zone" id="drop-zone-invoice">
+                                                <label for="invoice_file" class="control-label">Drag and drop files here or click to choose</label>
+                                                <input type="file" id="invoice_file"  name="invoice_file" accept="image/*" required>
+                                                <div class="file-list"></div>
+                                             </div>
+                                             <div id="error-message" style="color: red; display: none;">Please upload a valid invoice file.</div>
+
+                                          </div>
+                                       </div>
+                                    </div>
+                                 </div>
+                                 <div class="wizard-footer">
+                                    <div class="pull-right">
+                                       <input type='button' class='btn btn-next btn-fill btn-next btn-wd'  id='next-button'  name='next' value='Next' />
+                                       <input type='submit' class='btn btn-finish btn-fill btn-success btn-wd' name='finish' value='Finish' />
+                                    </div>
+                                    <div class="pull-left">
+                                       <input type='button' class='btn btn-previous btn-fill btn-default btn-wd' id='previous-button' name='previous' value='Previous' />
+                                    </div>
+                                    <div class="clearfix"></div>
+                                 </div>
+                              </form>
+                              <div class="responseContainer" id="response-container" style="display: none;">
+                                 <div class="responseLogo"> 
+                                     <img src="assets/img/submitSuccessfulBadge.png" alt="Logo">
+                                 </div>
+                                 <div class="responseMessage" id="response-message"> 
+                                     <!-- Response message  -->
+                                 </div>
+                                 <div class="responseContact"> 
+                                     Our team will review your submission and get back to you shortly.
+                                 </div>
+                                 <a href="#" class="returnSiteBtn">Return Site</a> 
+                             </div>
+                             
+                           </div>
+                        </div>
+                        <!-- wizard container -->
+                     </div>
+                  </div>
+                  <!-- end row -->
+               </div>
+               <!--  big container -->
+               <div class="footer">
+                  <div class="container text-center">
+                  </div>
+               </div>
+       </div>
+   </body>
+   <!--   Core JS Files   -->
+   <script src="assets/js/jquery-2.2.4.min.js" type="text/javascript"></script>
+   <script src="assets/js/bootstrap.min.js" type="text/javascript"></script>
+   <script src="assets/js/jquery.bootstrap.js" type="text/javascript"></script>
+   <!--  Plugin for the Wizard -->
+   <script src="assets/js/material-bootstrap-wizard.js"></script>
+   <!--  More information about jquery.validate here: http://jqueryvalidation.org/	 -->
+   <script src="assets/js/jquery.validate.min.js"></script>
+   <script src="assets/js/index.js"></script>
+   <!-- adddd-->
+</html>
