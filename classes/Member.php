@@ -100,15 +100,15 @@ class Member {
                 $certificateScore = $data['certificateScore'];
             }
             
-            $sql = "INSERT INTO FacultyInfo (faculty, department, studentId, yearOfStudy, cgpa, certificateType, certificateScore, email, memberId) 
-                    VALUES (:faculty, :department, :studentId, :yearOfStudy, :cgpa, :certificateType, :certificateScore, :email, :memberId)";
+            $sql = "INSERT INTO FacultyInfo (faculty, department, studentId, level, cgpa, certificateType, certificateScore, email, memberId) 
+                    VALUES (:faculty, :department, :studentId, :level, :cgpa, :certificateType, :certificateScore, :email, :memberId)";
             
             try {
                 $insertFacultyStmt = $conn->prepare($sql);
                 $insertFacultyStmt->bindParam(':faculty', $data['faculty']);
                 $insertFacultyStmt->bindParam(':department', $data['program']);
                 $insertFacultyStmt->bindParam(':email', $data['email']);
-                $insertFacultyStmt->bindParam(':yearOfStudy', $data['level']);
+                $insertFacultyStmt->bindParam(':level', $data['level']);
                 $insertFacultyStmt->bindParam(':studentId', $data['studentId']);
                 $insertFacultyStmt->bindParam(':cgpa', $cgpa);
                 $insertFacultyStmt->bindParam(':certificateType', $certificateType);

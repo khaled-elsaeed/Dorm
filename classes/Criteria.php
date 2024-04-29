@@ -52,7 +52,7 @@ class Criteria
     {
         try {
             $conn = $this->db->getConnection();
-            $sql = "DELETE FROM fieldcriteria WHERE criteriaId = :criteriaId";
+            $sql = "DELETE FROM fieldcriteria WHERE id = :criteriaId";
 
             $stmt = $conn->prepare($sql);
             $stmt->bindParam(":criteriaId", $criteriaId);
@@ -70,7 +70,7 @@ class Criteria
         try {
             $conn = $this->db->getConnection();
             $sql =
-                "UPDATE fieldcriteria SET weight=:newWeight WHERE criteriaId=:criteriaId";
+                "UPDATE fieldcriteria SET weight=:newWeight WHERE id=:criteriaId";
             $stmt = $conn->prepare($sql);
             $stmt->bindParam(":newWeight", $newWeight);
             $stmt->bindParam(":criteriaId", $criteriaId);
@@ -111,7 +111,7 @@ class Criteria
                     "criteria" => [],
                 ];
                 $criteriaSql =
-                    "SELECT * FROM fieldcriteria WHERE fieldId = :fieldId";
+                    "SELECT * FROM fieldcriteria WHERE id = :fieldId";
                 $criteriaStmt = $conn->prepare($criteriaSql);
                 $criteriaStmt->bindParam(":fieldId", $fieldId);
                 $criteriaStmt->execute();
@@ -121,7 +121,7 @@ class Criteria
                             PDO::FETCH_ASSOC
                         )
                     ) {
-                        $criteriaId = $criteriaRow["criteriaId"];
+                        $criteriaId = $criteriaRow["id"];
                         $fieldsAndCriteria[$fieldId]["criteria"][
                             $criteriaId
                         ] = [
@@ -195,6 +195,9 @@ class Criteria
     {
         try {
             $fieldsDataResponse = $this->fetchFieldsAndCriteria();
+            if($fieldsDataResponse == 0){
+                return 0;
+            }
             $fieldsAndCriteria = $fieldsDataResponse["data"];
 
             $totalWeight = 0;

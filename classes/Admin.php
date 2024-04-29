@@ -16,7 +16,7 @@ class Admin {
     public function adminAuthenticate($email, $password) {
         $conn = $this->db->getConnection();
         try {
-            $sql = "SELECT adminId, passwordHash, username, role FROM admincredentials WHERE email = :email";
+            $sql = "SELECT id, passwordHash, username, role FROM admincredentials WHERE email = :email";
             $stmt = $conn->prepare($sql);
             $stmt->bindParam(':email', $email);
             $stmt->execute();
@@ -24,7 +24,7 @@ class Admin {
             if ($data) {
                 if (password_verify($password, $data['passwordHash'])) {
                     $responseData = [
-                        'adminId' => $data['adminId'],
+                        'adminId' => $data['id'],
                         'username' => $data['username']
                     ];
                     return successResponse($responseData);

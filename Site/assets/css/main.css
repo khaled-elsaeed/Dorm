@@ -573,7 +573,7 @@ section {
 --------------------------------------------------------------*/
 .about .about-img {
   min-height: 400px;
-  width: 700px;
+  min-width: 500px;
 
 }
 
