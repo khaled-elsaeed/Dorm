@@ -43,11 +43,11 @@ class MaintenanceHandler {
                 case 'fetchMaintenanceRequestsCount':
                     return $this->getMaintenanceRequestsCount();
                 default:
-                    return $this->errorResponse("Invalid admin action");
+                    return errorResponse("Invalid admin action");
             }
         } catch (Exception $e) {
             $this->logerror($e . " An error occurred: " . $e->getMessage());
-            return $this->errorResponse();
+            return errorResponse();
         }
     }
 
@@ -58,14 +58,14 @@ class MaintenanceHandler {
                 if ($fetchResult['success']) {
                     return $this->successResponse($fetchResult['data'], "Requests fetched successfully");
                 } else {
-                    return $this->errorResponse( "Failed to fetch maintenance requests");
+                    return errorResponse( "Failed to fetch maintenance requests");
                 }
             } else {
-                return $this->errorResponse("Invalid request method");
+                return errorResponse("Invalid request method");
             }
         } catch (Exception $e) {
             $this->logerror($e . " An error occurred: " . $e->getMessage());
-            return $this->errorResponse();        
+            return errorResponse();        
         }
     }
 
@@ -74,22 +74,22 @@ class MaintenanceHandler {
             $jsonData = file_get_contents('php://input');
             $requestData = json_decode($jsonData, true);
             if (!$requestData) {
-                return $this->errorResponse( "Invalid JSON data");
+                return errorResponse( "Invalid JSON data");
             }
             $maintenanceRequestId = isset($requestData['maintenanceRequestId']) ? $requestData['maintenanceRequestId'] : null;
             $assignedToName = isset($requestData['assignedToName']) ? $requestData['assignedToName'] : null;
             if (empty($maintenanceRequestId) || empty($assignedToName)) {
-                return $this->errorResponse("Maintenance Id and assigned To are required");
+                return errorResponse("Maintenance Id and assigned To are required");
             }
             $updateResult = $this->Maintenance->updateMaintenanceStatusStart($maintenanceRequestId, $assignedToName);
             if ($updateResult['success']) {
                 return $this->successResponse(null, "Status Updated successfully");
             } else {
-                return $this->errorResponse("Failed to Update maintenance status");
+                return errorResponse("Failed to Update maintenance status");
             }
         } catch (Exception $e) {
             $this->logerror($e . " An error occurred: " . $e->getMessage());
-            return $this->errorResponse();    
+            return errorResponse();    
             }
     }
     
@@ -98,21 +98,21 @@ class MaintenanceHandler {
             $jsonData = file_get_contents('php://input');
             $requestData = json_decode($jsonData, true);
             if (!$requestData) {
-                return $this->errorResponse( "Invalid JSON data");
+                return errorResponse( "Invalid JSON data");
             }
             $maintenanceRequestId = isset($requestData['maintenanceRequestId']) ? $requestData['maintenanceRequestId'] : null;
             if (empty($maintenanceRequestId)) {
-                return $this->errorResponse("Maintenance Id is required");
+                return errorResponse("Maintenance Id is required");
             }
             $updateResult = $this->Maintenance->updateMaintenanceStatusEnd($maintenanceRequestId);
             if ($updateResult['success']) {
                 return $this->successResponse(null, "Status Updated successfully");
             } else {
-                return $this->errorResponse("Failed to Update maintenance status");
+                return errorResponse("Failed to Update maintenance status");
             }
         } catch (Exception $e) {
             $this->logerror($e . " An error occurred: " . $e->getMessage());
-            return $this->errorResponse();        
+            return errorResponse();        
         }
     }
 
@@ -121,21 +121,21 @@ class MaintenanceHandler {
             $jsonData = file_get_contents('php://input');
             $requestData = json_decode($jsonData, true);
             if (!$requestData) {
-                return $this->errorResponse( "Invalid JSON data");
+                return errorResponse( "Invalid JSON data");
             }
             $maintenanceRequestId = isset($requestData['maintenanceRequestId']) ? $requestData['maintenanceRequestId'] : null;
             if (empty($maintenanceRequestId)) {
-                return $this->errorResponse( "Maintenance Id is required");
+                return errorResponse( "Maintenance Id is required");
             }
             $updateResult = $this->Maintenance->updateMaintenanceStatusReject($maintenanceRequestId);
             if ($updateResult['success']) {
                 return $this->successResponse(null, "Status Updated successfully");
             } else {
-                return $this->errorResponse("Failed to Update maintenance status");
+                return errorResponse("Failed to Update maintenance status");
             }
         } catch (Exception $e) {
             $this->logerror($e . " An error occurred: " . $e->getMessage());
-            return $this->errorResponse();    
+            return errorResponse();    
             }
     }
     
@@ -147,14 +147,14 @@ class MaintenanceHandler {
                 if ($fetchResult['success']) {
                     return $this->successResponse($fetchResult['data'], "RequestsCount fetched successfully");
                 } else {
-                    return $this->errorResponse("Failed to fetch maintenance requests");
+                    return errorResponse("Failed to fetch maintenance requests");
                 }
             } else {
-                return $this->errorResponse("Invalid request method");
+                return errorResponse("Invalid request method");
             }
         } catch (Exception $e) {
             $this->logerror($e . " An error occurred: " . $e->getMessage());
-            return $this->errorResponse();        
+            return errorResponse();        
         
         }
     }

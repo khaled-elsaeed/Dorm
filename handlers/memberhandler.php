@@ -19,6 +19,12 @@ class MemberHandler {
                 return $this->memberAuth();
             case 'fetchExpelledStudents':
                 return $this->getexpelledStudents();
+            case 'makeAlert':
+            case 'makeWarning':
+                return $this->makeAlert();
+            case 'makeExpulsion':
+                return $this->updateStudentExpulsion();
+
             default:
                 return array("success" => false, "message" => "Invalid member action");
         }
@@ -92,6 +98,58 @@ private function getexpelledStudents() {
         return array("success" => false, "message" => "Invalid request method");
     }
 }
+
+private function makeAlert() {
+    if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+        $jsonData = file_get_contents('php://input');
+        $requestData = json_decode($jsonData, true);
+        if (!$requestData) {
+            return errorResponse( "Invalid JSON data");
+        }
+        $expelledId = isset($requestData['expelledId']) ? $requestData['expelledId'] : null;
+        $type = isset($requestData['type']) ? $requestData['type'] : null;
+        $description = isset($requestData['description']) ? $requestData['description'] : null;
+        if (empty($expelledId) || empty($description)) {
+            return errorResponse("Maintenance Id and assigned To are required");
+        }
+        $fetchData = $this->member->addStudentAlert($expelledId, $type, $description);
+
+        if ($fetchData['success']) {
+            return successResponse(); 
+        } else {
+            return errorResponse("Failed to fetch expelled students data");
+        }
+    } else {
+        return array("success" => false, "message" => "Invalid request method");
+    }
+}
+
+private function updateStudentExpulsion() {
+    try {
+        $jsonData = file_get_contents('php://input');
+        $requestData = json_decode($jsonData, true);
+        if (!$requestData) {
+            return errorResponse( "Invalid JSON data");
+        }
+        $expelledId = isset($requestData['expelledId']) ? $requestData['expelledId'] : null;
+        $description = isset($requestData['description']) ? $requestData['description'] : null;
+        if (empty($expelledId) || empty($description)) {
+            return errorResponse("Maintenance Id and assigned To are required");
+        }
+        $updateResult = $this->member->updateStudentExpulsion($expelledId, $description);
+        if ($updateResult['success']) {
+            return successResponse(null, "Status Updated successfully");
+        } else {
+            return errorResponse("Failed to Update maintenance status");
+        }
+    } catch (Exception $e) {
+        logerror($e . " An error occurred: " . $e->getMessage());
+        return errorResponse();    
+        }
+}
+
+
+
 
 
     
