@@ -26,6 +26,7 @@ $actionHandlers = [
     'logout' => 'adminhandler',
     'memberAuth' => 'memberhandler',
     'createmember' => 'memberhandler',
+    'fetchExpelledStudents' => 'memberhandler',
     'fetchMaintenanceRequests' => 'maintenancehandler',
     'startMaintenanceProcess' => 'maintenancehandler',
     'endMaintenanceProcess' => 'maintenancehandler',

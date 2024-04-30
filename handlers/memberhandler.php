@@ -1,5 +1,6 @@
 <?php
 require_once('../classes/Member.php');
+require_once('../includes/functions.php');
 
 class MemberHandler {
     private $member;
@@ -16,6 +17,8 @@ class MemberHandler {
                 return $this->createMember();
             case 'memberAuth':
                 return $this->memberAuth();
+            case 'fetchExpelledStudents':
+                return $this->getexpelledStudents();
             default:
                 return array("success" => false, "message" => "Invalid member action");
         }
@@ -74,6 +77,22 @@ class MemberHandler {
         return array("success" => false, "message" => "Invalid request method");
     }
 }
+
+private function getexpelledStudents() {
+    if ($_SERVER['REQUEST_METHOD'] === 'GET') {
+        // Assuming $member is an instance of some class with the method getExpelledStudents()
+        $fetchData = $this->member->getExpelledStudents();
+
+        if ($fetchData['success']) {
+            return successResponse($fetchData['data']); // Assuming successResponse is a method in the same class
+        } else {
+            return errorResponse("Failed to fetch expelled students data");
+        }
+    } else {
+        return array("success" => false, "message" => "Invalid request method");
+    }
+}
+
 
     
     

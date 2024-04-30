@@ -1,6 +1,7 @@
 <?php
 require_once('../includes/db_connect.php');
 require_once('../includes/mongodb_connect.php');
+require_once('../includes/functions.php');
 
 
 if (session_status() == PHP_SESSION_NONE) {
@@ -227,6 +228,136 @@ class Member {
             return array("expelled" => false);
         }
     }
+
+
+    
+    public function fetchExpelledStudents() {
+
+        try {
+            $conn = $this->db->getConnection();
+
+            $sql_students = 'SELECT * FROM expelledstudent';
+            $stmt_students = $conn->prepare($sql_students);
+            $stmt_students->execute();
+            return $stmt_students->fetchAll(PDO::FETCH_ASSOC);
+        } catch (PDOException $e) {
+            throw new Exception("Database error while fetching expelled students: " . $e->getMessage());
+        }
+    }
+
+    public function fetchAllAlerts() {
+        $conn = $this->db->getConnection();
+
+        $sql_alerts = 'SELECT * FROM alert';
+        $stmt_alerts = $conn->prepare($sql_alerts);
+        $stmt_alerts->execute();
+        return $stmt_alerts->fetchAll(PDO::FETCH_ASSOC);
+    }
+
+    public function organizeAlertsByStudent($alerts) {
+        $alertsByStudent = [];
+        foreach ($alerts as $alert) {
+            $expelledId = $alert['expelledId'];
+            if (!isset($alertsByStudent[$expelledId])) {
+                $alertsByStudent[$expelledId] = [];
+            }
+            $alertsByStudent[$expelledId][] = $alert;
+        }
+        return $alertsByStudent;
+    }
+
+    public function fetchAllNotes() {
+        $conn = $this->db->getConnection();
+
+        $sql_notes = 'SELECT * FROM note';
+        $stmt_notes = $conn->prepare($sql_notes);
+        $stmt_notes->execute();
+        return $stmt_notes->fetchAll(PDO::FETCH_ASSOC);
+    }
+
+    public function organizeNotesByAlert($notes) {
+        $notesByAlert = [];
+        foreach ($notes as $note) {
+            $alertId = $note['alertId'];
+            if (!isset($notesByAlert[$alertId])) {
+                $notesByAlert[$alertId] = [];
+            }
+            $notesByAlert[$alertId][] = $note;
+        }
+        return $notesByAlert;
+    }
+
+    public function assembleStudentsArray($expelledStudents, $alertsByStudent, $notesByAlert) {
+    $students = [];
+    foreach ($expelledStudents as $expelledStudent) {
+        $expelledId = $expelledStudent['id'];
+        $studentName = $expelledStudent['name']; // Assuming the column name is 'studentName'
+        $studentId = $expelledStudent['studentId']; // Assuming the column name is 'studentId'
+        $expulstionStatues = $expelledStudent['expulsionStatus']; // Assuming the column name is 'studentId'
+
+        $studentAlerts = isset($alertsByStudent[$expelledId]) ? $alertsByStudent[$expelledId] : [];
+        $student = [
+            'id' => $expelledId,
+            'name' => $studentName,
+            'studentId' => $studentId,
+            'expulsionStatus' => $expulstionStatues,
+            'alerts' => []
+        ];
+        foreach ($studentAlerts as $alert) {
+            $alertId = $alert['id'];
+            $description = isset($notesByAlert[$alertId]) ? $notesByAlert[$alertId][0]['description'] : '';
+            // Construct alert array
+            $alertArray = [
+                'id' => $alert['id'],
+                'type' => $alert['type'],
+                'expelledId' => $alert['expelledId'],
+                'date' => $alert['date'],
+                'description' => $description
+            ];
+            $student['alerts'][] = $alertArray; // Add alert array to alerts array of student
+        }
+        $students[] = $student; // Add student array to students array
+    }
+    return $students;
+}
+
+
+    public function getExpelledStudents() {
+        try {
+            $conn = $this->db->getConnection();
+            $students = [];
+            
+            // Fetch all expelled students
+            $expelledStudents = $this->fetchExpelledStudents($conn);
+            
+            // Fetch all alerts
+            $alerts = $this->fetchAllAlerts($conn);
+            
+            // Organize alerts by student
+            $alertsByStudent = $this->organizeAlertsByStudent($alerts);
+            
+            // Fetch all notes
+            $notes = $this->fetchAllNotes($conn);
+            
+            // Organize notes by alert
+            $notesByAlert = $this->organizeNotesByAlert($notes);
+            
+            // Assemble students array with alerts
+            $students = $this->assembleStudentsArray($expelledStudents, $alertsByStudent, $notesByAlert);
+            
+            return successResponse($students);
+        } catch (PDOException $e) {
+            throw new Exception("Database error: " . $e->getMessage());
+        }
+    }
+    
+    
+    
+    
+    
+    
+
+
     
 
 
