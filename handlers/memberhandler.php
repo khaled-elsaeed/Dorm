@@ -26,6 +26,10 @@ class MemberHandler {
                 return $this->updateStudentExpulsion();
             case 'addExpelledStudent':
                 return $this->addExpelledStudent();
+                case 'fetchInvoices':
+                    return $this->fetchInvoices();
+                    case 'updatePaymentStatues':
+                        return $this->updatePaymentStatues();
 
             default:
                 return array("success" => false, "message" => "Invalid member action");
@@ -84,7 +88,22 @@ class MemberHandler {
     } else {
         return array("success" => false, "message" => "Invalid request method");
     }
-}
+    }
+
+
+    private function fetchInvoices() {
+        if ($_SERVER['REQUEST_METHOD'] === 'GET') {
+            $fetchData = $this->member->getAllInvoices();
+    
+            if ($fetchData['success']) {
+                return successResponse($fetchData['data']); // Assuming successResponse is a method in the same class
+            } else {
+                return errorResponse("Failed to fetch expelled students data");
+            }
+        } else {
+            return array("success" => false, "message" => "Invalid request method");
+        }
+    }
 
 private function addExpelledStudent() {
     if ($_SERVER['REQUEST_METHOD'] === 'POST') {
@@ -176,6 +195,34 @@ private function updateStudentExpulsion() {
         return errorResponse();    
         }
 }
+
+private function updatePaymentStatues() {
+    try {
+        $jsonData = file_get_contents('php://input');
+        $requestData = json_decode($jsonData, true);
+        if (!$requestData) {
+            return errorResponse( "Invalid JSON data");
+        }
+        $paymentId = isset($requestData['paymentId']) ? $requestData['paymentId'] : null;
+        $paymentStatues = isset($requestData['paymentStatues']) ? $requestData['paymentStatues'] : null;
+
+        if (empty($paymentId) || empty($paymentStatues)) {
+            return errorResponse("Maintenance Id and assigned To are required");
+        }
+        $updateResult = $this->member->updatePaymentStatues($paymentId, $paymentStatues);
+        if ($updateResult['success']) {
+            return successResponse(null, "Status Updated successfully");
+        } else {
+            return errorResponse("Failed to Update maintenance status");
+        }
+    } catch (Exception $e) {
+        logerror($e . " An error occurred: " . $e->getMessage());
+        return errorResponse();    
+        }
+}
+
+
+
 
 
 

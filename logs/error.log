@@ -399,3 +399,10 @@ Stack trace:
 #2 C:\xampp\htdocs\projects\Dorm\handlers\maintenancehandler.php(36): MaintenanceHandler->fetchMaintenanceRequests()
 #3 C:\xampp\htdocs\projects\Dorm\handlers\index.php(72): MaintenanceHandler->handleAction('fetchMaintenanc...')
 #4 {main} An error occurred: SQLSTATE[42S22]: Column not found: 1054 Unknown column 'room.roomId' in 'on clause' | File: C:\xampp\htdocs\projects\Dorm\classes\Maintenance.php | Line: 52
+2024-05-01 19:47:49 Error: PDOException: SQLSTATE[HY093]: Invalid parameter number: parameter was not defined in C:\xampp\htdocs\projects\Dorm\classes\Member.php:637
+Stack trace:
+#0 C:\xampp\htdocs\projects\Dorm\classes\Member.php(637): PDOStatement->execute()
+#1 C:\xampp\htdocs\projects\Dorm\handlers\memberhandler.php(212): Member->updatePaymentStatues('3', 'accept')
+#2 C:\xampp\htdocs\projects\Dorm\handlers\memberhandler.php(32): MemberHandler->updatePaymentStatues()
+#3 C:\xampp\htdocs\projects\Dorm\handlers\index.php(76): MemberHandler->handleAction('updatePaymentSt...')
+#4 {main} An error occurred: SQLSTATE[HY093]: Invalid parameter number: parameter was not defined | File: C:\xampp\htdocs\projects\Dorm\classes\Member.php | Line: 640

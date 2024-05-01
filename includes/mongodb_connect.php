@@ -24,4 +24,29 @@ function insertDocument($document) {
     }
 }
 
+
+function getAllDocuments() {
+    try {
+        $manager = connectToMongoDB();
+        $database = mongoDbDatabase;
+        $collection = mongoDbCollection;
+
+        $query = new MongoDB\Driver\Query([]);
+        $cursor = $manager->executeQuery("$database.$collection", $query);
+
+        $documents = [];
+        foreach ($cursor as $document) {
+            // Convert each document object to an associative array
+            $documentArray = json_decode(json_encode($document), true);
+            $documents[] = $documentArray;
+        }
+
+        return $documents;
+    } catch (MongoDB\Driver\Exception\Exception $e) {
+        die("Error retrieving documents: " . $e->getMessage());
+    }
+}
+
+
+
 ?>

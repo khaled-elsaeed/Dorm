@@ -297,11 +297,116 @@ class Member
         }
     }
 
+
+    public function getAllPayments(){
+        try {
+            $conn = $this->db->getConnection();
+
+            $sql = "SELECT * FROM payment";
+            $stmt = $conn->prepare($sql);
+            $stmt->execute();
+            $data = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+            return $data;
+
+        } catch (PDOException $e) {
+            logerror($e . " An error occurred: " . $e->getMessage());
+            return errorResponse();
+        }
+    }
+
+
+
+    public function getAllInvoices(): array {
+        try {
+            // Retrieve all payments
+            $payments = $this->getAllPayments();
+    
+            if (!empty($payments)) {
+                // Retrieve all invoices associated with payments
+                $invoices = $this->getInvoicesByPaymentIds(array_column($payments, 'id'));
+    
+                // Decode invoice images if they are stored as BSON binary
+                $invoices = $this->decodeInvoiceImages($invoices);
+    
+                // Combine payments with their associated invoices
+                $paymentsWithInvoices = $this->combinePaymentsWithInvoices($payments, $invoices);
+    
+                return successResponse($paymentsWithInvoices);
+            } else {
+                // If no payments were retrieved, return an empty array
+                return [];
+            }
+        } catch (MongoDB\Driver\Exception\Exception $e) {
+            // Handle any exceptions that occur during the retrieval process
+            die("Error retrieving invoices: " . $e->getMessage());
+        }
+    }
+    
+    
+    private function getInvoicesByPaymentIds($paymentIds) {
+        // Retrieve invoices associated with the given payment IDs
+        $invoices = getAllDocuments(); // Assuming this method retrieves invoices from MongoDB
+        $filteredInvoices = [];
+    
+        foreach ($invoices as $invoice) {
+            if (in_array($invoice['paymentId'], $paymentIds)) {
+                $filteredInvoices[] = $invoice;
+            }
+        }
+        return $filteredInvoices;
+    }
+    
+    private function decodeInvoiceImages($invoices) {
+        foreach ($invoices as &$invoice) {
+            if (isset($invoice['image']) && $invoice['image'] instanceof MongoDB\BSON\Binary) {
+                $invoice['image'] = $this->decodeInvoiceImage($invoice['image']);
+            }
+        }
+        return $invoices;
+    }
+    
+    private function combinePaymentsWithInvoices($payments, $invoices) {
+        $paymentsWithInvoices = [];
+    
+        foreach ($payments as $payment) {
+            $paymentId = $payment['id'];
+            $payment['invoices'] = [];
+    
+            foreach ($invoices as $invoice) {
+                if ($invoice['paymentId'] == $paymentId) {
+                    $payment['invoices'][] = $invoice;
+                }
+            }
+    
+            $paymentsWithInvoices[] = $payment;
+        }
+    
+        return $paymentsWithInvoices;
+    }
+    
+    public function decodeInvoiceImage($encodedImage) {
+        try {
+            $imageData = $encodedImage->getData();
+            return $imageData;
+        } catch (Exception $e) {
+            return "Error decoding image: " . $e->getMessage();
+        }
+    }
+    
+    
+    
+    
+
     public function isExpelled($universityId)
     {
         $conn = $this->db->getConnection();
         $sql =
-            "SELECT studentId , expelledReason FROM expelledstudent WHERE universityId = :universityId";
+            "SELECT expelledstudent.studentId, note.description
+            FROM expelledstudent
+            JOIN alert ON alert.expelledId = expelledstudent.id
+            JOIN note ON note.alertId = alert.id 
+            WHERE expelledstudent.expulsionStatus = 'yes' AND expelledstudent.studentId = :universityId AND alert.type = 'expulsion';";
         $stmt = $conn->prepare($sql);
         $stmt->bindParam(":universityId", $universityId);
         $stmt->execute();
@@ -519,6 +624,24 @@ class Member
             return errorResponse();
         }
     }
+    public function updatePaymentStatues($paymentId, $paymentStatues)
+{
+    try {
+        $conn = $this->db->getConnection();
+        $sql = "UPDATE payment SET status = :paymentStatues WHERE id = :paymentId";
+        $stmt = $conn->prepare($sql);
+        $stmt->bindParam(":paymentId", $paymentId); // Corrected parameter binding
+        $stmt->bindParam(":paymentStatues", $paymentStatues);
+
+        $stmt->execute();
+        return successResponse();
+    } catch (PDOException $e) {
+        logerror($e . " An error occurred: " . $e->getMessage());
+        return errorResponse();
+    }
 }
+
+}
+
 
 ?>
