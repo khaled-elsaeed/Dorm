@@ -1,17 +1,16 @@
-// Global variable to store expelled students data
 let expelledStudents = [];
 
-// Initialize the application when the DOM content is loaded
+
 document.addEventListener('DOMContentLoaded', function() {
     getExpelledStudents();
 });
 
-// Fetch expelled students data from the database
+
 async function getExpelledStudents() {
     try {
         const data = await fetchExpelledStudentsFromDB();
         expelledStudents = data;
-        console.log(data);
+        console.log(expelledStudents);
         updateExpelledStudentsView(expelledStudents);
     } catch (error) {
         console.error("Error in getExpelledStudents:", error);
@@ -19,7 +18,63 @@ async function getExpelledStudents() {
     }
 }
 
-// Fetch expelled students data from the database
+
+
+
+async function addExpelledStudent() {
+    const studentName = $('#studentName').val();
+    const studentID = $('#studentId').val();
+    try {
+        const response = await addExpelledStudentInDB(studentID, studentName);
+        if (response.success) {
+            await addExpelledStudentInView();
+            closeModal('#addStudentModal');
+        }
+    } catch (error) {
+        console.error("Error handling alert:", error);
+
+    } finally {
+        closeModal('#addStudentModal');
+    }
+}
+
+
+$('#addStudentBtn').off('click').on('click', async function() {
+    await addExpelledStudent();
+});
+
+
+
+
+async function addExpelledStudentInDB(studentId, studentName) {
+    const url = "../../../../handlers/?action=addExpelledStudent";
+    const data = {
+        studentId: studentId,
+        studentName: studentName
+    };
+    try {
+        const response = await postData(url, data);
+        return response;
+    } catch (error) {
+        console.error("Error in handleAlertInDB:", error);
+        throw new Error("Failed to add alert in the database");
+    }
+}
+
+async function addExpelledStudentInView() {
+    try {
+
+        await getExpelledStudents();
+        await updateExpelledStudentsView(expelledStudents);
+
+    } catch (error) {
+        console.error("Error handling alert in view:", error);
+    }
+}
+
+
+
+
 async function fetchExpelledStudentsFromDB() {
     const url = "../../../../handlers/?action=fetchExpelledStudents";
     try {
@@ -31,13 +86,13 @@ async function fetchExpelledStudentsFromDB() {
     }
 }
 
-// Update the view with expelled students data
+
 async function updateExpelledStudentsView(expelledStudents) {
     const allTableBody = document.querySelector('tbody');
     populateTable(allTableBody, expelledStudents);
 }
 
-// Populate the table with expelled students data
+
 function populateTable(tableBody, expelledStudents) {
     tableBody.innerHTML = '';
     expelledStudents.forEach((expulsion, index) => {
@@ -46,13 +101,14 @@ function populateTable(tableBody, expelledStudents) {
     });
 }
 
-// Create a row for each expelled student
+
 function createStudentRow(expulsion, index) {
     const id = expulsion.id;
     const studentId = expulsion.studentId;
     const expulsionStatus = expulsion.expulsionStatus;
     const name = expulsion.name;
     const alerts = expulsion.alerts;
+    const expulsionType = expulsion.expulsionType ;
 
     console.log(expulsion);
     const hasAlerts = alerts && alerts.some(alert => alert.type === 'alert');
@@ -68,25 +124,28 @@ function createStudentRow(expulsion, index) {
         <td>${hasAlerts ? `Yes <a href="#" onclick="showDescription(${alerts.find(alert => alert.type === 'alert').id})"><i class="fas fa-comment"></i></a>` : 'No'}</td>
         <td>${hasWarnings ? `Yes <a href="#" onclick="showDescription(${alerts.find(alert => alert.type === 'warning').id})"><i class="fas fa-comment"></i></a>` : 'No'}</td>
         <td>${isExpelled ? `Yes <a href="#" onclick="showDescription(${alerts.find(alert => alert.type === 'expulsion').id})"><i class="fas fa-comment"></i></a>` : 'No'}</td>
-        <td>${createActionButtons(id, hasAlerts, hasWarnings)}</td>
+        <td>${createActionButtons(id, hasAlerts, hasWarnings,isExpelled,expulsionType)}</td>
     `;
     return studentRow;
 }
 
-// Create action buttons based on student's alerts and warnings status
-function createActionButtons(expelledId, hasAlerts, hasWarnings) {
+
+function createActionButtons(expelledId, hasAlerts, hasWarnings,isExpelled,expulsionType) {
     let buttonsHTML = '';
     if (!hasAlerts) {
         buttonsHTML += `<button class="btn btn-primary" onclick="handleAction('alert', '${expelledId}')">Add Alert</button>`;
     } else if (!hasWarnings) {
         buttonsHTML += `<button class="btn btn-warning" onclick="handleAction('warning', '${expelledId}')">Add Warning</button>`;
-    } else {
+    } else if (isExpelled){
+        buttonsHTML += `<button class="btn btn-secondry" disabled>${expulsionType}</button>`;
+    }else{
         buttonsHTML += `<button class="btn btn-danger" onclick="handleAction('expulsion', '${expelledId}')">Expulsion</button>`;
+
     }
     return buttonsHTML;
 }
 
-// Handle different actions on expelled students
+
 function handleAction(action, expelledId) {
     if (action === 'alert') {
         handleAlert(expelledId);
@@ -97,28 +156,28 @@ function handleAction(action, expelledId) {
     }
 }
 
-// Handle adding alert for an expelled student
+
 async function handleAlert(expelledId) {
-    $('#showDescriptionModal').modal('show');
+    openModal('#showDescriptionModal');
     $('#addDescriptionBtn').off('click').on('click', async function submitModalBtnClickHandler() {
         const description = $('#description').val();
         try {
             const response = await handleAlertInDB(expelledId, description);
             if (response.success) {
                 await handleAlertInView(expelledId, description);
-                console.log(expelledStudents);
-                $('#showDescriptionModal').modal('hide');
+                closeModal('#showDescriptionModal');
+
             }
         } catch (error) {
             console.error("Error handling alert:", error);
-            // Handle errors appropriately
+
         } finally {
-            $('#showDescriptionModal').modal('hide');
+            closeModal('#showDescriptionModal');
         }
     });
 }
 
-// Handle adding alert in the database
+
 async function handleAlertInDB(expelledId, description) {
     const url = "../../../../handlers/?action=makeAlert";
     const data = {
@@ -137,19 +196,9 @@ async function handleAlertInDB(expelledId, description) {
 
 async function handleAlertInView(expelledId, description) {
     try {
-        const index = expelledStudents.findIndex(expulsion => parseInt(expulsion.id) === parseInt(expelledId));
-        console.log(index);
-        if (index !== -1) {
-            if (!expelledStudents[index].alerts) {
-                expelledStudents[index].alerts = [];
-            }
-            expelledStudents[index].alerts.push({
-                type: 'alert',
-                description: description
-            });
-            console.log(expelledStudents); // Check the modified array
-            await updateExpelledStudentsView(expelledStudents); // Update the view with the modified array
-        }
+
+        await getExpelledStudents();
+        await updateExpelledStudentsView(expelledStudents);
     } catch (error) {
         console.error("Error handling alert in view:", error);
     }
@@ -158,28 +207,26 @@ async function handleAlertInView(expelledId, description) {
 
 
 
-// Handle adding alert for an expelled student
 async function handleWarning(expelledId) {
-    $('#showDescriptionModal').modal('show');
+    openModal('#showDescriptionModal');
     $('#addDescriptionBtn').off('click').on('click', async function submitModalBtnClickHandler() {
         const description = $('#description').val();
         try {
             const response = await handleWarningInDB(expelledId, description);
             if (response.success) {
                 await handleWarningInView(expelledId, description);
-                console.log(expelledStudents);
-                $('#showDescriptionModal').modal('hide');
+                closeModal('#showDescriptionModal');
             }
         } catch (error) {
             console.error("Error handling alert:", error);
-            // Handle errors appropriately
+
         } finally {
-            $('#showDescriptionModal').modal('hide');
+            closeModal('#showDescriptionModal');
         }
     });
 }
 
-// Handle adding alert in the database
+
 async function handleWarningInDB(expelledId, description) {
     const url = "../../../../handlers/?action=makeWarning";
     const data = {
@@ -196,21 +243,14 @@ async function handleWarningInDB(expelledId, description) {
     }
 }
 
-async function handleWarningInView(expelledId, description) {
+async function handleWarningInView(expelledId, StudentName) {
     try {
-        const index = expelledStudents.findIndex(expulsion => parseInt(expulsion.id) === parseInt(expelledId));
-        console.log(index);
-        if (index !== -1) {
-            if (!expelledStudents[index].alerts) {
-                expelledStudents[index].alerts = [];
-            }
-            expelledStudents[index].alerts.push({
-                type: 'warning',
-                description: description
-            });
-            console.log(expelledStudents); // Check the modified array
-            await updateExpelledStudentsView(expelledStudents); // Update the view with the modified array
-        }
+
+        await getExpelledStudents();
+
+        await updateExpelledStudentsView(expelledStudents);
+
+
     } catch (error) {
         console.error("Error handling alert in view:", error);
     }
@@ -219,34 +259,37 @@ async function handleWarningInView(expelledId, description) {
 
 
 
-// Handle adding alert for an expelled student
 async function handleExpulsion(expelledId) {
-    $('#showDescriptionModal').modal('show');
+    openModal('#showDescriptionModal');
+
+    $('#durationSelect').prop('display', 'block');
     $('#addDescriptionBtn').off('click').on('click', async function submitModalBtnClickHandler() {
         const description = $('#description').val();
+        const duration = $('#duration').val();
+
         try {
-            const response = await handleExpulsionInDB(expelledId, description);
+            const response = await handleExpulsionInDB(expelledId, description,duration);
             if (response.success) {
-                await handleExpulsionInView(expelledId, description);
-                console.log(expelledStudents);
-                $('#showDescriptionModal').modal('hide');
+                await handleExpulsionInView();
+                closeModal('#showDescriptionModal');
             }
         } catch (error) {
             console.error("Error handling alert:", error);
-            // Handle errors appropriately
+
         } finally {
-            $('#showDescriptionModal').modal('hide');
+            closeModal('#showDescriptionModal');
         }
     });
 }
 
-// Handle adding alert in the database
-async function handleExpulsionInDB(expelledId, description) {
+
+async function handleExpulsionInDB(expelledId, description,duration) {
     const url = "../../../../handlers/?action=makeExpulsion";
     const data = {
         expelledId: expelledId,
-        description: description
-        };
+        description: description,
+        duration:duration
+    };
     try {
         const response = await postData(url, data);
         return response;
@@ -256,22 +299,14 @@ async function handleExpulsionInDB(expelledId, description) {
     }
 }
 
-async function handleExpulsionInView(expelledId, description) {
+
+async function handleExpulsionInView() {
     try {
-        const index = expelledStudents.findIndex(expulsion => parseInt(expulsion.id) === parseInt(expelledId));
-        console.log(index);
-        if (index !== -1) {
-            if (!expelledStudents[index].alerts) {
-                expelledStudents[index].alerts = [];
-            }
-            expelledStudents[index].expulsionStatus = 'yes' ;
-            expelledStudents[index].alerts.push({
-                type: 'expulsion',
-                description: description
-            });
-            console.log(expelledStudents); // Check the modified array
-            await updateExpelledStudentsView(expelledStudents); // Update the view with the modified array
-        }
+
+        await getExpelledStudents();
+
+        await updateExpelledStudentsView(expelledStudents);
+
     } catch (error) {
         console.error("Error handling alert in view:", error);
     }
@@ -280,11 +315,7 @@ async function handleExpulsionInView(expelledId, description) {
 
 
 
-
-
-// Function to get the description of an alert for an expelled student
 function getAlertDescription(alertId) {
-    console.log(alertId);
     for (const expulsion of expelledStudents) {
         if (expulsion.alerts) {
             const alert = expulsion.alerts.find(alert => parseInt(alert.id) === parseInt(alertId));
@@ -296,37 +327,37 @@ function getAlertDescription(alertId) {
     return "Alert description not found";
 }
 
-// Function to show the description of an alert
+
 function showDescription(alertId) {
     const alertDescription = getAlertDescription(alertId);
-    $('#description').val(alertDescription).prop('readonly', true); // Set value and make readonly
+    $('#description').val(alertDescription).prop('readonly', true);
     $('#showDescriptionModal').on('hidden.bs.modal', function(e) {
         $('#description').val('');
-        $('#description').prop('readonly', false); // Remove readonly attribute when modal is closed
+        $('#description').prop('readonly', false);
     }).modal('show');
 }
 
 
 
 
-// Open the modal
-function openModal(modalName) {
-    $(modalName).modal('show');
+function openModal(modalId) {
+    $(modalId).modal('show');
 }
 
-// Close the modal
-function closeModal(modalName) {
-    $(modalName).modal('hide');
+
+function closeModal(modalId) {
+    $(modalId).modal('hide');
 }
 
-// Reset modal content
+
+
 function resetModal(modalName) {
-    // Reset modal content for the specified modal name if needed
+
 }
 
 
 
-// Event listener for search input
+
 const searchInput = document.getElementById('search-orders');
 searchInput.addEventListener('input', function() {
     const searchQuery = this.value.trim().toLowerCase();
@@ -334,17 +365,17 @@ searchInput.addEventListener('input', function() {
     updateExpelledStudentsView(filteredExpelledStudents);
 });
 
-// Filter expelled students based on search query
+
 function filterExpelledStudents(searchQuery) {
     return expelledStudents.filter(expulsion => {
         const fullName = expulsion.name.toLowerCase();
-        const studentId = String(expulsion.studentId).toLowerCase(); // Ensure studentId is converted to string
+        const studentId = String(expulsion.studentId).toLowerCase();
         return fullName.includes(searchQuery) || studentId.includes(searchQuery);
     });
 }
 
 
-// Fetch data from a URL using GET method
+
 async function fetchData(url = "") {
     try {
         const response = await fetch(url, {
@@ -360,7 +391,7 @@ async function fetchData(url = "") {
     }
 }
 
-// Send data to a URL using POST method
+
 async function postData(url = "", data = {}) {
     try {
         const response = await fetch(url, {

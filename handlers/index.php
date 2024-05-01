@@ -31,6 +31,9 @@ $actionHandlers = [
     'makeAlert' => 'memberhandler',
     'makeWarning' => 'memberhandler',
     'makeExpulsion' => 'memberhandler',
+    'addExpelledStudent' => 'memberhandler',
+
+
 
     'fetchMaintenanceRequests' => 'maintenancehandler',
     'startMaintenanceProcess' => 'maintenancehandler',

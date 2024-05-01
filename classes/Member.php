@@ -389,6 +389,7 @@ class Member
             $studentName = $expelledStudent["name"]; // Assuming the column name is 'studentName'
             $studentId = $expelledStudent["studentId"]; // Assuming the column name is 'studentId'
             $expulstionStatues = $expelledStudent["expulsionStatus"]; // Assuming the column name is 'studentId'
+            $expulsionType = $expelledStudent["expulsionType"]; // Assuming the column name is 'studentId'
 
             $studentAlerts = isset($alertsByStudent[$expelledId])
                 ? $alertsByStudent[$expelledId]
@@ -398,6 +399,7 @@ class Member
                 "name" => $studentName,
                 "studentId" => $studentId,
                 "expulsionStatus" => $expulstionStatues,
+                "expulsionType" => $expulsionType,
                 "alerts" => [],
             ];
             foreach ($studentAlerts as $alert) {
@@ -464,6 +466,7 @@ class Member
             $stmt->bindParam(":studentId", $studentId);
             $stmt->bindParam(":name", $name);
             $stmt->execute();
+            return successResponse();
         } catch (PDOException $e) {
             logerror($e . " An error occurred: " . $e->getMessage());
             return errorResponse();
@@ -497,14 +500,16 @@ class Member
         }
     }
 
-    public function updateStudentExpulsion($expelledId, $description)
+    public function updateStudentExpulsion($expelledId, $description,$duration)
     {
         try {
             $conn = $this->db->getConnection();
             $sql =
-                "UPDATE expelledstudent SET expulsionStatus = 'yes' WHERE id = :expelledId";
+                "UPDATE expelledstudent SET expulsionStatus = 'yes' , expulsionType	 = :duration WHERE id = :expelledId";
             $stmt = $conn->prepare($sql);
             $stmt->bindParam(":expelledId", $expelledId);
+            $stmt->bindParam(":duration", $duration);
+
             $stmt->execute();
 
             $this->addStudentAlert($expelledId, "expulsion", $description);

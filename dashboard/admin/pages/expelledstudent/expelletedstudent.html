@@ -151,17 +151,7 @@
                         </div>
                      </li>
                      <!--//nav-link-->
-                     <li class="nav-item">
-                        <a class="nav-link " href="../Notification/notifications.html">
-                           <span class="nav-icon">
-                              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-bell" viewBox="0 0 16 16">
-                                 <path d="M8 16a2 2 0 0 0 2-2H6a2 2 0 0 0 2 2M8 1.918l-.797.161A4 4 0 0 0 4 6c0 .628-.134 2.197-.459 3.742-.16.767-.376 1.566-.663 2.258h10.244c-.287-.692-.502-1.49-.663-2.258C12.134 8.197 12 6.628 12 6a4 4 0 0 0-3.203-3.92zM14.22 12c.223.447.481.801.78 1H1c.299-.199.557-.553.78-1C2.68 10.2 3 6.88 3 6c0-2.42 1.72-4.44 4.005-4.901a1 1 0 1 1 1.99 0A5 5 0 0 1 13 6c0 .88.32 4.2 1.22 6"/>
-                              </svg>
-                           </span>
-                           <span class="nav-link-text">Notification</span>
-                        </a>
-                        <!--//nav-link-->
-                     </li>
+
                      <!--//nav-link-->
                      <li class="nav-item">
                         <a class="nav-link" href="../resident/resident.html">
@@ -349,13 +339,15 @@
                                  <input type="text" class="form-control" id="studentName" placeholder="Enter student name">
                               </div>
                               <div class="mb-3">
-                                 <label for="studentID" class="form-label">Student ID</label>
-                                 <input type="text" class="form-control" id="studentID" placeholder="Enter student ID">
+                                 <label for="studentId" class="form-label">Student ID</label>
+                                 <input type="text" class="form-control" id="studentId" placeholder="Enter student ID">
                               </div>
                            </form>
                         </div>
                         <div class="modal-footer">
                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                           <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" id="addStudentBtn">Add Student</button>
+
                            <!-- Add Save or Submit Button Here -->
                         </div>
                      </div>
@@ -378,6 +370,14 @@
                                        <textarea name="description" id="description" class="form-control" style="width: 100%;" rows="10"></textarea>
                                    </div>
                                </div>
+                               <div class="row" id="durationSelect" display: none;">
+                                 <div class="col">
+                                    <select name="duration" id="duration">
+                                       <option value="term"> Term</option>
+                                       <option value="year"> Year</option>
+                                    </select>
+                                 </div>
+                             </div>
                            </div>
                        </div>
                        
@@ -406,7 +406,7 @@
       <script src="assets/plugins/popper.min.js"></script>
       <script src="assets/plugins/bootstrap/js/bootstrap.min.js"></script>  
       <!-- Page Specific JS -->
-      <script src="assets/js/app.js"></script> 
+      <script src="../../assets/js/app.js"></script>
       <script src="assets/js/expelletedstudent.js"></script>
       <script>
          // Get the filename of the current URL
