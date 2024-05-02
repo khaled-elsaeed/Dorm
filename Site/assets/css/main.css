@@ -67,11 +67,39 @@ section {
   overflow: clip;
 }
 
-.section-bg {
-  background-color: #eee;
+
+
+.section-bg-hero {
+  position: relative;
+}
+
+.section-bg-hero::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-image: linear-gradient(to bottom, rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.7)), url('../img/background/background-3.jpg');
+  background-size: cover;
+  z-index: -1;
 }
 
 
+
+/* Style for the links */
+.nav-btn {
+  display: inline-block;
+  border-radius: 20px; /* Adjust the value to control the roundness */
+  background-color: rgb(121, 18, 18);
+  color: white;
+  text-decoration: none;
+}
+
+/* Hover effect */
+.nav-btn:hover {
+  background-color: darkred; /* Change color on hover */
+}
 
 
 
@@ -1378,7 +1406,7 @@ section {
   font-size: 64px;
   font-weight: 700;
   margin-bottom: 20px;
-  color: var(--color-secondary);
+  color: #fff;
   font-family: var(--font-primary);
 }
 
@@ -1387,7 +1415,7 @@ section {
 }
 
 .hero p {
-  color: #4f4f5a;
+  color: #fff;
   font-weight: 400;
   margin-bottom: 30px;
 }
@@ -1414,7 +1442,7 @@ section {
   font-size: 16px;
   transition: 0.5s;
   margin-left: 25px;
-  color: var(--font-secondary);
+  color: #fff;
   font-weight: 600;
 }
 
