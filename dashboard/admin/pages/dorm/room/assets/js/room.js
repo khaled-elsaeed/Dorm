@@ -21,6 +21,23 @@ $("#addRoomModal").submit(function(event) {
     closeModal();
 });
 
+function openConfirmationModal(message) {
+    return new Promise((resolve) => {
+        var modalMessage = document.getElementById('confirmationModalMessage');
+        modalMessage.textContent = message;
+        var modal = new bootstrap.Modal(document.getElementById('confirmationModal'));
+        modal.show();
+        $('#confirmationModalYes').on('click', function() {
+            modal.hide();
+            resolve(true);
+        });
+        $('#confirmationModalNo').on('click', function() {
+            modal.hide();
+            resolve(false);
+        });
+    });
+ }
+
 
 
 
@@ -34,10 +51,7 @@ function resetModal() {
     document.getElementById('addRoomModal').querySelector('form').reset();
 }
 
-// Example usage:
-// Assuming you have a button to open the modal with ID "openModalBtn" and a button to close the modal with ID "closeModalBtn"
-document.getElementById('openModalBtn').addEventListener('click', openModal);
-document.getElementById('closeModalBtn').addEventListener('click', closeModal);
+
 
 
 // Function to fetch rooms from the server
@@ -74,39 +88,31 @@ async function fetchRoomDS(data) {
     }
 }
 
-// Function to remove a room from the server and update the UI
-async function removeRoom(roomId) {
+async function removeRoom(roomId,apartmentId) {
     try {
-        // Remove room from the database
-        const dbResponse = await removeRoomDB(roomId);
-
-        // If the deletion from the database is successful, remove from the front-end data
-        if (dbResponse.success) {
-            await removeRoomDS(roomId);
-            populateTable(rooms);
-        } else {
-            console.error("Error: Deletion from database unsuccessful");
+        const confirmed = await openConfirmationModal("Are you sure you want to delete this room?");
+        if (confirmed) {
+            const dbResponse = await removeRoomDB(apartmentId,roomId);
+            if (dbResponse.success) {
+                fetchRoom();
+                        } else {
+                console.error("Error: Deletion from database unsuccessful");
+            }
         }
     } catch (error) {
         console.error("Error in removeRoom:", error);
         throw new Error("Failed to remove room");
     }
-}
+ }
 
-// Function to remove a room from the front-end data
-async function removeRoomDS(roomId) {
-    const index = rooms.findIndex(room => room.roomId === roomId);
-    if (index !== -1) {
-        rooms.splice(index, 1);
-    } else {
-        console.error("Room with ID", roomId, "not found");
-    }
-}
+
+
+
 
 // Function to remove a room from the database
-async function removeRoomDB(roomId) {
+async function removeRoomDB(apartmentId,roomId) {
     const url = "../../../../../handlers/?action=removeRoom";
-    const data = { roomId };
+    const data = { apartmentId : apartmentId ,roomId : roomId};
     try {
         const responseData = await postData(url, data);
         return responseData;
@@ -170,7 +176,7 @@ async function populateTable(rooms) {
                 <td>B${room.buildingNumber}</td>
                 <td>${room.occupancyStatus}</td>
                 <td>
-                    <button class="btn btn-danger" onclick="removeRoom(${room.roomId})">Delete</button>
+                    <button class="btn btn-danger" onclick="removeRoom(${room.id},${room.apartmentId})">Delete</button>
                 </td>
             </tr>
         `;
@@ -222,7 +228,7 @@ function populateBuildingOptions() {
     // Add options for each building
     buildings.forEach(building => {
         const option = document.createElement('option');
-        option.value = building.buildingId;
+        option.value = building.id;
         option.textContent = building.buildingNumber;
         apartmentBuildingSelect.appendChild(option);
     });
@@ -293,7 +299,7 @@ function populateApartmentOptions() {
     console.log(filteredApartments);
     filteredApartments.forEach(apartment => {
         const option = document.createElement('option');
-        option.value = apartment.apartmentId;
+        option.value = apartment.id;
         option.textContent = apartment.apartmentNumber;
         roomApartmentSelect.appendChild(option);
     });

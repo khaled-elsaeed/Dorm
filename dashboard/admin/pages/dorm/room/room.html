@@ -234,9 +234,9 @@
                                     <button type="submit" class="btn app-btn-secondary">Search</button>
                                  </div> -->
                                  <div class="col-auto">
-                                    <button type="button" class="btn btn-primary" id="openModalBtn">
-                                    Add Room
-                                    </button>
+                                    <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addRoomModal">
+                                       Add Room
+                                     </button>
                                  </div>
                               </form>
                            </div>
@@ -294,9 +294,9 @@
                         <div class="modal-content">
                            <div class="modal-header">
                                  <h5 class="modal-title" id="addRoomModalLabel">Add Room</h5>
-                                 <button type="button" class="close" id="closeModalBtn">
+                                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
                                     <span aria-hidden="true">&times;</span>
-                                 </button>
+                                    </button>
                            </div>
                            <form id="addForm">
                                  <div class="modal-body">
@@ -319,7 +319,7 @@
 
                                  </div>
                                  <div class="modal-footer">
-                                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
                                     <button type="submit" class="btn btn-primary">Add Room</button>
                                  </div>
                            </form>
@@ -340,6 +340,25 @@
                         </div>
                         <div class="modal-footer">
                            <button type="button" class="btn btn-secondary" id="closeModalBtn">Close</button>
+                        </div>
+                     </div>
+                  </div>
+               </div>
+
+               <!-- Confirmation Modal -->
+               <div class="modal fade" id="confirmationModal" tabindex="-1" aria-labelledby="confirmationModalLabel" aria-hidden="true">
+                  <div class="modal-dialog">
+                     <div class="modal-content">
+                        <div class="modal-header">
+                           <h5 class="modal-title" id="confirmationModalLabel">Confirmation</h5>
+                           <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body" id="confirmationModalMessage">
+                           <!-- Modal message will be inserted here -->
+                        </div>
+                        <div class="modal-footer">
+                           <button type="button" class="btn btn-danger" id="confirmationModalYes">Yes</button>
+                           <button type="button" class="btn btn-secondary" id="confirmationModalNo" data-bs-dismiss="modal">No</button>
                         </div>
                      </div>
                   </div>
@@ -369,7 +388,6 @@
       <script src="assets/plugins/ajax/jquery-3.7.1.min.js"></script>
       <script src="assets/plugins/bootstrap/js/bootstrap.min.js"></script>
       <script src="assets/plugins/popper.min.js"></script>
-      <script src="assets/plugins/bootstrap/js/bootstrap.min.js"></script>  
       <!-- Page Specific JS -->
       <script src="../../../assets/js/app.js"></script> 
       <script src="assets/js/room.js"></script>

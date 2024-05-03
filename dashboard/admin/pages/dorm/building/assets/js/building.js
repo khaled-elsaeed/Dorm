@@ -8,32 +8,11 @@ $("#addBuildingModal").submit(function (event) {
    event.preventDefault();
    const buildingData = {
       buildingNumber: $("#buildingNumber").val(),
-      buildingGender: $("#buildingGender").val()
+      buildingCategory: $("#buildingCategory").val()
    };
    addBuilding(buildingData);
    closeModal();
 });
-
-function showConfirmationModal(message, callback) {
-   try {
-      document.getElementById('confirmationMessage').textContent = message;
-
-      $('#confirmationModal').modal('show');
-
-      document.getElementById('confirmBtn').addEventListener('click', function () {
-         $('#confirmationModal').modal('hide'); // Hide the modal
-         callback(true); // Call the callback function with true as argument
-      });
-
-      document.getElementById('cancelBtn').addEventListener('click', function () {
-         $('#confirmationModal').modal('hide'); // Hide the modal
-         callback(false); // Call the callback function with false as argument
-      });
-   } catch (error) {
-      console.error("An error occurred:", error);
-      callback(false);
-   }
-}
 
 
 function closeModal() {
@@ -47,6 +26,23 @@ function resetModal() {
 function openMessageModal(message) {
    document.getElementById("modal-message").innerHTML = message;
    $('#messageModal').modal('show'); // Show the modal
+}
+
+function openConfirmationModal(message) {
+   return new Promise((resolve) => {
+       var modalMessage = document.getElementById('confirmationModalMessage');
+       modalMessage.textContent = message;
+       var modal = new bootstrap.Modal(document.getElementById('confirmationModal'));
+       modal.show();
+       $('#confirmationModalYes').on('click', function() {
+           modal.hide();
+           resolve(true);
+       });
+       $('#confirmationModalNo').on('click', function() {
+           modal.hide();
+           resolve(false);
+       });
+   });
 }
 
 document.getElementById('openModalBtn').addEventListener('click', openModal);
@@ -91,12 +87,15 @@ async function fetchBuildingDS(data) {
 
 async function removeBuilding(buildingId) {
    try {
-       const dbResponse = await removeBuildingDB(buildingId)
-       if (dbResponse.success) {
-         removeBuildingDS(buildingId);
-         populateTable(buildings);
-       } else {
-           console.error("Error: Deletion from database unsuccessful");
+       const confirmed = await openConfirmationModal("Are you sure you want to delete this building?");
+       if (confirmed) {
+           const dbResponse = await removeBuildingDB(buildingId);
+           if (dbResponse.success) {
+               removeBuildingDS(buildingId);
+               populateTable(buildings);
+           } else {
+               console.error("Error: Deletion from database unsuccessful");
+           }
        }
    } catch (error) {
        console.error("Error in removeRoom:", error);
@@ -105,7 +104,7 @@ async function removeBuilding(buildingId) {
 }
 
 async function removeBuildingDS(buildingId) {
-   const index = buildings.findIndex(building => building.buildingId === buildingId);
+   const index = buildings.findIndex(building => building.id === buildingId);
    if (index !== -1) {
       buildings.splice(index, 1);
    } else {
@@ -130,27 +129,30 @@ async function removeBuildingDB(buildingId) {
 }
 
 async function addBuilding(buildingData) {
-    try {
-        const isDuplicate = buildings.some(building => building.buildingNumber === buildingData.buildingNumber);
-        if (isDuplicate) {
-            console.error("Error: Building with the same building number already exists");
-            const message = "A building with the same building number already exists.";
-            openMessageModal(message);
-            return; 
-        }
+   try {
+       const isDuplicate = buildings.some(building => building.buildingNumber === buildingData.buildingNumber);
+       if (isDuplicate) {
+           console.error("Error: Building with the same building number already exists");
+           const message = "A building with the same building number already exists.";
+           openMessageModal(message);
+           return; 
+       }
 
-        const dbResponse = await addBuildingDB(buildingData);
-        if (dbResponse.success) {
-            await addBuildingDS(buildingData); 
-            fetchBuilding();
-        } else {
-            console.error("Error: Adding building unsuccessful");
-        }
-    } catch (error) {
-        console.error("Error in addBuilding:", error);
-        const message = "Failed to add building";
-        openMessageModal(message);
-    }
+       const confirmed = await openConfirmationModal("Are you sure you want to add this building?");
+       if (confirmed) {
+           const dbResponse = await addBuildingDB(buildingData);
+           if (dbResponse.success) {
+               await addBuildingDS(buildingData); 
+               fetchBuilding();
+           } else {
+               console.error("Error: Adding building unsuccessful");
+           }
+       }
+   } catch (error) {
+       console.error("Error in addBuilding:", error);
+       const message = "Failed to add building";
+       openMessageModal(message);
+   }
 }
 
 
@@ -191,9 +193,9 @@ async function populateTable(buildingsData) {
       buildingList.innerHTML += `
             <tr>
                 <td>${building.buildingNumber}</td>
-                <td>${building.buildingGender}</td>
+                <td>${building.buildingCategory}</td>
                 <td>
-                    <button class="btn btn-danger" onclick="removeBuilding(${building.buildingId})">Delete</button>
+                    <button class="btn btn-danger" onclick="removeBuilding(${building.id})">Delete</button>
                 </td>
             </tr>
         `;
@@ -202,32 +204,58 @@ async function populateTable(buildingsData) {
 
 document.getElementById('search-orders').addEventListener('input', function () {
    const searchQuery = this.value.trim().toLowerCase(); 
-   const filterQuery = document.getElementById('genderFilter').value.trim().toLowerCase(); 
+   const filterQuery = document.getElementById('CategoryFilter').value.trim().toLowerCase(); 
    const filteredBuildings = buildings.filter(building => {
       const matchesSearch = building.buildingNumber.toLowerCase().includes(searchQuery);
-      const matchesFilter = filterQuery === 'all' || building.buildingGender.toLowerCase() === filterQuery;
+      const matchesFilter = filterQuery === 'all' || building.buildingCategory.toLowerCase() === filterQuery;
       return matchesSearch && matchesFilter;
    });
    populateTable(filteredBuildings);
 });
 
 
-const genderFilter = document.getElementById('genderFilter');
-if (genderFilter) {
-   genderFilter.addEventListener('change', function () {
+const CategoryFilter = document.getElementById('CategoryFilter');
+if (CategoryFilter) {
+   CategoryFilter.addEventListener('change', function () {
       const filterQuery = this.value.trim().toLowerCase(); // Get filter query and convert to lowercase
       const searchQuery = document.getElementById('search-orders').value.trim().toLowerCase(); // Get search query and convert to lowercase
       const filteredBuildings = buildings.filter(building => {
          const matchesSearch = building.buildingNumber.toLowerCase().includes(searchQuery);
-         const matchesFilter = filterQuery === 'all' || building.buildingGender.toLowerCase() === filterQuery;
+         const matchesFilter = filterQuery === 'all' || building.buildingCategory.toLowerCase() === filterQuery;
          return matchesSearch && matchesFilter;
       });
       populateTable(filteredBuildings);
    });
 } else {
-   console.error("Element with ID 'genderFilter' not found.");
+   console.error("Element with ID 'CategoryFilter' not found.");
 }
 
+// Function to download table as CSV
+function downloadTableAsCSV() {
+   const rows = Array.from(document.querySelectorAll("table tbody tr"));
+   const headers = Array.from(document.querySelectorAll("table thead th")).filter(th => th.textContent !== "Actions").map(th => th.textContent);
+   const csvContent = [headers.join(",")];
+   
+   rows.forEach(row => {
+       const cells = Array.from(row.querySelectorAll("td")).filter(cell => cell.cellIndex !== 2); // Exclude Actions column
+       const rowData = cells.map(cell => cell.textContent).join(",");
+       csvContent.push(rowData);
+   });
+
+   const blob = new Blob([csvContent.join("\n")], { type: 'text/csv;charset=utf-8;' });
+   const link = document.createElement("a");
+   link.setAttribute("href", URL.createObjectURL(blob));
+   link.setAttribute("download", "table.csv");
+   link.style.display = "none";
+   document.body.appendChild(link);
+   link.click();
+   document.body.removeChild(link);
+}
+
+// Function to print the table
+function printTable() {
+   window.print();
+}
 
 async function getData(url = "") {
    try {

@@ -18,6 +18,23 @@ $("#addApartmentModal").submit(function(event) {
     closeModal();
 });
 
+function openConfirmationModal(message) {
+    return new Promise((resolve) => {
+        var modalMessage = document.getElementById('confirmationModalMessage');
+        modalMessage.textContent = message;
+        var modal = new bootstrap.Modal(document.getElementById('confirmationModal'));
+        modal.show();
+        $('#confirmationModalYes').on('click', function() {
+            modal.hide();
+            resolve(true);
+        });
+        $('#confirmationModalNo').on('click', function() {
+            modal.hide();
+            resolve(false);
+        });
+    });
+ }
+
 
 
 document.getElementById('search-orders').addEventListener('input', function () {
@@ -36,6 +53,7 @@ document.getElementById('search-orders').addEventListener('input', function () {
 
 function closeModal() {
     $('#addApartmentModal').modal('hide');
+    resetModal();
 }
 
 function resetModal() {
@@ -47,8 +65,6 @@ function openMessageModal(message) {
     $('#messageModal').modal('show'); 
  }
 
-document.getElementById('openModalBtn').addEventListener('click', openModal);
-document.getElementById('closeModalBtn').addEventListener('click', closeModal);
 
 
 async function fetchApartment() {
@@ -85,26 +101,28 @@ async function fetchApartmentDS(data) {
 
 async function removeApartment(apartmentId, buildingId) {
     try {
-        // Remove room from the database
-        const dbResponse = await removeApartmentDB(apartmentId, buildingId);
-
-        // If the deletion from the database is successful, remove from the front-end data
-        if (dbResponse.success) {
-            await removeApartmentDS(apartmentId, buildingId);
-            populateTable(apartments);
-        } else {
-            console.error("Error: Deletion from database unsuccessful");
+        const confirmed = await openConfirmationModal("Are you sure you want to delete this building?");
+        if (confirmed) {
+            const dbResponse = await removeApartmentDB(apartmentId, buildingId);
+            if (dbResponse.success) {
+                await removeApartmentDS(apartmentId, buildingId);
+                populateTable(apartments);
+            } else {
+                console.error("Error: Deletion from database unsuccessful");
+            }
         }
     } catch (error) {
         console.error("Error in removeRoom:", error);
         throw new Error("Failed to remove room");
     }
-}
+ }
+
+
 
 
 async function removeApartmentDS(apartmentId, buildingId) {
     const index = apartments.findIndex(apartment => {
-        return apartment.apartmentId === apartmentId && apartment.buildingId === buildingId;
+        return apartment.id === apartmentId && apartment.buildingId === buildingId;
     });
 
     if (index !== -1) {
@@ -115,8 +133,12 @@ async function removeApartmentDS(apartmentId, buildingId) {
 }
 
 async function removeApartmentDB(apartmentId, buildingId) {
+    console.log(apartmentId);
     const url = "../../../../../handlers/?action=removeApartment";
-    const data = { apartmentId, buildingId };
+    const data = {
+        apartmentId : apartmentId,
+        buildingId :  buildingId
+    };
     try {
         const responseData = await postData(url, data);
         return responseData;
@@ -133,7 +155,7 @@ function populateBuildingOptions() {
     apartmentBuildingSelect.innerHTML = '<option value="">Select Building</option>';
     buildings.forEach(building => {
         const option = document.createElement('option');
-        option.value = building.buildingId;
+        option.value = building.id;
         option.textContent = building.buildingNumber;
         apartmentBuildingSelect.appendChild(option);
     });
@@ -174,8 +196,10 @@ async function addApartment(apartmentData) {
             await addApartmentDS(apartmentData);
             fetchApartment(); // Refresh the list of apartments after adding
         } else {
-            console.error("Error: Adding apartment unsuccessful");
+            const errorMessage = dbResponse.error || "Error: Adding apartment unsuccessful";
+            openMessageModal(errorMessage);
         }
+        
     } catch (error) {
         console.error("Error in addApartment:", error);
         const message = "Failed to add apartment";
@@ -221,13 +245,36 @@ function populateTable(apartmentsData) {
             <td>A${apartment.apartmentNumber}</td>
             <td>B${apartment.buildingNumber}</td>
             <td>
-                <button class="btn btn-danger" onclick="removeApartment(${apartment.apartmentId}, ${apartment.buildingId})">Delete</button>
+                <button class="btn btn-danger" onclick="removeApartment(${apartment.id}, ${apartment.buildingId})">Delete</button>
             </td>
         `;
         apartmentList.appendChild(row);
     });
 }
 
+
+
+
+function downloadTableAsCSV() {
+    const rows = Array.from(document.querySelectorAll("table tbody tr"));
+    const headers = Array.from(document.querySelectorAll("table thead th")).filter(th => th.textContent !== "Actions").map(th => th.textContent);
+    const csvContent = [headers.join(",")];
+    
+    rows.forEach(row => {
+        const cells = Array.from(row.querySelectorAll("td")).filter(cell => cell.cellIndex !== 2); // Exclude Actions column
+        const rowData = cells.map(cell => cell.textContent).join(",");
+        csvContent.push(rowData);
+    });
+ 
+    const blob = new Blob([csvContent.join("\n")], { type: 'text/csv;charset=utf-8;' });
+    const link = document.createElement("a");
+    link.setAttribute("href", URL.createObjectURL(blob));
+    link.setAttribute("download", "table.csv");
+    link.style.display = "none";
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+ }
 
 async function getData(url = "") {
     try {

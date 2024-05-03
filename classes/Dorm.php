@@ -26,14 +26,14 @@ class Dorm
         }
     }
 
-    public function addBuilding($buildingNumber, $buildingGender)
+    public function addBuilding($buildingNumber, $buildingCategory	)
     {
         try {
             $conn = $this->db->getConnection();
-            $sql  = "INSERT INTO building (buildingNumber, buildingGender) VALUES (?, ?)";
+            $sql  = "INSERT INTO building (buildingNumber, buildingCategory	) VALUES (?, ?)";
             $stmt = $conn->prepare($sql);
             $stmt->bindParam(1, $buildingNumber, PDO::PARAM_STR);
-            $stmt->bindParam(2, $buildingGender, PDO::PARAM_STR);
+            $stmt->bindParam(2, $buildingCategory, PDO::PARAM_STR);
             $stmt->execute();
             return successResponse();
         }
@@ -129,13 +129,15 @@ private function getCurrentRoomCount($apartmentId)
 }
 
 
-    public function deleteRoom($roomId)
+    public function deleteRoom($roomId,$ApartmentId)
     {
         try {
             $conn = $this->db->getConnection();
-            $sql  = "DELETE FROM room WHERE id = :roomId";
+            $sql  = "DELETE FROM room WHERE id = :roomId AND apartmentId = :apartmentId ";
             $stmt = $conn->prepare($sql);
             $stmt->bindParam(':roomId', $roomId, PDO::PARAM_INT);
+            $stmt->bindParam(':apartmentId', $ApartmentId, PDO::PARAM_INT);
+
             $stmt->execute();
             return successResponse();
         }

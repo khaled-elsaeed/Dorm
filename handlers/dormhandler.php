@@ -87,7 +87,7 @@ class DormHandler
                 return errorResponseText('Invalid JSON data');
             }            
             
-            $result = $this->dorm->addBuilding($data['buildingNumber'], $data['buildingGender']);
+            $result = $this->dorm->addBuilding($data['buildingNumber'], $data['buildingCategory']);
             
             if ($result['success']) {
                 return successResponse();
@@ -207,8 +207,9 @@ class DormHandler
             }            
             
             $roomId = $data['roomId'];
+            $apartmentId = $data['apartmentId'];
             
-            $result = $this->dorm->deleteRoom($roomId);
+            $result = $this->dorm->deleteRoom($roomId,$apartmentId);
             
             if ($result['success']) {
                 return successResponse();
@@ -270,11 +271,11 @@ class DormHandler
             
             if ($result['success']) {
                 return successResponse();
-                
             } else {
-                return errorResponseText('Error add apartment');
-                
+                $errorMessage = isset($result['error']) ? $result['error'] : 'Error add apartment';
+                return errorResponseText($errorMessage);
             }
+            
         }
         catch (Exception $e) {
             $this->logerror($e . " An error occurred: " . $e->getMessage());

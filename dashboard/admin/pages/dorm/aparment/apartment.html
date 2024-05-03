@@ -220,24 +220,18 @@
                                  <div class="col-auto">
                                     <input type="text" id="search-orders" name="searchorders" class="form-control search-orders" placeholder="Search">
                                  </div>
-                                 <div class="col-auto">
-                                    <button type="button" class="btn btn-primary" id="openModalBtn">
-                                    Add Apartment
-                                    </button>
-                                 </div>
+                                 
                               </form>
                            </div>
-                           <!--//col-->
-                           <!-- <div class="col-auto">
-                              <select class="form-select w-auto" >
-                                 <option selected value="option-1">All</option>
-                                 <option value="option-2">This week</option>
-                                 <option value="option-3">This month</option>
-                                 <option value="option-4">Last 3 months</option>
-                              </select>
-                           </div> -->
+
                            <div class="col-auto">
-                              <a class="btn app-btn-secondary" href="#">
+                              <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addApartmentModal">
+                                 Add Apartment
+                               </button>
+                               
+                           </div>
+                           <div class="col-auto">
+                              <a class="btn app-btn-secondary" href="#" onclick="downloadTableAsCSV()">
                                  <svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-download me-1" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
                                     <path fill-rule="evenodd" d="M.5 9.9a.5.5 0 0 1 .5.5v2.5a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1v-2.5a.5.5 0 0 1 1 0v2.5a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2v-2.5a.5.5 0 0 1 .5-.5z"/>
                                     <path fill-rule="evenodd" d="M7.646 11.854a.5.5 0 0 0 .708 0l3-3a.5.5 0 0 0-.708-.708L8.5 10.293V1.5a.5.5 0 0 0-1 0v8.793L5.354 8.146a.5.5 0 1 0-.708.708l3 3z"/>
@@ -273,12 +267,12 @@
                   <!--//app-card-body-->		
                </div>
                <!-- Add Apartment Modal -->
-               <div class="modal fade" id="addApartmentModal" tabindex="-1" role="dialog" aria-labelledby="addApartmentModalLabel" aria-hidden="true">
+               <div class="modal fade" id="addApartmentModal" tabindex="-1"  aria-labelledby="addApartmentModalLabel" aria-hidden="true">
                   <div class="modal-dialog" role="document">
                      <div class="modal-content">
                         <div class="modal-header">
                            <h5 class="modal-title" id="addApartmentModalLabel">Add Apartment</h5>
-                           <button type="button" class="close" id="closeModalBtn">
+                           <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
                            <span aria-hidden="true">&times;</span>
                            </button>
                         </div>
@@ -297,7 +291,7 @@
                              
                            </div>
                            <div class="modal-footer">
-                              <button type="button" class="btn btn-secondary" id="closeModalBtn">Close</button>
+                              <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
                               <button type="submit" class="btn btn-primary">Add Apartment</button>
                            </div>
                         </form>
@@ -305,11 +299,11 @@
                   </div>
                </div>
                <!-- Message box Modal-->
-               <div class="modal fade" id="messageModal" tabindex="-1" role="dialog" aria-labelledby="messageModalLabel" aria-hidden="true">
+               <div class="modal fade" id="messageModal" tabindex="-1"  aria-labelledby="messageModalLabel" aria-hidden="true">
                   <div class="modal-dialog" role="document">
                      <div class="modal-content">
                         <div class="modal-header">
-                           <h5 class="modal-title" id="messageModalLabel">Modal Title</h5>
+                           <h5 class="modal-title" id="messageModalLabel">Message</h5>
                            <button type="button" class="btn-close" data-bs-dismiss="modal"  aria-label="Close" ></button>
                            </button>
                         </div>
@@ -318,6 +312,25 @@
                         </div>
                         <div class="modal-footer">
                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                        </div>
+                     </div>
+                  </div>
+               </div>
+
+               <!-- Confirmation Modal -->
+               <div class="modal fade" id="confirmationModal" tabindex="-1" aria-labelledby="confirmationModalLabel" aria-hidden="true">
+                  <div class="modal-dialog">
+                     <div class="modal-content">
+                        <div class="modal-header">
+                           <h5 class="modal-title" id="confirmationModalLabel">Confirmation</h5>
+                           <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body" id="confirmationModalMessage">
+                           <!-- Modal message will be inserted here -->
+                        </div>
+                        <div class="modal-footer">
+                           <button type="button" class="btn btn-danger" id="confirmationModalYes">Yes</button>
+                           <button type="button" class="btn btn-secondary" id="confirmationModalNo" data-bs-dismiss="modal">No</button>
                         </div>
                      </div>
                   </div>
@@ -347,7 +360,6 @@
       <script src="assets/plugins/ajax/jquery-3.7.1.min.js"></script>
       <script src="assets/plugins/bootstrap/js/bootstrap.min.js"></script>
       <script src="assets/plugins/popper.min.js"></script>
-      <script src="assets/plugins/bootstrap/js/bootstrap.min.js"></script>  
       <!-- Page Specific JS -->
       <script src="../../../assets/js/app.js"></script> 
       <script src="assets/js/appartment.js"></script>
