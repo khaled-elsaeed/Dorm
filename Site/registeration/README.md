@@ -1,12 +1,12 @@
-# [Material Bootstrap Wizard](http://demos.creative-tim.com/material-bootstrap-wizard/wizard-book-room.html)
+# [Material Bootstrap wizard](http://demos.creative-tim.com/material-bootstrap-wizard/wizard-book-room.html)
 
 ![alt text](http://s3.amazonaws.com/creativetim_bucket/products/48/original/opt_mbw_thumbnail.jpg?1472405077)
 
-**Material Bootstrap Wizard** is a fully responsive wizard that is inspired by the famous Google's Material Design and comes with 3 useful examples and 5 colors. The Material Bootstrap Wizard is one of the most handy elements that can be used inside a project. We highly recommend it not just as a design feature, but as a way of guiding your users through tough forms.
+**Material Bootstrap wizard** is a fully responsive wizard that is inspired by the famous Google's Material Design and comes with 3 useful examples and 5 colors. The Material Bootstrap wizard is one of the most handy elements that can be used inside a project. We highly recommend it not just as a design feature, but as a way of guiding your users through tough forms.
 
 First of all, you need to determine when you need a wizard. Do you have a form of over 10 fields? Do you have users not going through with the registration process? Do you have unfinished list? They all have something in common; and they all have the same solution. So, what is wrong with letting your users see an infinite form? They will get discouraged to finish it. What is the solution? Better visual organization, mainly in the form of a wizard.
 
-What Material Bootstrap Wizard does is to break the information into chunks and lets the user see it one step at a time. In this way, the user only has to focus on the current step. He will also see how many steps he has ahead, so he won't be discouraged by something that looks like an long process. Consider win-win for both you and the users: they have a better experience and you will have all the necessary information!
+What Material Bootstrap wizard does is to break the information into chunks and lets the user see it one step at a time. In this way, the user only has to focus on the current step. He will also see how many steps he has ahead, so he won't be discouraged by something that looks like an long process. Consider win-win for both you and the users: they have a better experience and you will have all the necessary information!
 
 Technical
 

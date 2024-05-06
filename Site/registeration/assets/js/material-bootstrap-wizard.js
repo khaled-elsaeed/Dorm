@@ -1,5 +1,5 @@
 /*!
- * Material Bootstrap Wizard - v1.0.2
+ * Material Bootstrap wizard - v1.0.2
  * =========================================================
  * Product Page: https://www.creative-tim.com/product/material-bootstrap-wizard
  * Copyright 2017 Creative Tim (http://www.creative-tim.com)
@@ -9,7 +9,7 @@
  * The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
  */
 
-// Material Bootstrap Wizard Functions
+// Material Bootstrap wizard Functions
 
 var searchVisible = 0;
 var transparent = true;
@@ -52,6 +52,9 @@ $(document).ready(function(){
 
     var $validator = $('.wizard-card form').validate({
         rules: {
+            profilePicture: {
+                required: true
+            },
             firstName: {
                 required: true,
                 minlength: 3
@@ -137,6 +140,9 @@ $(document).ready(function(){
             }
         },
         messages: {
+            profilePicture: {
+                required: "Please enter your fe.",
+            },
             firstName: {
                 required: "Please enter your first name.",
                 minlength: "Your first name must be at least 3 characters long."
@@ -210,7 +216,7 @@ $(document).ready(function(){
     });
     
 
-    // Wizard Initialization
+    // wizard Initialization
     $('.wizard-card').bootstrapWizard({
         'tabClass': 'nav nav-pills',
         'nextSelector': '.btn-next',
@@ -237,7 +243,7 @@ $(document).ready(function(){
             refreshAnimation($wizard, index);
 
             $('.moving-tab').css('transition','transform 0s');
-            console.log("Wizard initialized. Initial index:", index);
+            console.log("wizard initialized. Initial index:", index);
         },
 
         onTabClick : function(tab, navigation, index){
