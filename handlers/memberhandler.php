@@ -66,7 +66,8 @@ class MemberHandler {
     if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $data = $_POST; 
 
-        $invoice = $_FILES['invoice_file'];
+            $invoice = $_FILES['invoice_file'];
+            $profilePicture = $_FILES['profile-picture'];
 
 
             $score = $this->criteriaHandler->handleCalculateWeights($data);
@@ -77,7 +78,7 @@ class MemberHandler {
             if($isExpelled['expelled']){
                 return array("success" => "reject", "reason" => $isExpelled['reason']);
             }
-            $createResult = $this->member->addNewMember($data,$invoice);
+            $createResult = $this->member->addNewMember($data,$invoice,$profilePicture);
 
             if ($createResult['success']) {
                 return array("success" => true, "message" => "Member created successfully");

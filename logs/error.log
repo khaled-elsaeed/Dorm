@@ -476,3 +476,108 @@ Stack trace:
 #2 C:\xampp\htdocs\project\Dorm\handlers\maintenancehandler.php(36): MaintenanceHandler->fetchMaintenanceRequests()
 #3 C:\xampp\htdocs\project\Dorm\handlers\index.php(76): MaintenanceHandler->handleAction('fetchMaintenanc...')
 #4 {main} An error occurred: SQLSTATE[42S22]: Column not found: 1054 Unknown column 'room.roomId' in 'on clause' | File: C:\xampp\htdocs\project\Dorm\classes\Maintenance.php | Line: 52
+2024-05-06 14:46:28 Error: PDOException: SQLSTATE[42S22]: Column not found: 1054 Unknown column 'room.roomId' in 'on clause' in C:\xampp\htdocs\project\Dorm\classes\Maintenance.php:46
+Stack trace:
+#0 C:\xampp\htdocs\project\Dorm\classes\Maintenance.php(46): PDOStatement->execute()
+#1 C:\xampp\htdocs\project\Dorm\handlers\maintenancehandler.php(57): Maintenance->getMaintenanceRequest()
+#2 C:\xampp\htdocs\project\Dorm\handlers\maintenancehandler.php(36): MaintenanceHandler->fetchMaintenanceRequests()
+#3 C:\xampp\htdocs\project\Dorm\handlers\index.php(76): MaintenanceHandler->handleAction('fetchMaintenanc...')
+#4 {main} An error occurred: SQLSTATE[42S22]: Column not found: 1054 Unknown column 'room.roomId' in 'on clause' | File: C:\xampp\htdocs\project\Dorm\classes\Maintenance.php | Line: 52
+2024-05-06 14:54:34 Error: PDOException: SQLSTATE[42S22]: Column not found: 1054 Unknown column 'room.roomId' in 'on clause' in C:\xampp\htdocs\project\Dorm\classes\Maintenance.php:46
+Stack trace:
+#0 C:\xampp\htdocs\project\Dorm\classes\Maintenance.php(46): PDOStatement->execute()
+#1 C:\xampp\htdocs\project\Dorm\handlers\maintenancehandler.php(57): Maintenance->getMaintenanceRequest()
+#2 C:\xampp\htdocs\project\Dorm\handlers\maintenancehandler.php(36): MaintenanceHandler->fetchMaintenanceRequests()
+#3 C:\xampp\htdocs\project\Dorm\handlers\index.php(76): MaintenanceHandler->handleAction('fetchMaintenanc...')
+#4 {main} An error occurred: SQLSTATE[42S22]: Column not found: 1054 Unknown column 'room.roomId' in 'on clause' | File: C:\xampp\htdocs\project\Dorm\classes\Maintenance.php | Line: 52
+2024-05-06 14:54:37 Error: PDOException: SQLSTATE[42S22]: Column not found: 1054 Unknown column 'room.roomId' in 'on clause' in C:\xampp\htdocs\project\Dorm\classes\Maintenance.php:46
+Stack trace:
+#0 C:\xampp\htdocs\project\Dorm\classes\Maintenance.php(46): PDOStatement->execute()
+#1 C:\xampp\htdocs\project\Dorm\handlers\maintenancehandler.php(57): Maintenance->getMaintenanceRequest()
+#2 C:\xampp\htdocs\project\Dorm\handlers\maintenancehandler.php(36): MaintenanceHandler->fetchMaintenanceRequests()
+#3 C:\xampp\htdocs\project\Dorm\handlers\index.php(76): MaintenanceHandler->handleAction('fetchMaintenanc...')
+#4 {main} An error occurred: SQLSTATE[42S22]: Column not found: 1054 Unknown column 'room.roomId' in 'on clause' | File: C:\xampp\htdocs\project\Dorm\classes\Maintenance.php | Line: 52
+2024-05-06 14:54:38 Error: PDOException: SQLSTATE[42S22]: Column not found: 1054 Unknown column 'room.roomId' in 'on clause' in C:\xampp\htdocs\project\Dorm\classes\Maintenance.php:46
+Stack trace:
+#0 C:\xampp\htdocs\project\Dorm\classes\Maintenance.php(46): PDOStatement->execute()
+#1 C:\xampp\htdocs\project\Dorm\handlers\maintenancehandler.php(57): Maintenance->getMaintenanceRequest()
+#2 C:\xampp\htdocs\project\Dorm\handlers\maintenancehandler.php(36): MaintenanceHandler->fetchMaintenanceRequests()
+#3 C:\xampp\htdocs\project\Dorm\handlers\index.php(76): MaintenanceHandler->handleAction('fetchMaintenanc...')
+#4 {main} An error occurred: SQLSTATE[42S22]: Column not found: 1054 Unknown column 'room.roomId' in 'on clause' | File: C:\xampp\htdocs\project\Dorm\classes\Maintenance.php | Line: 52
+2024-05-06 14:54:38 Error: PDOException: SQLSTATE[42S22]: Column not found: 1054 Unknown column 'room.roomId' in 'on clause' in C:\xampp\htdocs\project\Dorm\classes\Maintenance.php:46
+Stack trace:
+#0 C:\xampp\htdocs\project\Dorm\classes\Maintenance.php(46): PDOStatement->execute()
+#1 C:\xampp\htdocs\project\Dorm\handlers\maintenancehandler.php(57): Maintenance->getMaintenanceRequest()
+#2 C:\xampp\htdocs\project\Dorm\handlers\maintenancehandler.php(36): MaintenanceHandler->fetchMaintenanceRequests()
+#3 C:\xampp\htdocs\project\Dorm\handlers\index.php(76): MaintenanceHandler->handleAction('fetchMaintenanc...')
+#4 {main} An error occurred: SQLSTATE[42S22]: Column not found: 1054 Unknown column 'room.roomId' in 'on clause' | File: C:\xampp\htdocs\project\Dorm\classes\Maintenance.php | Line: 52
+2024-05-06 14:54:38 Error: PDOException: SQLSTATE[42S22]: Column not found: 1054 Unknown column 'room.roomId' in 'on clause' in C:\xampp\htdocs\project\Dorm\classes\Maintenance.php:46
+Stack trace:
+#0 C:\xampp\htdocs\project\Dorm\classes\Maintenance.php(46): PDOStatement->execute()
+#1 C:\xampp\htdocs\project\Dorm\handlers\maintenancehandler.php(57): Maintenance->getMaintenanceRequest()
+#2 C:\xampp\htdocs\project\Dorm\handlers\maintenancehandler.php(36): MaintenanceHandler->fetchMaintenanceRequests()
+#3 C:\xampp\htdocs\project\Dorm\handlers\index.php(76): MaintenanceHandler->handleAction('fetchMaintenanc...')
+#4 {main} An error occurred: SQLSTATE[42S22]: Column not found: 1054 Unknown column 'room.roomId' in 'on clause' | File: C:\xampp\htdocs\project\Dorm\classes\Maintenance.php | Line: 52
+2024-05-06 14:54:38 Error: PDOException: SQLSTATE[42S22]: Column not found: 1054 Unknown column 'room.roomId' in 'on clause' in C:\xampp\htdocs\project\Dorm\classes\Maintenance.php:46
+Stack trace:
+#0 C:\xampp\htdocs\project\Dorm\classes\Maintenance.php(46): PDOStatement->execute()
+#1 C:\xampp\htdocs\project\Dorm\handlers\maintenancehandler.php(57): Maintenance->getMaintenanceRequest()
+#2 C:\xampp\htdocs\project\Dorm\handlers\maintenancehandler.php(36): MaintenanceHandler->fetchMaintenanceRequests()
+#3 C:\xampp\htdocs\project\Dorm\handlers\index.php(76): MaintenanceHandler->handleAction('fetchMaintenanc...')
+#4 {main} An error occurred: SQLSTATE[42S22]: Column not found: 1054 Unknown column 'room.roomId' in 'on clause' | File: C:\xampp\htdocs\project\Dorm\classes\Maintenance.php | Line: 52
+2024-05-06 14:54:49 Error: PDOException: SQLSTATE[42S22]: Column not found: 1054 Unknown column 'room.roomId' in 'on clause' in C:\xampp\htdocs\project\Dorm\classes\Maintenance.php:46
+Stack trace:
+#0 C:\xampp\htdocs\project\Dorm\classes\Maintenance.php(46): PDOStatement->execute()
+#1 C:\xampp\htdocs\project\Dorm\handlers\maintenancehandler.php(57): Maintenance->getMaintenanceRequest()
+#2 C:\xampp\htdocs\project\Dorm\handlers\maintenancehandler.php(36): MaintenanceHandler->fetchMaintenanceRequests()
+#3 C:\xampp\htdocs\project\Dorm\handlers\index.php(76): MaintenanceHandler->handleAction('fetchMaintenanc...')
+#4 {main} An error occurred: SQLSTATE[42S22]: Column not found: 1054 Unknown column 'room.roomId' in 'on clause' | File: C:\xampp\htdocs\project\Dorm\classes\Maintenance.php | Line: 52
+2024-05-06 14:55:35 Error: PDOException: SQLSTATE[42S22]: Column not found: 1054 Unknown column 'resident.residentId' in 'on clause' in C:\xampp\htdocs\project\Dorm\classes\Maintenance.php:46
+Stack trace:
+#0 C:\xampp\htdocs\project\Dorm\classes\Maintenance.php(46): PDOStatement->execute()
+#1 C:\xampp\htdocs\project\Dorm\handlers\maintenancehandler.php(57): Maintenance->getMaintenanceRequest()
+#2 C:\xampp\htdocs\project\Dorm\handlers\maintenancehandler.php(36): MaintenanceHandler->fetchMaintenanceRequests()
+#3 C:\xampp\htdocs\project\Dorm\handlers\index.php(76): MaintenanceHandler->handleAction('fetchMaintenanc...')
+#4 {main} An error occurred: SQLSTATE[42S22]: Column not found: 1054 Unknown column 'resident.residentId' in 'on clause' | File: C:\xampp\htdocs\project\Dorm\classes\Maintenance.php | Line: 52
+2024-05-06 19:23:51 Error: PDOException: SQLSTATE[42S22]: Column not found: 1054 Unknown column 'fc.field_id' in 'on clause' in C:\xampp\htdocs\project\Dorm\classes\Criteria.php:110
+Stack trace:
+#0 C:\xampp\htdocs\project\Dorm\classes\Criteria.php(110): PDOStatement->execute()
+#1 C:\xampp\htdocs\project\Dorm\handlers\criteriahandler.php(57): Criteria->fetchFieldsAndCriteria()
+#2 C:\xampp\htdocs\project\Dorm\handlers\criteriahandler.php(40): CriteriaHandler->fetchFieldsAndCriteria()
+#3 C:\xampp\htdocs\project\Dorm\handlers\index.php(76): CriteriaHandler->handleAction('fetchCriteria')
+#4 {main} An error occurred: SQLSTATE[42S22]: Column not found: 1054 Unknown column 'fc.field_id' in 'on clause' | File: C:\xampp\htdocs\project\Dorm\classes\Criteria.php | Line: 137
+2024-05-06 19:24:03 Error: PDOException: SQLSTATE[42S22]: Column not found: 1054 Unknown column 'fc.field_id' in 'on clause' in C:\xampp\htdocs\project\Dorm\classes\Criteria.php:110
+Stack trace:
+#0 C:\xampp\htdocs\project\Dorm\classes\Criteria.php(110): PDOStatement->execute()
+#1 C:\xampp\htdocs\project\Dorm\handlers\criteriahandler.php(57): Criteria->fetchFieldsAndCriteria()
+#2 C:\xampp\htdocs\project\Dorm\handlers\criteriahandler.php(40): CriteriaHandler->fetchFieldsAndCriteria()
+#3 C:\xampp\htdocs\project\Dorm\handlers\index.php(76): CriteriaHandler->handleAction('fetchCriteria')
+#4 {main} An error occurred: SQLSTATE[42S22]: Column not found: 1054 Unknown column 'fc.field_id' in 'on clause' | File: C:\xampp\htdocs\project\Dorm\classes\Criteria.php | Line: 137
+2024-05-06 19:51:28 Error: PDOException: SQLSTATE[23000]: Integrity constraint violation: 1452 Cannot add or update a child row: a foreign key constraint fails (`nmudorm`.`fieldcriteria`, CONSTRAINT `fieldcriteria_ibfk_1` FOREIGN KEY (`fieldId`) REFERENCES `field` (`id`) ON DELETE CASCADE ON UPDATE CASCADE) in C:\xampp\htdocs\project\Dorm\classes\Criteria.php:44
+Stack trace:
+#0 C:\xampp\htdocs\project\Dorm\classes\Criteria.php(44): PDOStatement->execute(Array)
+#1 C:\xampp\htdocs\project\Dorm\handlers\criteriahandler.php(126): Criteria->addCriteria('0', 'compound', 'x < 15 and x > ...', '5454')
+#2 C:\xampp\htdocs\project\Dorm\handlers\criteriahandler.php(44): CriteriaHandler->addCriteria()
+#3 C:\xampp\htdocs\project\Dorm\handlers\index.php(76): CriteriaHandler->handleAction('newCriteria')
+#4 {main} An error occurred: SQLSTATE[23000]: Integrity constraint violation: 1452 Cannot add or update a child row: a foreign key constraint fails (`nmudorm`.`fieldcriteria`, CONSTRAINT `fieldcriteria_ibfk_1` FOREIGN KEY (`fieldId`) REFERENCES `field` (`id`) ON DELETE CASCADE ON UPDATE CASCADE) | File: C:\xampp\htdocs\project\Dorm\classes\Criteria.php | Line: 49
+2024-05-06 19:53:17 Error: PDOException: SQLSTATE[23000]: Integrity constraint violation: 1452 Cannot add or update a child row: a foreign key constraint fails (`nmudorm`.`fieldcriteria`, CONSTRAINT `fieldcriteria_ibfk_1` FOREIGN KEY (`fieldId`) REFERENCES `field` (`id`) ON DELETE CASCADE ON UPDATE CASCADE) in C:\xampp\htdocs\project\Dorm\classes\Criteria.php:44
+Stack trace:
+#0 C:\xampp\htdocs\project\Dorm\classes\Criteria.php(44): PDOStatement->execute(Array)
+#1 C:\xampp\htdocs\project\Dorm\handlers\criteriahandler.php(126): Criteria->addCriteria('0', 'compound', 'x > 87 and x > ...', '8787')
+#2 C:\xampp\htdocs\project\Dorm\handlers\criteriahandler.php(44): CriteriaHandler->addCriteria()
+#3 C:\xampp\htdocs\project\Dorm\handlers\index.php(76): CriteriaHandler->handleAction('newCriteria')
+#4 {main} An error occurred: SQLSTATE[23000]: Integrity constraint violation: 1452 Cannot add or update a child row: a foreign key constraint fails (`nmudorm`.`fieldcriteria`, CONSTRAINT `fieldcriteria_ibfk_1` FOREIGN KEY (`fieldId`) REFERENCES `field` (`id`) ON DELETE CASCADE ON UPDATE CASCADE) | File: C:\xampp\htdocs\project\Dorm\classes\Criteria.php | Line: 49
+2024-05-06 19:56:25 Error: PDOException: SQLSTATE[23000]: Integrity constraint violation: 1452 Cannot add or update a child row: a foreign key constraint fails (`nmudorm`.`fieldcriteria`, CONSTRAINT `fieldcriteria_ibfk_1` FOREIGN KEY (`fieldId`) REFERENCES `field` (`id`) ON DELETE CASCADE ON UPDATE CASCADE) in C:\xampp\htdocs\project\Dorm\classes\Criteria.php:44
+Stack trace:
+#0 C:\xampp\htdocs\project\Dorm\classes\Criteria.php(44): PDOStatement->execute(Array)
+#1 C:\xampp\htdocs\project\Dorm\handlers\criteriahandler.php(126): Criteria->addCriteria('0', 'compound', 'x < 98 and x < ...', '8777')
+#2 C:\xampp\htdocs\project\Dorm\handlers\criteriahandler.php(44): CriteriaHandler->addCriteria()
+#3 C:\xampp\htdocs\project\Dorm\handlers\index.php(76): CriteriaHandler->handleAction('newCriteria')
+#4 {main} An error occurred: SQLSTATE[23000]: Integrity constraint violation: 1452 Cannot add or update a child row: a foreign key constraint fails (`nmudorm`.`fieldcriteria`, CONSTRAINT `fieldcriteria_ibfk_1` FOREIGN KEY (`fieldId`) REFERENCES `field` (`id`) ON DELETE CASCADE ON UPDATE CASCADE) | File: C:\xampp\htdocs\project\Dorm\classes\Criteria.php | Line: 49
+2024-05-06 20:01:56 Error: PDOException: SQLSTATE[23000]: Integrity constraint violation: 1452 Cannot add or update a child row: a foreign key constraint fails (`nmudorm`.`fieldcriteria`, CONSTRAINT `fieldcriteria_ibfk_1` FOREIGN KEY (`fieldId`) REFERENCES `field` (`id`) ON DELETE CASCADE ON UPDATE CASCADE) in C:\xampp\htdocs\project\Dorm\classes\Criteria.php:44
+Stack trace:
+#0 C:\xampp\htdocs\project\Dorm\classes\Criteria.php(44): PDOStatement->execute(Array)
+#1 C:\xampp\htdocs\project\Dorm\handlers\criteriahandler.php(126): Criteria->addCriteria('0', 'simple', 'x > 10', '155')
+#2 C:\xampp\htdocs\project\Dorm\handlers\criteriahandler.php(44): CriteriaHandler->addCriteria()
+#3 C:\xampp\htdocs\project\Dorm\handlers\index.php(76): CriteriaHandler->handleAction('newCriteria')
+#4 {main} An error occurred: SQLSTATE[23000]: Integrity constraint violation: 1452 Cannot add or update a child row: a foreign key constraint fails (`nmudorm`.`fieldcriteria`, CONSTRAINT `fieldcriteria_ibfk_1` FOREIGN KEY (`fieldId`) REFERENCES `field` (`id`) ON DELETE CASCADE ON UPDATE CASCADE) | File: C:\xampp\htdocs\project\Dorm\classes\Criteria.php | Line: 49

@@ -1,7 +1,6 @@
-var fieldsData = {};
+var fieldsData = [];
 
 // UI-related functions
-
 
 function populateDropdown(criteriaData) {
     var select = document.getElementById("fieldSelection");
@@ -12,8 +11,8 @@ function populateDropdown(criteriaData) {
     defaultOption.text = 'Select Field';
     select.appendChild(defaultOption);
 
-    Object.keys(criteriaData).forEach(function(fieldId) {
-        var field = criteriaData[fieldId];
+    criteriaData.forEach(function(field) {
+        var fieldId = field.id;
         var fieldName = field.name;
         var fieldType = field.type;
         var option = document.createElement('option');
@@ -21,6 +20,24 @@ function populateDropdown(criteriaData) {
         option.text = fieldName;
         option.setAttribute('data-type', fieldType);
         select.appendChild(option);
+    });
+}
+
+
+function openConfirmationModal(message) {
+    return new Promise((resolve) => {
+        var modalMessage = document.getElementById('confirmationModalMessage');
+        modalMessage.textContent = message;
+        var modal = new bootstrap.Modal(document.getElementById('confirmationModal'));
+        modal.show();
+        $('#confirmationModalYes').on('click', function() {
+            modal.hide();
+            resolve(true);
+        });
+        $('#confirmationModalNo').on('click', function() {
+            modal.hide();
+            resolve(false);
+        });
     });
 }
 
@@ -51,17 +68,14 @@ function populateTable(tableId, criteriaData, fieldType) {
     var tableBody = document.querySelector(tableId + ' tbody');
     tableBody.innerHTML = '';
 
-    Object.keys(criteriaData).forEach(function(fieldId) {
-        var field = criteriaData[fieldId];
+    criteriaData.forEach(function(field) {
         var fieldName = field.name;
         var fieldCriteria = field.criteria;
 
         if (fieldCriteria) {
-            Object.keys(fieldCriteria).forEach(function(criteriaId) {
-                var criteriaDetails = fieldCriteria[criteriaId];
-
+            fieldCriteria.forEach(function(criteriaDetails) {
                 if (!fieldType || field.type === fieldType) {
-                    var rowId = 'criteria-row-' + criteriaId;
+                    var rowId = 'criteria-row-' + criteriaDetails.id;
                     var row = document.createElement('tr');
                     row.setAttribute('id', rowId);
 
@@ -70,7 +84,8 @@ function populateTable(tableId, criteriaData, fieldType) {
                     row.appendChild(fieldCell);
 
                     var criteriaCell = document.createElement('td');
-                    criteriaCell.textContent = criteriaDetails.criteria;
+                    var replacedCriteria = criteriaDetails.criteria.replace(/x/g, fieldName);
+                    criteriaCell.textContent = replacedCriteria;
                     row.appendChild(criteriaCell);
 
                     var weightCell = document.createElement('td');
@@ -85,19 +100,11 @@ function populateTable(tableId, criteriaData, fieldType) {
                     deleteButton.setAttribute('class', 'btn btn-sm btn-danger mt-2 me-2');
                     deleteButton.textContent = 'Delete';
                     deleteButton.onclick = function() {
-                        deleteCriteria(criteriaId, rowId,fieldId);
+                        deleteCriteria(criteriaDetails.id, criteriaDetails.criteria);
                     };
-
-                    var editButton = document.createElement('button');
-                    editButton.setAttribute('class', 'btn btn-sm btn-primary mt-2');
-
-                    editButton.setAttribute('onclick', `openUpdateWeightModal('${criteriaId}')`);
-                    editButton.textContent = 'Edit';
-                    
 
                     var actionsCell = document.createElement('td');
                     actionsCell.appendChild(deleteButton);
-                    actionsCell.appendChild(editButton);
                     row.appendChild(actionsCell);
 
                     tableBody.appendChild(row);
@@ -106,6 +113,8 @@ function populateTable(tableId, criteriaData, fieldType) {
         }
     });
 }
+
+
 
 
 function openModal() {
@@ -120,7 +129,7 @@ function openWeightModal() {
 
 function openMessageModal(message) {
     document.getElementById("modal-message").innerHTML = message;
-    $('#messageModal').modal('show'); 
+    $('#messageModal').modal('show');
 }
 
 
@@ -157,7 +166,7 @@ function handleCriteriaSectionChange() {
 function resetAddCriteriaModal() {
     // Reset the selection dropdown
     $('#fieldSelection').val('default');
-    $('#fieldSelection option:first').prop('selected', true); 
+    $('#fieldSelection option:first').prop('selected', true);
 
 
     $("#numericalSection").css("display", "none");
@@ -168,7 +177,7 @@ function resetAddCriteriaModal() {
     $('#InequalityType').val('simple').trigger('change');
 
     $('#simpleOperator').val('');
-    $('#simpleOperator option:first').prop('selected', true); 
+    $('#simpleOperator option:first').prop('selected', true);
 
     $('#simpleValue').val('');
     $('#simpleCriteriaWeight').val('');
@@ -220,7 +229,10 @@ $('#data-bs-dismiss').on('click', function() {
 
 
 function criteriaExistsForField(fieldId, newCriteria) {
-    var existingField = fieldsData[fieldId];
+    var existingField = fieldsData.find(function(field) {
+        return field.id === fieldId;
+    });
+
     if (!existingField || !existingField.criteria) {
         return false;
     }
@@ -228,22 +240,21 @@ function criteriaExistsForField(fieldId, newCriteria) {
     var existingCriteria = existingField.criteria;
     var isDuplicate = false;
 
-    Object.keys(existingCriteria).forEach(function(criteriaId) {
-        var criteria = existingCriteria[criteriaId];
+    existingCriteria.forEach(function(criteria) {
         var existingWeight = parseFloat(criteria.weight);
         var newWeight = parseFloat(newCriteria.weight);
 
         if (
             criteria.type === newCriteria.type &&
-            criteria.criteria === newCriteria.Criteria &&
+            criteria.criteria === newCriteria.criteria &&
             existingWeight === newWeight) {
             isDuplicate = true;
-            return;
         }
     });
 
     return isDuplicate;
 }
+
 
 
 
@@ -262,11 +273,11 @@ async function saveCriteria() {
         try {
             const dbResult = await addCriteriaToDB(fieldId, criteria);
             if (dbResult.success) {
-                updateFieldsCriteriaInTable(fieldId, criteria);
+                getCriteriaFromDB();
 
                 const message = `New Criteria Created Successfully:<br>
                         Field Name: ${fieldName}<br>
-                        Equation: ${criteria.criteria}`;
+                        Equation: ${criteria.criteria.replace(/x/g, fieldName)}`;
                 openMessageModal(message);
             } else {
                 const message = `Error while adding criteria to the database: ${dbResult.message}`;
@@ -286,7 +297,6 @@ async function saveCriteria() {
         closeButton.click();
     }
 }
-
 
 
 
@@ -342,97 +352,24 @@ function buildCategoricalCriteria() {
 }
 
 
-// update criteria related functions
-function updateFieldsCriteriaInTable(fieldId, newCriteria) {
-
-    var existingCriteria = fieldsData[fieldId].criteria || {};
-
-    var criteriaCount = Object.keys(existingCriteria).length + 1;
-    fieldsData[fieldId].criteria[criteriaCount] = newCriteria;
-    populateTable('#orders-all', fieldsData);
-    populateTable('#orders-numerical', fieldsData, 'numerical');
-    populateTable('#orders-categorical', fieldsData, 'categorical');
-
-}
-
-function updateCriteriaWeight(criteriaId, newWeight) {
-    Object.keys(fieldsData).forEach(function(fieldId) {
-        var field = fieldsData[fieldId];
-        if (field.criteria && field.criteria[criteriaId]) {
-            field.criteria[criteriaId].weight = newWeight;
-        }
-    });
-    // console.log("fieldsData updated:", fieldsData);
-    var message = `Criteria ${criteriaId} weight is updated successfully`;
-    openMessageModal(message);
-}
 
 
-
-async function deleteCriteria(criteriaId, rowId, fieldId) {
+async function deleteCriteria(criteriaId,Criteria) {
     try {
-        const response = await deleteCriteriaFromDB(criteriaId);
-        
-        if (response && response.success) {
-            console.log("Criteria deleted successfully.");
-
-            await deleteCriteriaInDs(criteriaId, fieldId);
-
-            deleteRowFromUI(rowId);
-
-
-        } else {
-            console.error("Failed to delete criteria: " + response.message);
+        const confirmed = await openConfirmationModal(`Are you sure you want to delete the following Criteria ( ${Criteria} ) ?`);
+        if (confirmed) {
+            const dbResponse = await deleteCriteriaFromDB(criteriaId);
+            if (dbResponse.success) {
+                getCriteriaFromDB();
+            } else {
+                console.error("Error: Deletion from database unsuccessful");
+            }
         }
     } catch (error) {
-        console.error("Error deleting criteria:", error);
+        console.error("Error in removeRoom:", error);
+        throw new Error("Failed to remove room");
     }
 }
-
-
-function deleteRowFromUI(rowId) {
-    var row = document.getElementById(rowId);
-    if (row) {
-        row.remove();
-        deleteRowFromTable(rowId, 'orders-all');
-        deleteRowFromTable(rowId, 'orders-numerical');
-        deleteRowFromTable(rowId, 'orders-categorical');
-    } else {
-        console.error("Row not found with ID: " + rowId);
-    }
-}
-
-function deleteRowFromTable(rowId, tableId) {
-    var table = document.getElementById(tableId);
-    if (table) {
-        var row = table.querySelector("#" + rowId);
-        if (row) {
-            row.remove();
-        }
-    }
-}
-
-async function deleteCriteriaInDs(criteriaId, fieldId) {
-    try {
-        console.log(criteriaId, fieldId);
-        console.log(fieldsData[fieldId]);
-        if (fieldsData[fieldId] && fieldsData[fieldId].criteria) {
-            delete fieldsData[fieldId].criteria[criteriaId];
-            console.log("Criteria deleted from fieldsData");
-            console.log(fieldsData[fieldId]);
-
-        }
-    } catch (error) {
-        console.error("Error deleting criteria in fieldsData:", error);
-        throw error; // Propagate the error to handle it outside this function
-    }
-}
-
-
-
-
-
-
 
 
 
@@ -475,7 +412,9 @@ async function getCriteriaFromDB() {
     try {
         const response = await getData('../../../../handlers/?action=fetchCriteria');
         fieldsData = response.data;
-         console.log(fieldsData);
+        console.log("neww");
+
+        console.log(fieldsData);
         populateDropdown(fieldsData);
         populateTable('#orders-all', fieldsData);
         populateTable('#orders-numerical', fieldsData, 'numerical');
@@ -487,36 +426,24 @@ async function getCriteriaFromDB() {
 
 async function addCriteriaToDB(fieldId, criteria) {
     try {
-        const response = await postData('../../../../handlers/?action=newCriteria',{
+        const response = await postData('../../../../handlers/?action=newCriteria', {
             fieldId: fieldId,
             type: criteria.type,
             criteria: criteria.criteria,
             weight: criteria.weight
         });
         return response;
-        // getCriteriaFromDB();
-        // resetAddCriteriaModal();
-        // openMessageModal("Criteria added successfully.");
+
     } catch (error) {
         console.error("Error adding criteria:", error);
     }
 }
 
-async function updateCriteriaWeightInDB(criteriaId, newWeight) {
-    try {
-        const response = await postData('../../../../handlers/?action=updateCriteriaWeight', {
-            criteriaId: criteriaId,
-            newWeight: newWeight
-        });
-        openMessageModal("Weight updated successfully.");
-        return response;
-    } catch (error) {
-        console.error("Error updating weight:", error);
-    }
-}
+
 
 async function deleteCriteriaFromDB(criteriaId) {
     try {
+
         const response = await postData('../../../../handlers/?action=removeCriteria', {
             criteriaId: criteriaId
         });
@@ -527,55 +454,6 @@ async function deleteCriteriaFromDB(criteriaId) {
     }
 }
 
-function updateCriteriaWeightInTable(rowId,newWeight){
-    Object.keys(fieldsData).forEach(function(fieldId) {
-        var field = fieldsData[fieldId];
-        if (field.criteria && field.criteria[rowId]) {
-            field.criteria[rowId].weight = newWeight;
-        }
-    });
-    
-    // Update weight in the table
-    var rowId = `criteria-row-${rowId}`;
-    var weightCell = document.getElementById(rowId).querySelector('td:nth-child(3)');
-    weightCell.textContent = newWeight;
-
-
-
-    // Update the tables
-    populateTable('#orders-numerical', fieldsData, 'numerical');
-    populateTable('#orders-categorical', fieldsData, 'categorical');
-}
-
-function updateCriteriaWeight(){
-    var row = document.getElementById('updateWeightIndex');
-    console.log(row);
-    var criteriaId = parseInt(row.value);
-    var newWeight = document.getElementById('newWeight').value;
-    console.log(criteriaId,newWeight);
-    updateCriteriaWeightInDB(criteriaId,newWeight)
-            .then(function(dbResult) {
-                console.log("DB Result:", dbResult);
-
-                if (dbResult.success) {
-                    console.log("Success block reached");
-
-                    updateCriteriaWeightInTable(criteriaId,newWeight);
-                    $('#updateWeightModal').modal('hide');
-                    const message = `Criteria Weight Updated Successfully:<br>`;
-                    openMessageModal(message);
-                } else {
-                    const message = `Error while updating criteria weight in the database: ${dbResult.message}`;
-                    openMessageModal(message);
-                }
-            })
-            .catch(function(error) {
-                const message = `Error in the database: ${error}`;
-                openMessageModal(message);
-            });
-
-
-}
 
 
 

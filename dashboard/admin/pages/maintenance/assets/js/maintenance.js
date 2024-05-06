@@ -47,7 +47,7 @@ async function populateTable(tableBody, maintenanceRequests) {
 
     // Iterate over maintenance requests
     maintenanceRequests.forEach((request, index) => {
-        const maintenanceRequestId = request.Id;
+        const maintenanceRequestId = request.id;
         const description = request.description;
         const location = "R" + request.roomNumber + "A" + request.apartmentNumber + "B" + request.buildingNumber;
         const residentName = request.firstName + " " + request.lastName;
@@ -82,8 +82,7 @@ async function populateTable(tableBody, maintenanceRequests) {
         let actionButtons = '';
         if (status === 'pending') {
             actionButtons = `
-                <button type="button" class="btn btn-success btn-sm actionBtn" data-action="inProgress" data-maintenanceRequestId="${maintenanceRequestId}">Start</button>
-                <button type="button" class="btn btn-danger btn-sm actionBtn" data-action="complete" data-maintenanceRequestId="${maintenanceRequestId}">Complete</button>
+                <button type="button" class="btn btn-success btn-sm actionBtn" data-action="inProgress" data-maintenanceRequestId="${maintenanceRequestId}">Accept</button>
                 <button type="button" class="btn btn-danger btn-sm actionBtn" data-action="reject" data-maintenanceRequestId="${maintenanceRequestId}">Reject</button>
             `;
         }
@@ -157,8 +156,8 @@ async function handleInProgressRequest(maintenanceRequestId) {
             const response = await handleInProgressRequestInDB(maintenanceRequestId, assignedToName);
             console.log("Response from handleInProgressRequestInDB:", response);
             if (response && response.success) {
-                await handleInProgressRequestView(maintenanceRequestId,assignedToName);
-            }
+                getMaintenanceRequests()
+                        }
         } catch (error) {
             console.error("Error handling in-progress request:", error);
             // Handle errors appropriately
@@ -187,22 +186,7 @@ async function handleInProgressRequestInDB (maintenanceRequestId,assignedToName)
     }
 }
 
-async function handleInProgressRequestView(maintenanceRequestId, assignedToName) {
-    try {
-        const index = maintenanceRequests.findIndex(request => {
-            return parseInt(request.Id) === parseInt(maintenanceRequestId);
-        });
-        if (index !== -1) {
-            maintenanceRequests[index].status = 'inProgress';
-            maintenanceRequests[index].assignedTo = assignedToName;
-            console.log(maintenanceRequests)
-            updateMaintenanceRequestsView(maintenanceRequests);
-        }
 
-    } catch (error) {
-        console.error("Error handling in-progress request:", error);
-    }
-}
 
 
 
@@ -214,7 +198,7 @@ async function handleCompleteRequest(maintenanceRequestId) {
             const response = await handleInCompleteRequestInDB(maintenanceRequestId);
             console.log("Response from handleInCompleteRequestInDB:", response);
             if (response && response.success) {
-                await handleInCompleteRequestView(maintenanceRequestId);
+                getMaintenanceRequests();
             }
         } catch (error) {
             console.error("Error handling in-progress request:", error);
@@ -240,21 +224,7 @@ async function handleInCompleteRequestInDB (maintenanceRequestId){
     }
 }
 
-async function handleInCompleteRequestView(maintenanceRequestId) {
-    try {
-        const index = maintenanceRequests.findIndex(request => {
-            return parseInt(request.Id) === parseInt(maintenanceRequestId);
-        });
-        if (index !== -1) {
-            maintenanceRequests[index].status = 'complete';
-            maintenanceRequests[index].completeDate = new Date().toLocaleString();
-            updateMaintenanceRequestsView(maintenanceRequests);
-        }
 
-    } catch (error) {
-        console.error("Error handling in-progress request:", error);
-    }
-}
 
 
 
@@ -268,7 +238,7 @@ async function handleRejectRequest(maintenanceRequestId) {
         const response = await handleInRejectRequestInDB(maintenanceRequestId);
         console.log("Response from handleInRejectRequestInDB:", response);
         if (response && response.success) {
-            await handleInRejectRequestView(maintenanceRequestId);
+            getMaintenanceRequests();
         }
     } catch (error) {
         console.error("Error handling in-progress request:", error);
@@ -294,21 +264,7 @@ try {
 }
 }
 
-async function handleInRejectRequestView(maintenanceRequestId) {
-try {
-    const index = maintenanceRequests.findIndex(request => {
-        return parseInt(request.Id) === parseInt(maintenanceRequestId);
-    });
-    if (index !== -1) {
-        maintenanceRequests[index].status = 'reject';
-        maintenanceRequests[index].completeDate = new Date().toLocaleString();
-        updateMaintenanceRequestsView(maintenanceRequests);
-    }
 
-} catch (error) {
-    console.error("Error handling in-progress request:", error);
-}
-}
 
 
 

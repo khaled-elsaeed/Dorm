@@ -46,7 +46,7 @@ class Member
         }
     }
 
-    public function addNewMember($data, $invoice)
+    public function addNewMember($data, $invoice ,$profilePicture)
     {
         $conn = $this->db->getConnection();
         try {
@@ -215,7 +215,7 @@ class Member
             }
 
             try {
-                $this->uploadInvoice($invoice, $paymentId);
+                $this->uploadInvoice($memberID,$invoice, $paymentId,$profilePicture);
             } catch (PDOException $e) {
                 throw new Exception(
                     "Error uploading invoice image: " . $e->getMessage()
@@ -270,27 +270,36 @@ class Member
         return ["password" => $password, "hashedPassword" => $hashedPassword];
     }
 
-    public function uploadInvoice($invoice, $paymentId)
+    public function uploadInvoice($memberID,$invoice,$paymentId,$profilePicture)
     {
         try {
-            $imageData = file_get_contents($invoice["tmp_name"]);
+            $invoiceData = file_get_contents($invoice["tmp_name"]);
+            $profilePictureData = file_get_contents($profilePicture["tmp_name"]);
 
-            $encodedImage = new MongoDB\BSON\Binary(
-                $imageData,
+
+            $encodedInvoice = new MongoDB\BSON\Binary(
+                $invoiceData,
+                MongoDB\BSON\Binary::TYPE_GENERIC
+            );
+
+            $encodedprofilePicture = new MongoDB\BSON\Binary(
+                $profilePictureData,
                 MongoDB\BSON\Binary::TYPE_GENERIC
             );
 
             $document = [
+                "memberId" => $memberID,
                 "paymentId" => $paymentId,
-                "image" => $encodedImage,
+                "invoice" => $encodedInvoice,
+                "profilePicture" =>$encodedprofilePicture
             ];
 
             $result = insertDocument($document);
 
             if ($result->getInsertedCount() > 0) {
-                return "sucess to upload image to MongoDB.";
+                return "sucess to upload files to MongoDB.";
             } else {
-                return "Failed to upload image to MongoDB.";
+                return "Failed to upload files to MongoDB.";
             }
         } catch (Exception $e) {
             return "Error: " . $e->getMessage();

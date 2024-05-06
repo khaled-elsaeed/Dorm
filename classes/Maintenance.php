@@ -40,7 +40,7 @@ class Maintenance {
         try
         {
             $conn = $this->db->getConnection();
-            $sql = 'SELECT maintenance.*, member.firstName, member.lastName, room.roomNumber, apartment.apartmentNumber, building.buildingNumber FROM maintenance JOIN room ON room.roomId = maintenance.roomId JOIN reservation ON room.roomId = reservation.roomId JOIN resident ON resident.residentId = reservation.residentId JOIN member ON member.memberId = resident.memberId JOIN apartment ON apartment.apartmentId = room.apartmentId JOIN building ON building.buildingId = apartment.buildingId;
+            $sql = 'SELECT maintenance.*, member.firstName, member.lastName, room.roomNumber, apartment.apartmentNumber, building.buildingNumber FROM maintenance JOIN room ON room.id = maintenance.roomId JOIN reservation ON room.id = reservation.roomId JOIN resident ON resident.id = reservation.residentId JOIN member ON member.id = resident.memberId JOIN apartment ON apartment.id = room.apartmentId JOIN building ON building.id = apartment.buildingId;
             ';
             $stmt = $conn->prepare($sql); 
             $stmt->execute(); 

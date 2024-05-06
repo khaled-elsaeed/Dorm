@@ -345,6 +345,7 @@ dropZone.addEventListener('drop', (event) => {
     });
 });
 
+
 /* 
   Function to ignore regular form submit and submit data use api (postData function)
 */

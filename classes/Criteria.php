@@ -1,4 +1,7 @@
 <?php
+
+require_once("../includes/functions.php");
+
 class Criteria
 {
     private $db;
@@ -49,21 +52,28 @@ class Criteria
     }
 
     public function deleteCriteria($criteriaId)
-    {
-        try {
-            $conn = $this->db->getConnection();
-            $sql = "DELETE FROM fieldcriteria WHERE id = :criteriaId";
+{
+    try {
+        $conn = $this->db->getConnection();
+        $sql = "DELETE FROM fieldcriteria WHERE id = :criteriaId";
 
-            $stmt = $conn->prepare($sql);
-            $stmt->bindParam(":criteriaId", $criteriaId);
-            $stmt->execute();
-            return $this->successResponse();
+        $stmt = $conn->prepare($sql);
+        $stmt->bindParam(":criteriaId", $criteriaId);
+        $stmt->execute();
 
-        } catch (PDOException $e) {
-            $this->logerror($e . " An error occurred: " . $e->getMessage());
-            return $this->errorResponse();
+        // Check if any rows were affected
+        $rowsAffected = $stmt->rowCount();
+        if ($rowsAffected > 0) {
+            return successResponse();
+        } else {
+            return errorResponseText("Criteria with ID $criteriaId not found or already deleted");
         }
+    } catch (PDOException $e) {
+        logerror($e . " An error occurred: " . $e->getMessage());
+        return errorResponse();
     }
+}
+
 
     public function updateCriteriaWeight($criteriaId, $newWeight)
     {
@@ -88,58 +98,61 @@ class Criteria
     try {
         $conn = $this->db->getConnection();
         
-        // Check if there are any fields in the database
-        $fieldsCountSql = "SELECT COUNT(*) as count FROM field";
-        $fieldsCountResult = $conn->query($fieldsCountSql);
-        $fieldsCount = $fieldsCountResult->fetchColumn();
-        
-        // If there are no fields, return 0
-        if ($fieldsCount === 0) {
-            return 0; // Return 0 if there are no fields
-        }
-        
-        // Proceed with fetching fields and criteria
         $fieldsAndCriteria = [];
-        $fieldsSql = "SELECT * FROM field";
-        $fieldsResult = $conn->query($fieldsSql);
-        if ($fieldsResult->rowCount() > 0) {
-            while ($fieldRow = $fieldsResult->fetch(PDO::FETCH_ASSOC)) {
-                $fieldId = $fieldRow["id"];
+
+        $sql = "SELECT 
+                    field.id AS field_id,
+                    field.name AS field_name,
+                    field.type AS field_type,
+                    fieldcriteria.id AS criteria_id,
+                    fieldcriteria.type AS criteria_type,
+                    fieldcriteria.criteria AS criteria,
+                    fieldcriteria.weight AS weight
+                FROM 
+                    field
+                LEFT JOIN 
+                    fieldcriteria ON field.id = fieldcriteria.fieldId;";
+        
+        $stmt = $conn->prepare($sql);
+        $stmt->execute();
+
+        while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
+            $fieldId = $row["field_id"];
+            if (!isset($fieldsAndCriteria[$fieldId])) {
                 $fieldsAndCriteria[$fieldId] = [
-                    "name" => $fieldRow["name"],
-                    "type" => $fieldRow["type"],
+                    "id" => $row["field_id"],
+                    "name" => $row["field_name"],
+                    "type" => $row["field_type"],
                     "criteria" => [],
                 ];
-                $criteriaSql =
-                    "SELECT * FROM fieldcriteria WHERE id = :fieldId";
-                $criteriaStmt = $conn->prepare($criteriaSql);
-                $criteriaStmt->bindParam(":fieldId", $fieldId);
-                $criteriaStmt->execute();
-                if ($criteriaStmt->rowCount() > 0) {
-                    while (
-                        $criteriaRow = $criteriaStmt->fetch(
-                            PDO::FETCH_ASSOC
-                        )
-                    ) {
-                        $criteriaId = $criteriaRow["id"];
-                        $fieldsAndCriteria[$fieldId]["criteria"][
-                            $criteriaId
-                        ] = [
-                            "type" => $criteriaRow["type"],
-                            "criteria" => $criteriaRow["criteria"],
-                            "weight" => $criteriaRow["weight"],
-                        ];
-                    }
-                }
+            }
+            if ($row["criteria_id"]) {
+                $criteriaId = $row["criteria_id"];
+                $fieldsAndCriteria[$fieldId]["criteria"][] = [
+                    "id" => $criteriaId,
+                    "type" => $row["criteria_type"],
+                    "criteria" => $row["criteria"],
+                    "weight" => $row["weight"],
+                ];
             }
         }
-        return $this->successResponse($fieldsAndCriteria);
+        
+        if (empty($fieldsAndCriteria)) {
+            return successResponse("empty");
+        }
 
+        // Convert associative array to indexed array
+        $fieldsAndCriteria = array_values($fieldsAndCriteria);
+
+        return successResponse($fieldsAndCriteria);
     } catch (PDOException $e) {
-        $this->logerror($e . " An error occurred: " . $e->getMessage());
+        $this->logerror("An error occurred: " . $e->getMessage());
         return $this->errorResponse();
     }
 }
+
+
+    
 
 
     public function evaluateSimpleNumericalCriterion($fieldValue,$operator,$value) {
@@ -195,7 +208,7 @@ class Criteria
     {
         try {
             $fieldsDataResponse = $this->fetchFieldsAndCriteria();
-            if($fieldsDataResponse == 0){
+            if($fieldsDataResponse.data === "empty"){
                 return 0;
             }
             $fieldsAndCriteria = $fieldsDataResponse["data"];

@@ -1,5 +1,6 @@
 <?php
 require_once "../classes/Criteria.php";
+require_once "../includes/functions.php";
 
 class CriteriaHandler
 {
@@ -54,13 +55,13 @@ class CriteriaHandler
             if ($_SERVER["REQUEST_METHOD"] === "GET") {
                 $json_data = file_get_contents("php://input");
                 $fetchResult = $this->Criteria->fetchFieldsAndCriteria();
-
                 // Check if the fetch was successful
                 if ($fetchResult["success"]) {
-                    return $this->successResponse(
-                        $fetchResult["data"],
-                        "Requests fetched successfully"
-                    );
+                    if (empty($fetchResult["data"])) {
+                    
+                        return successResponse("empty");
+                    }
+                    return successResponse($fetchResult["data"]);
                 } else {
                     return $this->errorResponse("Failed to fetch critera");
                 }
@@ -160,9 +161,7 @@ class CriteriaHandler
                         "Criteria deleted successfully"
                     );
                 } else {
-                    return $this->errorResponse(
-                        "Criteria Not deleted successfully"
-                    );
+                    return errorResponseText($updateResult["error"]);
                 }
             } else {
                 return $this->errorResponse("Invalid request method");

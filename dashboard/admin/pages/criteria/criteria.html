@@ -372,39 +372,14 @@
                      </div>
                   </div>
                </div>
-               <!-- Update Weight Modal -->
-               <div class="modal fade" id="updateWeightModal" tabindex="-1" aria-labelledby="updateWeightModalLabel" aria-hidden="true">
-                  <div class="modal-dialog">
-                     <div class="modal-content">
-                        <div class="modal-header">
-                           <h5 class="modal-title" id="updateWeightModalLabel">Update Weight</h5>
-                           <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                        </div>
-                        <div class="modal-body">
-                           <form id="updateWeightForm">
-                              <div class="mb-3">
-                                 <label for="newWeight" class="form-label">New Weight</label>
-                                 <input type="text" class="form-control" id="newWeight" placeholder="Enter new weight">
-                              </div>
-                              <!-- Add hidden input field to store the index -->
-                              <input type="hidden" id="updateWeightIndex">
-                           </form>
-                        </div>
-                        <div class="modal-footer">
-                           <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
-                           <button type="button" class="btn btn-primary" onclick="updateCriteriaWeight()">Save</button>
-                           <button type="button" class="btn btn-danger" onclick="resetModal(this)">Reset</button>
-                        </div>
-                     </div>
-                  </div>
-               </div>
+
 
                <!-- Message box Modal-->
                <div class="modal fade" id="messageModal" tabindex="-1" role="dialog" aria-labelledby="messageModalLabel" aria-hidden="true">
                   <div class="modal-dialog" role="document">
                      <div class="modal-content">
                         <div class="modal-header">
-                           <h5 class="modal-title" id="messageModalLabel">Modal Title</h5>
+                           <h5 class="modal-title" id="messageModalLabel">Message</h5>
                            <button type="button" class="btn-close" data-bs-dismiss="modal"  aria-label="Close" ></button>
                            </button>
                         </div>
@@ -417,6 +392,26 @@
                      </div>
                   </div>
                </div>
+
+               <!-- Confirmation Modal -->
+               <div class="modal fade" id="confirmationModal" tabindex="-1" aria-labelledby="confirmationModalLabel" aria-hidden="true">
+                  <div class="modal-dialog">
+                     <div class="modal-content">
+                        <div class="modal-header">
+                           <h5 class="modal-title" id="confirmationModalLabel">Confirmation</h5>
+                           <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body" id="confirmationModalMessage">
+                           <!-- Modal message will be inserted here -->
+                        </div>
+                        <div class="modal-footer">
+                           <button type="button" class="btn btn-danger" id="confirmationModalYes">Yes</button>
+                           <button type="button" class="btn btn-secondary" id="confirmationModalNo" data-bs-dismiss="modal">No</button>
+                        </div>
+                     </div>
+                  </div>
+               </div>
+
                <!--//row-->
                <nav id="orders-table-tab" class="orders-table-tab app-nav-tabs nav shadow-sm flex-column flex-sm-row mb-4">
                   <a class="flex-sm-fill text-sm-center nav-link active" id="orders-all-tab" data-bs-toggle="tab" href="#orders-all" role="tab" aria-controls="orders-all" aria-selected="true">All</a>
