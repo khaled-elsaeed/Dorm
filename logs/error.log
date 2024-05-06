@@ -581,3 +581,80 @@ Stack trace:
 #2 C:\xampp\htdocs\project\Dorm\handlers\criteriahandler.php(44): CriteriaHandler->addCriteria()
 #3 C:\xampp\htdocs\project\Dorm\handlers\index.php(76): CriteriaHandler->handleAction('newCriteria')
 #4 {main} An error occurred: SQLSTATE[23000]: Integrity constraint violation: 1452 Cannot add or update a child row: a foreign key constraint fails (`nmudorm`.`fieldcriteria`, CONSTRAINT `fieldcriteria_ibfk_1` FOREIGN KEY (`fieldId`) REFERENCES `field` (`id`) ON DELETE CASCADE ON UPDATE CASCADE) | File: C:\xampp\htdocs\project\Dorm\classes\Criteria.php | Line: 49
+2024-05-06 21:41:13 Error: An error occurred: SQLSTATE[42S22]: Column not found: 1054 Unknown column 'roomId' in 'where clause' | File: C:\xampp\htdocs\project\Dorm\classes\Reservation.php | Line: 98
+2024-05-06 21:41:19 Error: PDOException: SQLSTATE[42S22]: Column not found: 1054 Unknown column 'facultyinfo.yearOfStudy' in 'field list' in C:\xampp\htdocs\project\Dorm\classes\Resident.php:102
+Stack trace:
+#0 C:\xampp\htdocs\project\Dorm\classes\Resident.php(102): PDOStatement->execute()
+#1 C:\xampp\htdocs\project\Dorm\handlers\residenthandler.php(76): Resident->getAllResidentInfo()
+#2 C:\xampp\htdocs\project\Dorm\handlers\residenthandler.php(18): ResidentHandler->getAllResidentInfo()
+#3 C:\xampp\htdocs\project\Dorm\handlers\index.php(76): ResidentHandler->handleAction('fetchResidentIn...')
+#4 {main} An error occurred: SQLSTATE[42S22]: Column not found: 1054 Unknown column 'facultyinfo.yearOfStudy' in 'field list' | File: C:\xampp\htdocs\project\Dorm\classes\Resident.php | Line: 108
+2024-05-06 21:45:01 Error: An error occurred: SQLSTATE[42S22]: Column not found: 1054 Unknown column 'roomId' in 'field list' | File: C:\xampp\htdocs\project\Dorm\classes\Reservation.php | Line: 60
+2024-05-06 21:45:02 Error: An error occurred: SQLSTATE[23000]: Integrity constraint violation: 1048 Column 'residentId' cannot be null | File: C:\xampp\htdocs\project\Dorm\classes\Reservation.php | Line: 86
+2024-05-06 21:45:02 Error: An error occurred: SQLSTATE[42S22]: Column not found: 1054 Unknown column 'roomId' in 'where clause' | File: C:\xampp\htdocs\project\Dorm\classes\Reservation.php | Line: 98
+2024-05-06 21:45:22 Error: An error occurred: SQLSTATE[42S22]: Column not found: 1054 Unknown column 'roomId' in 'field list' | File: C:\xampp\htdocs\project\Dorm\classes\Reservation.php | Line: 60
+2024-05-06 21:45:22 Error: An error occurred: SQLSTATE[23000]: Integrity constraint violation: 1048 Column 'residentId' cannot be null | File: C:\xampp\htdocs\project\Dorm\classes\Reservation.php | Line: 86
+2024-05-06 21:45:22 Error: An error occurred: SQLSTATE[42S22]: Column not found: 1054 Unknown column 'roomId' in 'where clause' | File: C:\xampp\htdocs\project\Dorm\classes\Reservation.php | Line: 98
+2024-05-06 21:48:42 Error: PDOException: SQLSTATE[42S22]: Column not found: 1054 Unknown column 'facultyinfo.yearOfStudy' in 'field list' in C:\xampp\htdocs\project\Dorm\classes\Resident.php:102
+Stack trace:
+#0 C:\xampp\htdocs\project\Dorm\classes\Resident.php(102): PDOStatement->execute()
+#1 C:\xampp\htdocs\project\Dorm\handlers\residenthandler.php(76): Resident->getAllResidentInfo()
+#2 C:\xampp\htdocs\project\Dorm\handlers\residenthandler.php(18): ResidentHandler->getAllResidentInfo()
+#3 C:\xampp\htdocs\project\Dorm\handlers\index.php(76): ResidentHandler->handleAction('fetchResidentIn...')
+#4 {main} An error occurred: SQLSTATE[42S22]: Column not found: 1054 Unknown column 'facultyinfo.yearOfStudy' in 'field list' | File: C:\xampp\htdocs\project\Dorm\classes\Resident.php | Line: 108
+2024-05-06 21:55:16 Error: PDOException: SQLSTATE[42S22]: Column not found: 1054 Unknown column 'facultyinfo.yearOfStudy' in 'field list' in C:\xampp\htdocs\project\Dorm\classes\Resident.php:102
+Stack trace:
+#0 C:\xampp\htdocs\project\Dorm\classes\Resident.php(102): PDOStatement->execute()
+#1 C:\xampp\htdocs\project\Dorm\handlers\residenthandler.php(76): Resident->getAllResidentInfo()
+#2 C:\xampp\htdocs\project\Dorm\handlers\residenthandler.php(18): ResidentHandler->getAllResidentInfo()
+#3 C:\xampp\htdocs\project\Dorm\handlers\index.php(76): ResidentHandler->handleAction('fetchResidentIn...')
+#4 {main} An error occurred: SQLSTATE[42S22]: Column not found: 1054 Unknown column 'facultyinfo.yearOfStudy' in 'field list' | File: C:\xampp\htdocs\project\Dorm\classes\Resident.php | Line: 108
+2024-05-06 21:57:02 Error: PDOException: SQLSTATE[42S22]: Column not found: 1054 Unknown column 'facultyinfo.yearOfStudy' in 'field list' in C:\xampp\htdocs\project\Dorm\classes\Resident.php:102
+Stack trace:
+#0 C:\xampp\htdocs\project\Dorm\classes\Resident.php(102): PDOStatement->execute()
+#1 C:\xampp\htdocs\project\Dorm\handlers\residenthandler.php(76): Resident->getAllResidentInfo()
+#2 C:\xampp\htdocs\project\Dorm\handlers\residenthandler.php(18): ResidentHandler->getAllResidentInfo()
+#3 C:\xampp\htdocs\project\Dorm\handlers\index.php(76): ResidentHandler->handleAction('fetchResidentIn...')
+#4 {main} An error occurred: SQLSTATE[42S22]: Column not found: 1054 Unknown column 'facultyinfo.yearOfStudy' in 'field list' | File: C:\xampp\htdocs\project\Dorm\classes\Resident.php | Line: 108
+2024-05-06 21:57:08 Error: PDOException: SQLSTATE[42S22]: Column not found: 1054 Unknown column 'facultyinfo.yearOfStudy' in 'field list' in C:\xampp\htdocs\project\Dorm\classes\Resident.php:102
+Stack trace:
+#0 C:\xampp\htdocs\project\Dorm\classes\Resident.php(102): PDOStatement->execute()
+#1 C:\xampp\htdocs\project\Dorm\handlers\residenthandler.php(76): Resident->getAllResidentInfo()
+#2 C:\xampp\htdocs\project\Dorm\handlers\residenthandler.php(18): ResidentHandler->getAllResidentInfo()
+#3 C:\xampp\htdocs\project\Dorm\handlers\index.php(76): ResidentHandler->handleAction('fetchResidentIn...')
+#4 {main} An error occurred: SQLSTATE[42S22]: Column not found: 1054 Unknown column 'facultyinfo.yearOfStudy' in 'field list' | File: C:\xampp\htdocs\project\Dorm\classes\Resident.php | Line: 108
+2024-05-06 21:57:09 Error: PDOException: SQLSTATE[42S22]: Column not found: 1054 Unknown column 'facultyinfo.yearOfStudy' in 'field list' in C:\xampp\htdocs\project\Dorm\classes\Resident.php:102
+Stack trace:
+#0 C:\xampp\htdocs\project\Dorm\classes\Resident.php(102): PDOStatement->execute()
+#1 C:\xampp\htdocs\project\Dorm\handlers\residenthandler.php(76): Resident->getAllResidentInfo()
+#2 C:\xampp\htdocs\project\Dorm\handlers\residenthandler.php(18): ResidentHandler->getAllResidentInfo()
+#3 C:\xampp\htdocs\project\Dorm\handlers\index.php(76): ResidentHandler->handleAction('fetchResidentIn...')
+#4 {main} An error occurred: SQLSTATE[42S22]: Column not found: 1054 Unknown column 'facultyinfo.yearOfStudy' in 'field list' | File: C:\xampp\htdocs\project\Dorm\classes\Resident.php | Line: 108
+2024-05-06 21:57:50 Error: PDOException: SQLSTATE[42S22]: Column not found: 1054 Unknown column 'facultyinfo.yearOfStudy' in 'field list' in C:\xampp\htdocs\project\Dorm\classes\Resident.php:102
+Stack trace:
+#0 C:\xampp\htdocs\project\Dorm\classes\Resident.php(102): PDOStatement->execute()
+#1 C:\xampp\htdocs\project\Dorm\handlers\residenthandler.php(76): Resident->getAllResidentInfo()
+#2 C:\xampp\htdocs\project\Dorm\handlers\residenthandler.php(18): ResidentHandler->getAllResidentInfo()
+#3 C:\xampp\htdocs\project\Dorm\handlers\index.php(76): ResidentHandler->handleAction('fetchResidentIn...')
+#4 {main} An error occurred: SQLSTATE[42S22]: Column not found: 1054 Unknown column 'facultyinfo.yearOfStudy' in 'field list' | File: C:\xampp\htdocs\project\Dorm\classes\Resident.php | Line: 108
+2024-05-06 21:58:17 Error: PDOException: SQLSTATE[42S22]: Column not found: 1054 Unknown column 'facultyinfo.yearOfStudy' in 'field list' in C:\xampp\htdocs\project\Dorm\classes\Resident.php:102
+Stack trace:
+#0 C:\xampp\htdocs\project\Dorm\classes\Resident.php(102): PDOStatement->execute()
+#1 C:\xampp\htdocs\project\Dorm\handlers\residenthandler.php(76): Resident->getAllResidentInfo()
+#2 C:\xampp\htdocs\project\Dorm\handlers\residenthandler.php(18): ResidentHandler->getAllResidentInfo()
+#3 C:\xampp\htdocs\project\Dorm\handlers\index.php(76): ResidentHandler->handleAction('fetchResidentIn...')
+#4 {main} An error occurred: SQLSTATE[42S22]: Column not found: 1054 Unknown column 'facultyinfo.yearOfStudy' in 'field list' | File: C:\xampp\htdocs\project\Dorm\classes\Resident.php | Line: 108
+2024-05-07 00:06:17 Error: PDOException: SQLSTATE[42S22]: Column not found: 1054 Unknown column 'room.number' in 'field list' in C:\xampp\htdocs\project\Dorm\classes\Resident.php:134
+Stack trace:
+#0 C:\xampp\htdocs\project\Dorm\classes\Resident.php(134): PDOStatement->execute()
+#1 C:\xampp\htdocs\project\Dorm\handlers\residenthandler.php(100): Resident->getResidentDetails('1')
+#2 C:\xampp\htdocs\project\Dorm\handlers\residenthandler.php(21): ResidentHandler->getResidentDetails()
+#3 C:\xampp\htdocs\project\Dorm\handlers\index.php(77): ResidentHandler->handleAction('fetchResidentDe...')
+#4 {main} An error occurred: SQLSTATE[42S22]: Column not found: 1054 Unknown column 'room.number' in 'field list' | File: C:\xampp\htdocs\project\Dorm\classes\Resident.php | Line: 160
+2024-05-07 00:07:13 Error: PDOException: SQLSTATE[42S22]: Column not found: 1054 Unknown column 'room.roomNnumber' in 'field list' in C:\xampp\htdocs\project\Dorm\classes\Resident.php:134
+Stack trace:
+#0 C:\xampp\htdocs\project\Dorm\classes\Resident.php(134): PDOStatement->execute()
+#1 C:\xampp\htdocs\project\Dorm\handlers\residenthandler.php(100): Resident->getResidentDetails('1')
+#2 C:\xampp\htdocs\project\Dorm\handlers\residenthandler.php(21): ResidentHandler->getResidentDetails()
+#3 C:\xampp\htdocs\project\Dorm\handlers\index.php(77): ResidentHandler->handleAction('fetchResidentDe...')
+#4 {main} An error occurred: SQLSTATE[42S22]: Column not found: 1054 Unknown column 'room.roomNnumber' in 'field list' | File: C:\xampp\htdocs\project\Dorm\classes\Resident.php | Line: 160

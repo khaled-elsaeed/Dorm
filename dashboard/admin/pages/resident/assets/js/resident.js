@@ -15,9 +15,9 @@ async function populateCards(residents) {
                 <div class="details">
                     <div><i class="fas fa-map-marker-alt"></i> Location: <span>${residenLocation}</span></div>
                     <div><i class="fas fa-user-graduate"></i> Faculty: <span>${resident.faculty}</span></div>
-                    <div><i class="fas fa-graduation-cap"></i> Level: <span>${resident.yearOfStudy}</span></div>
+                    <div><i class="fas fa-graduation-cap"></i> Level: <span>${resident.level}</span></div>
                     <div><i class="fas fa-id-badge"></i> Student ID: <span>${resident.studentId}</span></div>
-                    <button class="info-button" onclick="showMoreInfo('${resident.residentId}')">More Info</button>
+                    <button class="info-button" onclick="showMoreInfo('${resident.id}')">More Info</button>
                     </div>
             </div>
         `;
@@ -27,28 +27,88 @@ async function populateCards(residents) {
 }
 
 
-function showMoreInfo(residentId){
-    console.log("clicked");
-    console.log(residentId);
-
-    const resident = residents.find(res => parseInt(res.residentId) == parseInt(residentId)); // Find the resident object
-    if (resident) {
-        console.log("found");
-        setDataInModal(resident); // Populate modal with resident data
-        $('#studentModal').modal('show'); // Show the modal
+// Function to show more information about a resident
+async function showMoreInfo(residentId) {
+    try {
+        const residentDetails = await getResidentDetails(residentId);
+        await setResidentDetails(residentDetails.data);
+        $('#residentDetailsModal').modal('show');
+    } catch (error) {
+        console.error("Error showing more info:", error);
+        throw new Error("Failed to show more info");
     }
 }
 
 
-// Function to set data inside the modal
-function setDataInModal(resident) {
-    console.log(resident);
-    const residenLocation = "B" + resident.buildingNumber + ", " + "A" + resident.apartmentNumber + ", " + "R" + resident.roomNumber;
-    document.getElementById('modal-location').textContent = residenLocation;
-    document.getElementById('modal-faculty').textContent = resident.faculty;
-    document.getElementById('modal-level').textContent = resident.yearOfStudy;
-    document.getElementById('modal-studentId').textContent = resident.studentId;
+async function setResidentDetails(resident) {
+    try {
+        console.log(resident);
+        
+        // Populate member information
+        document.getElementById('memberId').textContent = resident.memberId;
+        document.getElementById('score').textContent = resident.score;
+        document.getElementById('fullName').textContent = `${resident.firstName} ${resident.middleName} ${resident.lastName}`;
+        document.getElementById('birthdate').textContent = resident.birthdate;
+        document.getElementById('gender').textContent = resident.gender;
+        document.getElementById('nationality').textContent = resident.nationality;
+        document.getElementById('governmentId').textContent = resident.governmentId;
+
+        // Populate contact information
+        document.getElementById('email').textContent = resident.email;
+        document.getElementById('phoneNumber').textContent = resident.phoneNumber;
+
+        // Populate parental information
+        document.getElementById('parentName').textContent = resident.parentName;
+        document.getElementById('parentPhoneNumber').textContent = resident.parentPhoneNumber;
+        document.getElementById('parentLocation').textContent = resident.parentLocation;
+
+        // Populate faculty information
+        document.getElementById('faculty').textContent = resident.faculty;
+        document.getElementById('department').textContent = resident.department;
+        document.getElementById('level').textContent = resident.level;
+        document.getElementById('facultyEmail').textContent = resident.facultyEmail;
+        document.getElementById('cgpa').textContent = resident.cgpa;
+        document.getElementById('certificateType').textContent = resident.certificateType;
+        document.getElementById('certificateScore').textContent = resident.certificateScore;
+
+        // Populate insurance information
+        document.getElementById('insuranceAmount').textContent = resident.insuranceAmount;
+
+        // Populate login information
+        document.getElementById('loginEmail').textContent = resident.loginEmail;
+        document.getElementById('passwordHash').textContent = resident.passwordHash;
+
+        // Populate payment information
+        document.getElementById('paymentAmount').textContent = resident.paymentAmount;
+        document.getElementById('paymentStatus').textContent = resident.paymentStatus;
+
+        // Populate room information
+        document.getElementById('roomNumber').textContent = resident.roomNumber;
+        document.getElementById('apartmentNumber').textContent = resident.apartmentNumber;
+        document.getElementById('buildingNumber').textContent = resident.buildingNumber;
+
+        // Populate maintenance requests if available
+        const maintenanceList = document.getElementById('maintenanceList');
+        maintenanceList.innerHTML = ""; // Clear existing list
+        if (resident.data && resident.data.length > 0) {
+            resident.data.forEach(request => {
+                const listItem = document.createElement('li');
+                listItem.textContent = `${request.description} - ${request.requestDate}`;
+                maintenanceList.appendChild(listItem);
+            });
+        } else {
+            maintenanceList.textContent = "No maintenance requests";
+        }
+        
+    } catch (error) {
+        console.error("Error in setResidentDetails:", error);
+        throw new Error("Failed to set resident details in the modal");
+    }
 }
+
+
+
+
 
 
 
@@ -84,6 +144,34 @@ async function getResidentsInfo() {
     }
 }
 
+
+// Function to fetch resident details from the server
+async function fetchResidentDetails(residentId) {
+    const url = "../../../../handlers/index.php?action=fetchResidentDetails";
+    const requestData = { residentId };
+    console.log(requestData);
+    try {
+        const response = await postData(url, requestData);
+        return response;
+    } catch (error) {
+        console.error("Error fetching resident details:", error);
+        throw new Error("Failed to fetch resident details from the database");
+    }
+}
+
+// Function to get resident details
+async function getResidentDetails(residentId) {
+    try {
+        const response = await fetchResidentDetails(residentId);
+        return response.data;
+    } catch (error) {
+        console.error("Error getting resident details:", error);
+        throw new Error("Failed to fetch resident details");
+    }
+}
+
+
+
 //fetch residents from the database
 async function fetchResidentsInfoDB() {
     const url = "../../../../handlers/index.php?action=fetchResidentInfo";
@@ -96,6 +184,8 @@ async function fetchResidentsInfoDB() {
         throw new Error("Failed to fetch resident data from database");
     }
 }
+
+
 
 // populate table with resident data from ds (residents var)
 async function updateResidentDS(data) {
@@ -188,56 +278,7 @@ async function addResidentDS(residentData) {
     }
 }
 
-// get residents
-// async function getResidentsInfo() {
-//     try {
-//         const data = await fetchResidentsDB();
-//         await updateResidentsSelect(data);
-//     } catch (error) {
-//         console.error("Error in getResidentsInfo:", error);
-//         throw new Error("Failed to fetch and populate residents");
-//     }
-// }
 
-// async function fetchResidentsDB() {
-//     const url = "../../../../handlers/?action=fetchResidents";
-//     try {
-//         const data = await getData(url);
-//         return data.data;
-//     } catch (error) {
-//         console.error("Error in fetchResidentsDB:", error);
-//         throw new Error("Failed to fetch resident data from the database");
-//     }
-// }
-
-// async function updateResidentsSelect(data) {
-//     try {
-//         console.log(data);
-//         if (!Array.isArray(data) || data.length === 0) {
-//             throw new Error("Data is not in the expected format.");
-//         }
-        
-//         const residents = data;
-
-//         populateResidentSelect(residents);
-
-//     } catch (error) {
-//         console.error("Error in updateResidentsSelect:", error);
-//         throw new Error("Failed to populate resident select dropdown");
-//     }
-// }
-
-// function populateResidentSelect(data){
-//     const selectElement = document.getElementById("specificResident");
-//         selectElement.innerHTML = "";
-//         console.log(data)
-//         data.forEach(resident => {
-//             const option = document.createElement("option");
-//             option.value = resident.residentId;
-//             option.textContent = `${resident.firstName} ${resident.lastName}`;
-//             selectElement.appendChild(option);
-//         });
-// }
 
 
 

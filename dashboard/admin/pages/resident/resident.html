@@ -228,24 +228,90 @@
                   </div>
                </div>
                <!-- Modal -->
-               <div class="modal fade" id="studentModal" tabindex="-1" aria-labelledby="studentModalLabel" aria-hidden="true">
-                  <div class="modal-dialog modal-dialog-centered">
-                    <div class="modal-content">
-                      <div class="modal-header">
-                        <h5 class="modal-title" id="studentModalLabel">Resident Details</h5>
-                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                      </div>
-                      <div class="modal-body">
-                        <div class="details">
-                          <div><i class="fas fa-map-marker-alt"></i> Location: <span id="modal-location"></span></div>
-                          <div><i class="fas fa-user-graduate"></i> Faculty: <span id="modal-faculty"></span></div>
-                          <div><i class="fas fa-graduation-cap"></i> Level: <span id="modal-level"></span></div>
-                          <div><i class="fas fa-id-badge"></i> Student ID: <span id="modal-studentId"></span></div>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
+               <!-- Modal -->
+<div class="modal fade" id="residentDetailsModal" tabindex="-1" aria-labelledby="residentDetailsModalLabel" aria-hidden="true">
+   <div class="modal-dialog modal-lg">
+     <div class="modal-content">
+       <div class="modal-header">
+         <h5 class="modal-title" id="residentDetailsModalLabel">Resident Details</h5>
+         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+       </div>
+       <div class="modal-body">
+         <div class="container">
+           <div class="row">
+             <div class="col-md-6">
+               <h4>Member Information:</h4>
+               <p><strong>ID:</strong> <span id="memberId"></span></p>
+               <p><strong>Score:</strong> <span id="score"></span></p>
+               <p><strong>Full Name:</strong> <span id="fullName"></span></p>
+               <p><strong>Birthdate:</strong> <span id="birthdate"></span></p>
+               <p><strong>Gender:</strong> <span id="gender"></span></p>
+               <p><strong>Nationality:</strong> <span id="nationality"></span></p>
+               <p><strong>Government ID:</strong> <span id="governmentId"></span></p>
+             </div>
+             <div class="col-md-6">
+               <h4>Contact Information:</h4>
+               <p><strong>Email:</strong> <span id="email"></span></p>
+               <p><strong>Phone Number:</strong> <span id="phoneNumber"></span></p>
+             </div>
+           </div>
+           <div class="row">
+            <div class="col-md-6">
+              <h4>Parental Information:</h4>
+              <p><strong>Name:</strong> <span id="parentName"></span></p>
+              <p><strong>Phone Number:</strong> <span id="parentPhoneNumber"></span></p>
+              <p><strong>Location:</strong> <span id="parentLocation"></span></p>
+            </div>
+            <div class="col-md-6">
+              <h4>Faculty Information:</h4>
+              <p><strong>Faculty:</strong> <span id="faculty"></span></p>
+              <p><strong>Department:</strong> <span id="department"></span></p>
+              <p><strong>Level:</strong> <span id="level"></span></p>
+              <p><strong>Email:</strong> <span id="facultyEmail"></span></p>
+              <p><strong>CGPA:</strong> <span id="cgpa"></span></p>
+              <p><strong>Certificate Type:</strong> <span id="certificateType"></span></p>
+              <p><strong>Certificate Score:</strong> <span id="certificateScore"></span></p>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-md-6">
+              <h4>Insurance Information:</h4>
+              <p><strong>Amount:</strong> <span id="insuranceAmount"></span></p>
+            </div>
+            <div class="col-md-6">
+              <h4>Login Information:</h4>
+              <p><strong>Email:</strong> <span id="loginEmail"></span></p>
+              <p><strong>Password Hash:</strong> <span id="passwordHash"></span></p>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-md-6">
+              <h4>Payment Information:</h4>
+              <p><strong>Amount:</strong> <span id="paymentAmount"></span></p>
+              <p><strong>Status:</strong> <span id="paymentStatus"></span></p>
+            </div>
+            <div class="col-md-6">
+              <h4>Room Information:</h4>
+              <p><strong>Room Number:</strong> <span id="roomNumber"></span></p>
+              <p><strong>Apartment Number:</strong> <span id="apartmentNumber"></span></p>
+              <p><strong>Building Number:</strong> <span id="buildingNumber"></span></p>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-md-12">
+              <h4>Maintenance Requests:</h4>
+              <ul id="maintenanceList"></ul>
+            </div>
+          </div>
+           <!-- Add more rows for other information -->
+         </div>
+       </div>
+       <div class="modal-footer">
+         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+       </div>
+     </div>
+   </div>
+ </div>
                 
                <!-- Message box Modal-->
                <div class="modal fade" id="messageModal" tabindex="-1" role="dialog" aria-labelledby="messageModalLabel" aria-hidden="true">

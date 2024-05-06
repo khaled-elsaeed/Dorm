@@ -36,9 +36,9 @@ class Reservation {
                     break;
                 }
                 $resident = array_shift($vacantResidents);
-                $this->assignRoomToResident($room['roomId'], $resident['residentId']);
-                $this->updateRoomStatus($room['roomId'], 'occupied');
-                $this->updateResidentStatus($resident['residentId'], 'occupied');
+                $this->assignRoomToResident($room['id'], $resident['id']);
+                $this->updateRoomStatus($room['id'], 'occupied');
+                $this->updateResidentStatus($resident['id'], 'occupied');
             }
             return $this->successResponse();
         } catch (PDOException $e) {
@@ -51,7 +51,7 @@ class Reservation {
     private function getVacantRooms() {
         try {
             $conn = $this->db->getConnection();
-            $query = "SELECT roomId FROM room WHERE occupancyStatus = 'vacant'";
+            $query = "SELECT id FROM room WHERE occupancyStatus = 'vacant'";
             $stmt = $conn->prepare($query);
             $stmt->execute();
             $vaccantRooms = $stmt->fetchAll(PDO::FETCH_ASSOC);
@@ -91,7 +91,7 @@ class Reservation {
     private function updateRoomStatus($roomId, $status) {
         try {
             $conn = $this->db->getConnection();
-            $query = "UPDATE room SET occupancyStatus = ? WHERE roomId = ?";
+            $query = "UPDATE room SET occupancyStatus = ? WHERE id = ?";
             $stmt = $conn->prepare($query);
             $stmt->execute([$status, $roomId]);
         } catch (PDOException $e) {

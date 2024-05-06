@@ -63,6 +63,7 @@ $actionHandlers = [
     'removeReservation' => 'reservationhandler',
     'fetchOccupiedResidentsCount' => 'residenthandler',
     'fetchResidentInfo' => 'residenthandler',
+    'fetchResidentDetails' => 'residenthandler',
     'fetchResidents' => 'residenthandler',
     'fetchNotifications' => 'notificationhandler',
     'addNotification' => 'notificationhandler'

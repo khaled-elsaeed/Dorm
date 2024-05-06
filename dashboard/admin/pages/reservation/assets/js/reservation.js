@@ -15,6 +15,23 @@ function closeModal(modalId) {
     $('#' + modalId).modal('hide');
 }
 
+function openConfirmationModal(message) {
+    return new Promise((resolve) => {
+        var modalMessage = document.getElementById('confirmationModalMessage');
+        modalMessage.textContent = message;
+        var modal = new bootstrap.Modal(document.getElementById('confirmationModal'));
+        modal.show();
+        $('#confirmationModalYes').on('click', function() {
+            modal.hide();
+            resolve(true);
+        });
+        $('#confirmationModalNo').on('click', function() {
+            modal.hide();
+            resolve(false);
+        });
+    });
+}
+
 
 document.getElementById('closeModalHeaderBtn').addEventListener('click', function() {
     closeModal('messageModal');
@@ -53,29 +70,46 @@ async function fetchReservationDS(data) {
 }
 
 
-
-
-
 async function removeReservation(ReservationId) {
     try {
-        const dbResponse = await removeReservationDB(ReservationId);
-        if (dbResponse.success) {
-            await removeReservationDS(ReservationId);
-            await populateTable(Reservations); 
-            const message = 'The reservation is deleted';
-            openMessageModal(message);
-        } else {
-            console.error("Error: Deletion from database unsuccessful");
+
+
+        const confirmed = await openConfirmationModal("Are you sure you want to delete this Reservation ?");
+        if (confirmed) {
+            const dbResponse = await removeReservationDB(ReservationId);
+            if (dbResponse.success) {
+                fetchReservation(); 
+            } else {
+                console.error("Error: Deletion from database unsuccessful");
+            }
         }
     } catch (error) {
-        console.error("Error in removeReservation:", error);
-        throw new Error("Failed to remove Reservation");
+        console.error("Error in removeRoom:", error);
+        throw new Error("Failed to remove room");
     }
 }
 
+
+
+// async function removeReservation(ReservationId) {
+//     try {
+//         const dbResponse = await removeReservationDB(ReservationId);
+//         if (dbResponse.success) {
+//             fetchReservation(); 
+//             const message = 'The reservation is deleted';
+//             openMessageModal(message);
+//         } else {
+//             console.error("Error: Deletion from database unsuccessful");
+//         }
+//     } catch (error) {
+//         console.error("Error in removeReservation:", error);
+//         throw new Error("Failed to remove Reservation");
+//     }
+// }
+
 async function removeReservationDS(ReservationId) {
     ReservationId = parseInt(ReservationId);
-    const index = Reservations.findIndex(Reservation => parseInt(Reservation.reservationId) === ReservationId);
+    const index = Reservations.findIndex(Reservation => parseInt(Reservation.id) === ReservationId);
     if (index !== -1) {
         Reservations.splice(index, 1);
         console.log("Reservation removed successfully.");
@@ -153,7 +187,7 @@ async function populateTable(Reservations) {
             </td>
                             <td>${Reservation.reservationDate}</td>
                 <td>
-                    <button class="btn btn-danger" onclick="removeReservation(${Reservation.reservationId})">Delete</button>
+                    <button class="btn btn-danger" onclick="removeReservation(${Reservation.id})">Delete</button>
                 </td>
             </tr>
         `;

@@ -1,5 +1,6 @@
 <?php
 require_once('../classes/Resident.php');
+require_once('../includes/functions.php');
 
 class ResidentHandler {
     private $resident;
@@ -16,6 +17,8 @@ class ResidentHandler {
                 return $this->getAllResidentNameAndId();
             case 'fetchResidentInfo':
                 return $this->getAllResidentInfo();
+                case 'fetchResidentDetails':
+                    return $this->getResidentDetails();
 
             default:
                 return array("success" => false, "message" => "Invalid request action");
@@ -74,7 +77,7 @@ class ResidentHandler {
         if ($_SERVER['REQUEST_METHOD'] === 'GET') {
             try {
                 $data = $this->resident->getAllResidentInfo();
-                return $this->successResponse($data['data']);
+                return successResponse($data['data']);
             } catch (PDOException $e) {
                 $this->logerror("An error occurred: " . $e->getMessage());
                 return $this->errorResponse();
@@ -84,6 +87,36 @@ class ResidentHandler {
         }
     }
 
+    private function getResidentDetails() {
+        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+            try {
+                // Get the raw POST data
+                $postData = file_get_contents('php://input');
+                // Decode JSON data
+                $data = json_decode($postData, true);
+                // Extract resident ID from the data
+                $residentId = $data['residentId'];
+                // Fetch resident details from the database
+                $result = $this->resident->getResidentDetails($residentId);
+                // Return success response with resident data
+                return successResponse($result);
+            } catch (PDOException $e) {
+                // Log database error
+                logerror("An error occurred: " . $e->getMessage());
+                // Return error response
+                return errorResponse();
+            } catch (Exception $ex) {
+                // Log any other exceptions
+                logerror("An error occurred: " . $ex->getMessage());
+                // Return error response
+                return errorResponse();
+            }
+        } else {
+            // Return error response if request method is not POST
+            return errorResponse();
+        }
+    }
+    
     private function fetchFieldsAndReservation() {
         try {
             if ($_SERVER['REQUEST_METHOD'] === 'GET') {
