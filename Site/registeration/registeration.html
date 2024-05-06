@@ -2,26 +2,52 @@
 <html lang="en">
    <head>
       <meta charset="utf-8" />
-      <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
-      <link rel="apple-touch-icon" sizes="76x76" href="assets/img/favicon.ico">
-      <title>Registration Form</title>
-      <meta content='width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0' name='viewport' />
-      <meta name="viewport" content="width=device-width" />
-      <link rel="apple-touch-icon" sizes="76x76" href="assets/img/apple-icon.png" />
-      <link rel="icon" type="image/png" href="assets/img/favicon.png" />
-      <!-- Fonts and icons -->
-      <link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700|Roboto+Slab:400,700|Material+Icons" />
-      <link rel="stylesheet" href="assets/vendors/font-awesome-4.7.0/css/font-awesome.min.css">
-      <!-- CSS Files -->
-      <link href="assets/css/bootstrap.min.css" rel="stylesheet" />
-      <link href="assets/css/material-bootstrap-wizard.css" rel="stylesheet" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+    <link rel="apple-touch-icon" sizes="76x76" href="assets/img/favicon.ico">
+    <title>Registration Form</title>
+    <meta content='width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0' name='viewport' />
+    <meta name="viewport" content="width=device-width" />
+    <link rel="apple-touch-icon" sizes="76x76" href="assets/img/apple-icon.png" />
+    <link rel="icon" type="image/png" href="assets/img/favicon.png" />
+    <!-- Fonts and icons -->
+    <link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700|Roboto+Slab:400,700|Material+Icons" />
+    <link rel="stylesheet" href="assets/vendors/font-awesome-4.7.0/css/font-awesome.min.css">
+    <!-- Preload critical CSS -->
+    <link rel="preload" href="assets/css/bootstrap.min.css" as="style">
+    <link rel="preload" href="assets/css/material-bootstrap-wizard.css" as="style">
+    <!-- CSS Files -->
+    <link href="assets/css/bootstrap.min.css" rel="stylesheet" />
+    <link href="assets/css/material-bootstrap-wizard.css" rel="stylesheet" />
 
 
       <!-- Additional CSS for demo purpose (remove in production) -->
       <link href="assets/css/demo.css" rel="stylesheet" />
+      <style>
+         #loader {
+            display: none;
+            position: fixed;
+            z-index: 9999;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(255, 255, 255, 0.5);
+            text-align: center;
+        }
+
+        #loader img {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+        }
+      </style>
       
    </head>
    <body>
+      <div id="loader">
+         <img src="spinner.gif" alt="Loading...">
+     </div>
       <div class="image-container set-full-height" style="background-image: linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.5)), url('assets/img/background.jpg')">
                  <!--   Creative Tim Branding   -->
                  <a href="../index.html">
@@ -446,5 +472,14 @@
    <!--  More information about jquery.validate here: http://jqueryvalidation.org/	 -->
    <script src="assets/js/jquery.validate.min.js"></script>
    <script src="assets/js/index.js"></script>
+   <script>
+      // Function to hide the loader
+      function hideLoader() {
+          document.getElementById('loader').style.display = 'none';
+      }
+
+      // Event listener for when all content has loaded
+      window.addEventListener('load', hideLoader);
+  </script>
    <!-- adddd-->
 </html>

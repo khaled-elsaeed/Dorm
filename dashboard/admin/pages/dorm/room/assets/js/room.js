@@ -36,8 +36,13 @@ function openConfirmationModal(message) {
             resolve(false);
         });
     });
- }
+}
 
+
+function openMessageModal(message) {
+    document.getElementById("modal-message").innerHTML = message;
+    $('#messageModal').modal('show'); 
+ }
 
 
 
@@ -88,14 +93,16 @@ async function fetchRoomDS(data) {
     }
 }
 
-async function removeRoom(roomId,apartmentId) {
+async function removeRoom(roomId, apartmentId) {
     try {
+
+
         const confirmed = await openConfirmationModal("Are you sure you want to delete this room?");
         if (confirmed) {
-            const dbResponse = await removeRoomDB(apartmentId,roomId);
+            const dbResponse = await removeRoomDB(apartmentId, roomId);
             if (dbResponse.success) {
                 fetchRoom();
-                        } else {
+            } else {
                 console.error("Error: Deletion from database unsuccessful");
             }
         }
@@ -103,16 +110,18 @@ async function removeRoom(roomId,apartmentId) {
         console.error("Error in removeRoom:", error);
         throw new Error("Failed to remove room");
     }
- }
-
+}
 
 
 
 
 // Function to remove a room from the database
-async function removeRoomDB(apartmentId,roomId) {
+async function removeRoomDB(apartmentId, roomId) {
     const url = "../../../../../handlers/?action=removeRoom";
-    const data = { apartmentId : apartmentId ,roomId : roomId};
+    const data = {
+        apartmentId: apartmentId,
+        roomId: roomId
+    };
     try {
         const responseData = await postData(url, data);
         return responseData;
@@ -122,21 +131,64 @@ async function removeRoomDB(apartmentId,roomId) {
     }
 }
 
-// Function to add a room
+
+async function checkRoomDuplicate(roomData) {
+    try {
+        const isDuplicate = rooms.some(room => {
+            // Convert apartment numbers and building numbers to integers for comparison
+            const existingroom = parseInt(room.roomNumber);
+            const newroom = parseInt(roomData.roomNumber);
+            const existingRoomApartment = parseInt(room.apartmentId);
+            const newRoomApartment = parseInt(roomData.roomApartment);
+
+            return existingroom == newroom && existingRoomApartment == newRoomApartment;
+        });
+
+        return isDuplicate;
+    } catch (error) {
+        console.error("Error checking room duplicate:", error);
+        throw new Error("Failed to check room duplicate");
+    }
+}
+
 async function addRoom(roomData) {
     try {
-        const dbResponse = await addRoomDB(roomData); // Add room in the database
-        if (dbResponse.success) {
-            await addRoomDS(roomData); // Add room to front-end data structure
-            fetchRoom();
-        } else {
-            console.error("Error: Adding room unsuccessful");
+        console.log("hereee");
+        const isDuplicate = await checkRoomDuplicate(roomData);
+
+        if (isDuplicate) {
+            console.error("Error: Apartment with the same apartment number already exists in the same building");
+            const message = "An apartment with the same apartment number already exists in the same building. Please choose a different apartment number.";
+            openMessageModal(message);
+            return;
+        }
+
+        const confirmed = await openConfirmationModal("Are you sure you want to add this room?");
+        if (confirmed) {
+            // Show loading indicator or disable UI here
+
+            const dbResponse = await addRoomDB(roomData); // Add room in the database
+
+            // Hide loading indicator or enable UI here
+
+            if (dbResponse.success) {
+                fetchRoom();
+            } else {
+                console.error("Error: Adding room unsuccessful", dbResponse.error);
+                const message = "Failed to add the room. Please try again later.";
+                openMessageModal(message);
+            }
         }
     } catch (error) {
         console.error("Error in addRoom:", error);
-        throw new Error("Failed to add room");
+        const message = "An unexpected error occurred while adding the room. Please try again later.";
+        openMessageModal(message);
     }
 }
+
+
+
+
 
 // Function to add a room in the database
 async function addRoomDB(roomData) {
@@ -168,7 +220,7 @@ async function addRoomDS(roomData) {
 async function populateTable(rooms) {
     var roomList = document.querySelector("tbody");
     roomList.innerHTML = ""; // Clear existing content
-    rooms.forEach(function (room) {
+    rooms.forEach(function(room) {
         roomList.innerHTML += `
             <tr>
                 <td>R${room.roomNumber}</td>
@@ -269,7 +321,7 @@ async function fetchBuildingDS(data) {
 }
 
 
-document.getElementById('search-orders').addEventListener('input', function () {
+document.getElementById('search-orders').addEventListener('input', function() {
     const searchQuery = this.value.trim().toLowerCase();
     const filteredRooms = rooms.filter(room => {
         // Convert rooms number to string for comparison
@@ -339,7 +391,7 @@ async function postData(url = "", data = {}) {
 }
 
 // Call fetchRoom when the document is loaded
-document.addEventListener('DOMContentLoaded', function () {
+document.addEventListener('DOMContentLoaded', function() {
     fetchRoom();
     fetchBuilding();
     fetchApartment();
@@ -348,4 +400,3 @@ document.addEventListener('DOMContentLoaded', function () {
 apartmentBuildingSelect.addEventListener('change', function() {
     populateApartmentOptions();
 });
-
