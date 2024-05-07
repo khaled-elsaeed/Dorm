@@ -46,7 +46,7 @@ async function setResidentDetails(resident) {
         
         // Populate member information
         document.getElementById('memberId').textContent = resident.memberId;
-        document.getElementById('score').textContent = resident.score;
+        document.getElementById('score').textContent = resident.residentScore;
         document.getElementById('fullName').textContent = `${resident.firstName} ${resident.middleName} ${resident.lastName}`;
         document.getElementById('birthdate').textContent = resident.birthdate;
         document.getElementById('gender').textContent = resident.gender;
@@ -90,8 +90,9 @@ async function setResidentDetails(resident) {
         // Populate maintenance requests if available
         const maintenanceList = document.getElementById('maintenanceList');
         maintenanceList.innerHTML = ""; // Clear existing list
-        if (resident.data && resident.data.length > 0) {
-            resident.data.forEach(request => {
+        if (resident) {
+            resident.maintenanceRequests.forEach(request => {
+                console.log(request);
                 const listItem = document.createElement('li');
                 listItem.textContent = `${request.description} - ${request.requestDate}`;
                 maintenanceList.appendChild(listItem);

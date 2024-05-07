@@ -203,9 +203,9 @@ class Member
 
             try {
                 $insertPaymentStmt = $conn->prepare(
-                    "INSERT INTO payment (memberID) VALUES (:memberID)"
+                    "INSERT INTO payment (memberId) VALUES (:memberId)"
                 );
-                $insertPaymentStmt->bindParam(":memberID", $memberId);
+                $insertPaymentStmt->bindParam(":memberId", $memberId);
                 $insertPaymentStmt->execute();
                 $paymentId = $conn->lastInsertId();
             } catch (PDOException $e) {
@@ -215,7 +215,7 @@ class Member
             }
 
             try {
-                $this->uploadInvoice($memberID,$invoice, $paymentId,$profilePicture);
+                $this->uploadInvoice($memberId,$invoice, $paymentId,$profilePicture);
             } catch (PDOException $e) {
                 throw new Exception(
                     "Error uploading invoice image: " . $e->getMessage()
@@ -224,9 +224,9 @@ class Member
 
             try {
                 $insertResidentStmt = $conn->prepare(
-                    "INSERT INTO resident (memberID, score) VALUES (:memberID, :score)"
+                    "INSERT INTO resident (memberId, score) VALUES (:memberId, :score)"
                 );
-                $insertResidentStmt->bindParam(":memberID", $memberId);
+                $insertResidentStmt->bindParam(":memberId", $memberId);
                 $insertResidentStmt->bindParam(":score", $data["score"]);
                 $insertResidentStmt->execute();
             } catch (PDOException $e) {
@@ -270,7 +270,7 @@ class Member
         return ["password" => $password, "hashedPassword" => $hashedPassword];
     }
 
-    public function uploadInvoice($memberID,$invoice,$paymentId,$profilePicture)
+    public function uploadInvoice($memberId,$invoice,$paymentId,$profilePicture)
     {
         try {
             $invoiceData = file_get_contents($invoice["tmp_name"]);
@@ -288,7 +288,7 @@ class Member
             );
 
             $document = [
-                "memberId" => $memberID,
+                "memberId" => $memberId,
                 "paymentId" => $paymentId,
                 "invoice" => $encodedInvoice,
                 "profilePicture" =>$encodedprofilePicture

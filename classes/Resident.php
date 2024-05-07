@@ -101,7 +101,7 @@ class Resident {
             $stmt = $conn->prepare($sql);
             $stmt->execute();
             $data = $stmt->fetchAll(PDO::FETCH_ASSOC);
-
+            
             return successResponse($data);
 
         } catch (PDOException $e) {
@@ -114,20 +114,72 @@ class Resident {
         try {
             $conn = $this->db->getConnection();
     
-            $sql = "SELECT r.*, m.*, ci.*, pi.*, fi.*, i.*, li.*, p.*, room.*, room.id AS roomId, room.roomNumber AS roomNumber, room.apartmentId AS apartmentId, apartment.apartmentNumber AS apartmentNumber, building.buildingNumber AS buildingNumber
-                    FROM resident AS r
-                    LEFT JOIN member AS m ON r.memberId = m.id
-                    LEFT JOIN contactinfo AS ci ON m.id = ci.memberId
-                    LEFT JOIN parentalinfo AS pi ON m.id = pi.memberId
-                    LEFT JOIN facultyinfo AS fi ON m.id = fi.memberId
-                    LEFT JOIN insurance AS i ON m.id = i.memberId
-                    LEFT JOIN logininfo AS li ON m.id = li.memberId
-                    LEFT JOIN payment AS p ON m.id = p.memberId
-                    LEFT JOIN reservation AS res ON r.id = res.residentId
-                    LEFT JOIN room ON res.roomId = room.id
-                    LEFT JOIN apartment ON room.apartmentId = apartment.id
-                    LEFT JOIN building ON apartment.buildingId = building.id
-                    WHERE r.id = :residentId";
+            $sql = "SELECT 
+                        r.id AS residentId,
+                        r.score AS residentScore,
+                        r.moveInDate,
+                        r.moveOutDate,
+                        m.id AS memberId,
+                        m.firstName,
+                        m.middleName,
+                        m.lastName,
+                        m.birthdate,
+                        m.gender,
+                        m.nationality,
+                        m.governmentId,
+                        ci.email AS email,
+                        ci.phoneNumber AS phoneNumber,
+                        pi.name AS parentName,
+                        pi.phoneNumber AS parentPhoneNumber,
+                        pi.location As parentLocation,
+                        fi.faculty,
+                        fi.department,
+                        fi.studentId AS facultyStudentId,
+                        fi.level AS facultyLevel,
+                        fi.email AS facultyEmail,
+                        fi.cgpa,
+                        fi.certificateType,
+                        fi.certificateScore,
+                        i.insuranceId,
+                        i.amount AS insuranceAmount,
+                        i.memberId AS insuranceMemberId,
+                        li.email AS loginEmail,
+                        li.passwordHash AS loginPasswordHash,
+                        p.amount AS paymentAmount,
+                        p.status AS paymentStatus,
+                        res.id AS reservationId,
+                        res.reservationDate,
+                        res.roomId,
+                        room.roomNumber,
+                        room.apartmentId,
+                        apartment.apartmentNumber,
+                        building.buildingNumber
+                    FROM 
+                        resident AS r
+                    LEFT JOIN 
+                        member AS m ON r.memberId = m.id
+                    LEFT JOIN 
+                        contactinfo AS ci ON m.id = ci.memberId
+                    LEFT JOIN 
+                        parentalinfo AS pi ON m.id = pi.memberId
+                    LEFT JOIN 
+                        facultyinfo AS fi ON m.id = fi.memberId
+                    LEFT JOIN 
+                        insurance AS i ON m.id = i.memberId
+                    LEFT JOIN 
+                        logininfo AS li ON m.id = li.memberId
+                    LEFT JOIN 
+                        payment AS p ON m.id = p.memberId
+                    LEFT JOIN 
+                        reservation AS res ON r.id = res.residentId
+                    LEFT JOIN 
+                        room ON res.roomId = room.id
+                    LEFT JOIN 
+                        apartment ON room.apartmentId = apartment.id
+                    LEFT JOIN 
+                        building ON apartment.buildingId = building.id
+                    WHERE 
+                        r.id = :residentId";
     
             $stmt = $conn->prepare($sql);
             $stmt->bindParam(':residentId', $residentId, PDO::PARAM_INT);
@@ -161,6 +213,7 @@ class Resident {
             return errorResponse("An error occurred while fetching resident details");
         }
     }
+    
     
     
     

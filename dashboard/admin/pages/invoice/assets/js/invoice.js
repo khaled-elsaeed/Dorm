@@ -55,7 +55,7 @@ function populateImageInCards(invoices) {
                 <input type="hidden" class="payment-id" value="${invoice.id}">
                 <div class="app-card-thumb-holder p-3">
                     <div class="app-card-thumb">
-                        <img class="thumb-image" src="data:image/png;base64,${invoice.invoices[0].image.$binary.replace(/^data:image\/\w+;base64,/, '')}" alt="">
+                        <img class="thumb-image" src="data:image/png;base64,${invoice.invoices[0].invoice.$binary.replace(/^data:image\/\w+;base64,/, '')}" alt="">
                     </div>
                     <a class="app-card-link-mask" href="#file-link"></a>
                 </div>
@@ -110,6 +110,7 @@ function populateImageInCards(invoices) {
             // Open modal and display image
             const modalElement = document.getElementById('imageModal');
             const img = modalElement.querySelector('.modal-body img');
+
             img.src = `data:image/png;base64,${invoice.invoices[0].image.$binary.replace(/^data:image\/\w+;base64,/, '')}`;
             // Open the modal
             const modal = new bootstrap.Modal(modalElement);

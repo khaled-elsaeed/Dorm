@@ -117,22 +117,22 @@ class ResidentHandler {
         }
     }
     
-    private function fetchFieldsAndReservation() {
-        try {
-            if ($_SERVER['REQUEST_METHOD'] === 'GET') {
-                $fetchResult = $this->Reservation->getAllResidentNameAndId();   
+    // private function fetchFieldsAndReservation() {
+    //     try {
+    //         if ($_SERVER['REQUEST_METHOD'] === 'GET') {
+    //             $fetchResult = $this->resident->getAllResidentNameAndId();   
     
-                if ($fetchResult['success']) {
-                    return $this->successResponse($fetchResult['data']);
-                } else {
-                    return $this->errorResponse();
-                }
-            }
-        } catch (Exception $e) {
-            $this->logerror("An error occurred: " . $e->getMessage());
-            return $this->errorResponse();        
-        }
-    }
+    //             if ($fetchResult['success']) {
+    //                 return $this->successResponse($fetchResult['data']);
+    //             } else {
+    //                 return $this->errorResponse();
+    //             }
+    //         }
+    //     } catch (Exception $e) {
+    //         $this->logerror("An error occurred: " . $e->getMessage());
+    //         return $this->errorResponse();        
+    //     }
+    // }
     
     
     
