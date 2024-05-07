@@ -28,7 +28,8 @@ async function fetchdocRequestsFromDB() {
 
 function populateImageInCards(docs) {
     const cardContainer = document.getElementById('card-container');
-
+    // Clear existing cards before populating with filtered cards
+    cardContainer.innerHTML = '';
     docs.forEach(doc => {
         const card = document.createElement('div');
         card.classList.add('col-6', 'col-md-4', 'col-xl-3', 'col-xxl-2', 'mb-4');
@@ -67,9 +68,8 @@ function populateImageInCards(docs) {
                     <!-- Append badge here -->
                     <div class="app-doc-meta">
                         <ul class="list-unstyled mb-0">
-                            <li><span class="text-muted">Name : ${doc.memberId}</span> </li>
-                            <li><span class="text-muted">Size:</span> </li>
-                            <li><span class="text-muted">Edited:</span></li>
+                            <li><span class="text-muted">Member ID : ${doc.memberId}</span> </li>
+                            <li><span class="text-muted">Name : ${doc.name}</span> </li>
                         </ul>
                     </div>
                     <!--//app-doc-meta-->
@@ -208,7 +208,17 @@ async function updateDocStatuesInDB(memberId,docStatues){
 }
 
 
-
+document.getElementById('search-docs').addEventListener('input', function() {
+    const searchQuery = this.value.trim().toLowerCase();
+    const filteredDocs = docs.filter(doc => {
+        const docname = doc.name.toLowerCase();
+        console.log(searchQuery);
+        // Filter rooms based on apartment number
+        const matchesSearch = docname.includes(searchQuery) ;
+        return matchesSearch;
+    });
+    populateImageInCards(filteredDocs); // Update table with filtered rooms
+});
 
 
 

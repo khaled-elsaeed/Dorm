@@ -313,7 +313,7 @@ class Member
             $conn = $this->db->getConnection();
     
             // Prepare and execute the SQL query to retrieve member statuses
-            $query = "SELECT id AS memberId, status FROM member";
+            $query = "SELECT id AS memberId, status, CONCAT(firstName, ' ', middleName,' ',lastName) AS name FROM member";
             $statement = $conn->prepare($query);
             $statement->execute();
     
@@ -360,6 +360,7 @@ class Member
                 foreach ($memberStatuses as $status) {
                     if ($status['memberId'] === $memberId) {
                         $doc['memberStatus'] = $status['status'];
+                        $doc['name'] = $status['name'];
                         break;
                     }
                 }
