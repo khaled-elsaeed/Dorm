@@ -1,47 +1,47 @@
-var invoices = [];
+var docs = [];
 
-async function getInvoiceRequests() {
+async function getdocRequests() {
     try {
-        const data = await fetchInvoiceRequestsFromDB();
-        invoices = data;
-        populateImageInCards(invoices);
+        const response = await fetchdocRequestsFromDB();
+        console.log(response);
+        docs = response;
+        populateImageInCards(docs);
 
     } catch (error) {
-        console.error("Error in getInvoiceRequests:", error);
+        console.error("Error in getdocRequests:", error);
         throw new Error("Failed to fetch resident count data");
     }
 }
 
-async function fetchInvoiceRequestsFromDB() {
-    const url = "../../../../handlers/?action=fetchInvoices";
+async function fetchdocRequestsFromDB() {
+    const url = "../../../../handlers/?action=fetchDocs";
     try {
         const response = await fetchData(url);
         return response.data;
     } catch (error) {
-        console.error("Error in fetchInvoiceRequestsFromDB:", error);
+        console.error("Error in fetchdocRequestsFromDB:", error);
         throw new Error("Failed to fetch resident count data from database");
     }
 }
 
 
 
-function populateImageInCards(invoices) {
-    console.log(invoices);
+function populateImageInCards(docs) {
     const cardContainer = document.getElementById('card-container');
 
-    invoices.forEach(invoice => {
+    docs.forEach(doc => {
         const card = document.createElement('div');
         card.classList.add('col-6', 'col-md-4', 'col-xl-3', 'col-xxl-2', 'mb-4');
 
-        // Check the status of the invoice and set the badge accordingly
+        // Check the status of the doc and set the badge accordingly
         let badgeClass = '';
         let badgeText = '';
         let showActions = true;
-        if (invoice.status === 'accept') {
+        if (doc.memberStatus=== 'accepted') {
             badgeClass = 'bg-success';
             badgeText = 'Accepted';
             showActions = false; 
-        } else if (invoice.status === 'reject') {
+        } else if (doc.memberStatus=== 'rejected') {
             badgeClass = 'bg-danger';
             badgeText = 'Rejected';
             showActions = false; 
@@ -52,23 +52,22 @@ function populateImageInCards(invoices) {
 
         const cardInnerHtml = `
             <div class="app-card app-card-doc shadow-sm h-100">
-                <input type="hidden" class="payment-id" value="${invoice.id}">
+                <input type="hidden" class="member-id" value="${doc.memberId}">
                 <div class="app-card-thumb-holder p-3">
                     <div class="app-card-thumb">
-                        <img class="thumb-image" src="data:image/png;base64,${invoice.invoices[0].invoice.$binary.replace(/^data:image\/\w+;base64,/, '')}" alt="">
+                        <img class="thumb-image" src="data:image/png;base64,${doc.profilePicture.$binary.replace(/^data:image\/\w+;base64,/, '')}" alt="">
                     </div>
                     <a class="app-card-link-mask" href="#file-link"></a>
                 </div>
                 <div class="app-card-body p-3 has-card-actions">
                     <h4 class="app-doc-title truncate mb-0">
-                    <a href="#file-link"></a>
-                    <span class="badge ${badgeClass}">${badgeText}</span>
-
+                        <a href="#file-link"></a>
+                        <span class="badge ${badgeClass}">${badgeText}</span>
                     </h4>
                     <!-- Append badge here -->
                     <div class="app-doc-meta">
                         <ul class="list-unstyled mb-0">
-                            <li><span class="text-muted">Type:</span> </li>
+                            <li><span class="text-muted">Name : ${doc.memberId}</span> </li>
                             <li><span class="text-muted">Size:</span> </li>
                             <li><span class="text-muted">Edited:</span></li>
                         </ul>
@@ -85,8 +84,8 @@ function populateImageInCards(invoices) {
                             <ul class="dropdown-menu">
                                 ${showActions ? `
                                     <li><a class="dropdown-item view-image" href="#">View</a></li>
-                                    <li><a class="dropdown-item accept-payment" href="#">Accept</a></li>
-                                    <li><a class="dropdown-item reject-payment" href="#">Reject</a></li>
+                                    <li><a class="dropdown-item accept-doc" href="#">Accept</a></li>
+                                    <li><a class="dropdown-item reject-doc" href="#">Reject</a></li>
                                 ` : `
                                     <li><a class="dropdown-item view-image" href="#">View</a></li>
                                 `}
@@ -107,33 +106,41 @@ function populateImageInCards(invoices) {
         const viewOption = card.querySelector('.dropdown-menu .view-image');
         viewOption.addEventListener('click', function(event) {
             event.preventDefault(); // Prevent default link behavior
+            
             // Open modal and display image
             const modalElement = document.getElementById('imageModal');
-            const img = modalElement.querySelector('.modal-body img');
-
-            img.src = `data:image/png;base64,${invoice.invoices[0].image.$binary.replace(/^data:image\/\w+;base64,/, '')}`;
+            
+            // Select modalImage and modalImage2 separately
+            const img = modalElement.querySelector('#modalImage');
+            const img2 = modalElement.querySelector('#modalImage2');
+        
+            // Assuming doc object is defined elsewhere
+            img.src = `data:image/png;base64,${doc.invoice.$binary.replace(/^data:image\/\w+;base64,/, '')}`;
+            img2.src = `data:image/png;base64,${doc.profilePicture.$binary.replace(/^data:image\/\w+;base64,/, '')}`;
+        
             // Open the modal
             const modal = new bootstrap.Modal(modalElement);
             modal.show();
         });
+        
 
         // Add click event listener to the 'Accept' option in dropdown
-        const acceptOption = card.querySelector('.dropdown-menu .accept-payment');
+        const acceptOption = card.querySelector('.dropdown-menu .accept-doc');
         if (acceptOption) {
             acceptOption.addEventListener('click', function(event) {
                 event.preventDefault(); // Prevent default link behavior
-                const paymentId = card.querySelector('.payment-id').value;
-                handleAcceptPayment(paymentId);
+                const memberId = card.querySelector('.member-id').value;
+                handleAcceptPayment(memberId);
             });
         }
 
         // Add click event listener to the 'Reject' option in dropdown
-        const rejectOption = card.querySelector('.dropdown-menu .reject-payment');
+        const rejectOption = card.querySelector('.dropdown-menu .reject-doc');
         if (rejectOption) {
             rejectOption.addEventListener('click', function(event) {
                 event.preventDefault(); // Prevent default link behavior
-                const paymentId = card.querySelector('.payment-id').value;
-                handleRejectPayment(paymentId);
+                const memberId = card.querySelector('.member-id').value;
+                handleRejectPayment(memberId);
             });
         }
     });
@@ -142,11 +149,17 @@ function populateImageInCards(invoices) {
 
 
 
-async function handleAcceptPayment(paymentId) {
-    console.log('accepting payment with payment ID:', paymentId);
-    const result = await updatePaymentStatuesInDB(paymentId, 'accept');
+
+
+
+
+
+
+async function handleAcceptPayment(memberId) {
+    console.log('accepting docs with member ID:', memberId);
+    const result = await updateDocStatuesInDB(memberId, 'accepted');
     if (result.success) {
-        const card = document.querySelector(`.payment-id[value="${paymentId}"]`).closest('.app-card');
+        const card = document.querySelector(`.member-id[value="${memberId}"]`).closest('.app-card');
         const badge = document.createElement('span');
         badge.classList.add('badge', 'bg-success', 'me-2'); // Change bg-danger to bg-success
         badge.textContent = 'Accepted';
@@ -155,16 +168,16 @@ async function handleAcceptPayment(paymentId) {
             currentBadge.remove(); // Remove existing badge
         }
         card.querySelector('.app-doc-title').appendChild(badge);
-        card.querySelector('.accept-payment').remove();
-        card.querySelector('.reject-payment').remove();
+        card.querySelector('.accept-doc').remove();
+        card.querySelector('.reject-doc').remove();
     }
 }
 
-async function handleRejectPayment(paymentId) {
-    console.log('Rejecting payment with payment ID:', paymentId);
-    const result = await updatePaymentStatuesInDB(paymentId, 'reject');
+async function handleRejectPayment(memberId) {
+    console.log('Rejecting doc with member ID:', memberId);
+    const result = await updateDocStatuesInDB(memberId, 'rejected');
     if (result.success) {
-        const card = document.querySelector(`.payment-id[value="${paymentId}"]`).closest('.app-card');
+        const card = document.querySelector(`.member-id[value="${memberId}"]`).closest('.app-card');
         const badge = document.createElement('span');
         badge.classList.add('badge', 'bg-danger', 'me-2');
         badge.textContent = 'Rejected';
@@ -173,23 +186,23 @@ async function handleRejectPayment(paymentId) {
             currentBadge.remove(); // Remove existing badge
         }
         card.querySelector('.app-doc-title').appendChild(badge);
-        card.querySelector('.accept-payment').remove();
-        card.querySelector('.reject-payment').remove();
+        card.querySelector('.accept-doc').remove();
+        card.querySelector('.reject-doc').remove();
     }
 }
 
 
-async function updatePaymentStatuesInDB(paymentId,paymentStatues){
-    const url = "../../../../handlers/?action=updatePaymentStatues";
+async function updateDocStatuesInDB(memberId,docStatues){
+    const url = "../../../../handlers/?action=updateDocStatues";
     const data = {
-        paymentId:paymentId,
-        paymentStatues:paymentStatues
+        memberId:memberId,
+        docStatues:docStatues
     }
     try {
         const response = await postData(url,data);
         return response;
     } catch (error) {
-        console.error("Error in fetchInvoiceRequestsFromDB:", error);
+        console.error("Error in fetchdocRequestsFromDB:", error);
         throw new Error("Failed to fetch resident count data from database");
     }
 }
@@ -215,10 +228,10 @@ function b64toBlob(b64Data) {
 
 
 // Call the function with the data
-populateImageInCards(invoices);
+populateImageInCards(docs);
 
 document.addEventListener('DOMContentLoaded', function() {
-    getInvoiceRequests();
+    getdocRequests();
 });
 
 

@@ -14,7 +14,28 @@
       <!-- App CSS -->  
       <link id="theme-style" rel="stylesheet" href="../../assets/css/portal.css">
       <style>
-         
+         .image-box {
+    margin-bottom: 20px; /* Add space between image boxes */
+}
+
+.image-container {
+    border: 1px solid #ccc; /* Add border */
+    border-radius: 5px; /* Add border radius */
+    padding: 10px; /* Add padding */
+    display: flex; /* Use flexbox layout */
+}
+
+.image-container img {
+    flex: 1; /* Take remaining space */
+    margin-right: 10px; /* Add space between image and title */
+}
+
+.image-title {
+    flex: 1; /* Take remaining space */
+    margin: 0; /* Reset margin */
+}
+
+
       </style>
    </head>
    <body class="app">
@@ -209,25 +230,37 @@
          <div class="app-content pt-3 p-md-3 p-lg-4">
             <div class="container-xl">
 
-               <!-- Modal -->
                <div class="modal fade" id="imageModal" tabindex="-1" aria-labelledby="imageModalLabel" aria-hidden="true">
                   <div class="modal-dialog modal-lg">
-                    <div class="modal-content">
-                      <div class="modal-header">
-                        <h5 class="modal-title" id="imageModalLabel">Image Preview</h5>
-                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                      <div class="modal-content">
+                          <div class="modal-header">
+                              <h5 class="modal-title" id="imageModalLabel">Image Preview</h5>
+                              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                          </div>
+                          <div class="modal-body">
+                              <div class="image-box">
+                                  <div class="image-container">
+                                      <img class="img-fluid" id="modalImage" src="" alt="Image">
+                                      <h6 class="image-title" id="modalImageTitle">Title 1</h6>
+                                  </div>
+                              </div>
+                              <div class="image-box">
+                                  <div class="image-container">
+                                      <img class="img-fluid" id="modalImage2" src="" alt="Image">
+                                      <h6 class="image-title" id="modalImageTitle2">Title 2</h6>
+                                  </div>
+                              </div>
+                              <!-- Add more image-box divs as needed -->
+                          </div>
+                          <div class="modal-footer">
+                              <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                          </div>
                       </div>
-                      <div class="modal-body">
-                        <img class="img-fluid" id="modalImage" src="" alt="Image">
-                        <img class="img-fluid" id="modalImage2" src="" alt="Image">
-
-                      </div>
-                      <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                      </div>
-                    </div>
                   </div>
-               </div>
+              </div>
+              
+              
+              
                
  
                <div class="row g-3 mb-4 align-items-center justify-content-between">

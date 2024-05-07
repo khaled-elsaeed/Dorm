@@ -305,96 +305,80 @@ class Member
             return "Error: " . $e->getMessage();
         }
     }
-
-
-    public function getAllPayments(){
+    
+   
+    public function getAllMemberStatuses() {
         try {
+            // Establish a database connection
             $conn = $this->db->getConnection();
-
-            $sql = "SELECT * FROM payment";
-            $stmt = $conn->prepare($sql);
-            $stmt->execute();
-            $data = $stmt->fetchAll(PDO::FETCH_ASSOC);
-
-            return $data;
-
+    
+            // Prepare and execute the SQL query to retrieve member statuses
+            $query = "SELECT id AS memberId, status FROM member";
+            $statement = $conn->prepare($query);
+            $statement->execute();
+    
+            // Fetch all member statuses as associative array
+            $memberStatuses = $statement->fetchAll(PDO::FETCH_ASSOC);
+            
+            if (!$memberStatuses) {
+                throw new Exception("No member statuses found.");
+            }
+            
+            return $memberStatuses;
         } catch (PDOException $e) {
-            logerror($e . " An error occurred: " . $e->getMessage());
-            return errorResponse();
+            // Handle database connection or query errors
+            die("Error retrieving member statuses: " . $e->getMessage());
+        } catch (Exception $e) {
+            // Handle other exceptions
+            die("Error: " . $e->getMessage());
         }
     }
+    
 
-
-
-    public function getAllInvoices(): array {
+    public function getAllDocs(): array {
         try {
-            // Retrieve all payments
-            $payments = $this->getAllPayments();
+            // Query MongoDB to retrieve all docs
+            $docs = getAllDocuments();
     
-            if (!empty($payments)) {
-                // Retrieve all invoices associated with payments
-                $invoices = $this->getInvoicesByPaymentIds(array_column($payments, 'id'));
+            // Convert MongoDB cursor to array of documents
+            $docsArray = iterator_to_array($docs);
     
-                // Decode invoice images if they are stored as BSON binary
-                $invoices = $this->decodeInvoiceImages($invoices);
-    
-                // Combine payments with their associated invoices
-                $paymentsWithInvoices = $this->combinePaymentsWithInvoices($payments, $invoices);
-    
-                return successResponse($paymentsWithInvoices);
-            } else {
-                // If no payments were retrieved, return an empty array
-                return [];
-            }
-        } catch (MongoDB\Driver\Exception\Exception $e) {
-            // Handle any exceptions that occur during the retrieval process
-            die("Error retrieving invoices: " . $e->getMessage());
-        }
-    }
-    
-    
-    private function getInvoicesByPaymentIds($paymentIds) {
-        // Retrieve invoices associated with the given payment IDs
-        $invoices = getAllDocuments(); // Assuming this method retrieves invoices from MongoDB
-        $filteredInvoices = [];
-    
-        foreach ($invoices as $invoice) {
-            if (in_array($invoice['paymentId'], $paymentIds)) {
-                $filteredInvoices[] = $invoice;
-            }
-        }
-        return $filteredInvoices;
-    }
-    
-    private function decodeInvoiceImages($invoices) {
-        foreach ($invoices as &$invoice) {
-            if (isset($invoice['image']) && $invoice['image'] instanceof MongoDB\BSON\Binary) {
-                $invoice['image'] = $this->decodeInvoiceImage($invoice['image']);
-            }
-        }
-        return $invoices;
-    }
-    
-    private function combinePaymentsWithInvoices($payments, $invoices) {
-        $paymentsWithInvoices = [];
-    
-        foreach ($payments as $payment) {
-            $paymentId = $payment['id'];
-            $payment['invoices'] = [];
-    
-            foreach ($invoices as $invoice) {
-                if ($invoice['paymentId'] == $paymentId) {
-                    $payment['invoices'][] = $invoice;
+            // Decode doc images if they are stored as BSON binary
+            foreach ($docsArray as &$doc) {
+                if (isset($doc['image']) && $doc['image'] instanceof MongoDB\BSON\Binary) {
+                    $doc['image'] = $this->decodeDocImage($doc['image']);
                 }
             }
     
-            $paymentsWithInvoices[] = $payment;
-        }
+            // Retrieve member statuses
+            // Retrieve member statuses
+            $memberStatuses = $this->getAllMemberStatuses();
+            // Assign member statuses to documents
+            foreach ($docsArray as &$doc) {
+                // Cast memberId from the document to an integer
+                $memberId = (int)$doc['memberId'];
+                foreach ($memberStatuses as $status) {
+                    if ($status['memberId'] === $memberId) {
+                        $doc['memberStatus'] = $status['status'];
+                        break;
+                    }
+                }
+                // If member status not found, set it as 'Unknown'
+                if (!isset($doc['memberStatus'])) {
+                    $doc['memberStatus'] = 'Unknown';
+                }
+            }
+
     
-        return $paymentsWithInvoices;
+            return successResponse($docsArray);
+        } catch (Exception $e) {
+            // Handle any exceptions that occur during the retrieval process
+            die("Error retrieving docs: " . $e->getMessage());
+        }
     }
     
-    public function decodeInvoiceImage($encodedImage) {
+
+    public function decodeDocImage($encodedImage) {
         try {
             $imageData = $encodedImage->getData();
             return $imageData;
@@ -402,6 +386,9 @@ class Member
             return "Error decoding image: " . $e->getMessage();
         }
     }
+    
+    
+
     
     
     
@@ -633,14 +620,14 @@ class Member
             return errorResponse();
         }
     }
-    public function updatePaymentStatues($paymentId, $paymentStatues)
-{
+    public function updateDocStatues($memberId, $docStatues)
+    {
     try {
         $conn = $this->db->getConnection();
-        $sql = "UPDATE payment SET status = :paymentStatues WHERE id = :paymentId";
+        $sql = "UPDATE member SET status = :docStatues WHERE id = :memberId";
         $stmt = $conn->prepare($sql);
-        $stmt->bindParam(":paymentId", $paymentId); // Corrected parameter binding
-        $stmt->bindParam(":paymentStatues", $paymentStatues);
+        $stmt->bindParam(":memberId", $memberId); // Corrected parameter binding
+        $stmt->bindParam(":docStatues", $docStatues);
 
         $stmt->execute();
         return successResponse();
