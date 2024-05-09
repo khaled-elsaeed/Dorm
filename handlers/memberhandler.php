@@ -36,31 +36,30 @@ class MemberHandler {
         }
     }
 
-    private function memberAuth() {
-        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-            $json_data = file_get_contents('php://input');
+    private function memberAuth()
+    {
+        if ($_SERVER["REQUEST_METHOD"] === "POST") {
+            $json_data = file_get_contents("php://input");
             $data = json_decode($json_data, true);
-            $email = isset($data['signin-email']) ? $data['signin-email'] : '';
-            $password = isset($data['signin-password']) ? $data['signin-password'] : '';
-    
-            // Basic form data validation
+            $securedData = secureData($data);
+            $email = isset($securedData["signin-email"]) ? $securedData["signin-email"] : "";
+            $password = isset($securedData["signin-password"]) ? $securedData["signin-password"] : "";
             if (empty($email) || empty($password)) {
-                return array("success" => false, "message" => "Email and password are required");
+                return errorResponseText('Email and password are required');
             }
-    
-            $authenticationResult = $this->member->memberAuthenticate($email, $password);
-    
-            if ($authenticationResult['success']) {
-                $_SESSION['user_id'] = $authenticationResult['admin_id'];
-
-                return array("success" => true, "message" => "login successfully");
+            $fetchResult = $this->member->memberAuthenticate($email, $password);
+            if ($fetchResult["success"]) {
+                $_SESSION["userId"] = $fetchResult["data"]["memberId"];
+                $_SESSION["username"] = $fetchResult["data"]["username"];
+                return successResponse("member");
+            } else {
+                return errorResponseText($fetchResult['error']); 
             }
-    
-            return $authenticationResult;
         } else {
-            return array("success" => false, "message" => "Invalid request method");
+            return errorResponse();
         }
     }
+    
 
     private function createMember() {
     if ($_SERVER['REQUEST_METHOD'] === 'POST') {

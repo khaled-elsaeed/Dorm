@@ -213,11 +213,10 @@ document.getElementById('search-docs').addEventListener('input', function() {
     const filteredDocs = docs.filter(doc => {
         const docname = doc.name.toLowerCase();
         console.log(searchQuery);
-        // Filter rooms based on apartment number
         const matchesSearch = docname.includes(searchQuery) ;
         return matchesSearch;
     });
-    populateImageInCards(filteredDocs); // Update table with filtered rooms
+    populateImageInCards(filteredDocs); 
 });
 
 

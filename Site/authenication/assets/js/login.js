@@ -43,7 +43,15 @@ async function postData(url = '', data = {}) {
        const response = await postData(form.action, formDataObject);
  
        if (response.success === true) {
-          window.location.href = '../../dashboard/admin/';
+            if(response.data == "member")
+               {
+                  window.location.href = '../../dashboard/user/';
+
+               }
+               else{
+                  window.location.href = '../../dashboard/admin/';
+
+               }
        } else {
             console.log(response);
           errorMessageBox.textContent = response.error || 'An error occurred. Please try again later.';

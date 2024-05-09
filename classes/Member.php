@@ -16,35 +16,45 @@ class Member
         $this->db = $db;
     }
 
-    public function memberAuthenticate($email, $password)
-    {
+    public function memberAuthenticate($email, $password) {
         $conn = $this->db->getConnection();
-
-        $sql =
-            "SELECT admin_id, password_hash, username FROM admin WHERE email = :email";
-        $stmt = $conn->prepare($sql);
-        $stmt->bindParam(":email", $email);
-        $stmt->execute();
-        $admin = $stmt->fetch(PDO::FETCH_ASSOC);
-
-        if ($admin && password_verify($password, $admin["password_hash"])) {
-            error_log(
-                "Admin with ID {$admin["admin_id"]} authenticated successfully."
-            );
-            return [
-                "success" => true,
-                "message" => "Authentication successful",
-                "admin_id" => $admin["admin_id"],
-                "username" => $admin["username"],
-            ];
-        } else {
-            error_log("Authentication failed for email: $email");
-            return [
-                "success" => false,
-                "message" => "Invalid email or password",
-            ];
+        try {
+            $sql = "SELECT 
+            memberId, 
+            passwordHash,
+            CONCAT(member.firstName, member.lastName) AS username
+        FROM 
+            logininfo 
+        JOIN 
+            member ON logininfo.memberId = member.id 
+        WHERE 
+            email = :email;
+        ";
+            $stmt = $conn->prepare($sql);
+            $stmt->bindParam(':email', $email);
+            $stmt->execute();
+            $data = $stmt->fetch(PDO::FETCH_ASSOC);
+            if ($data) {
+                if (password_verify($password, $data['passwordHash'])) {
+                    $responseData = [
+                        'memberId' => $data['memberId'],
+                        'username' => $data['username']
+                    ];
+                    return successResponse($responseData);
+                } else {
+                    log_error("Authentication failed for email: $email - Incorrect password", $conn);
+                    return errorResponseText("Incorrect password");
+                }
+            } else {
+                log_error("Authentication failed - Email not found: $email", $conn);
+                return errorResponseText("Email not found");
+            }
+        } catch (PDOException $e) {
+            log_error("Database error: " . $e->getMessage(), $conn);
+            return errorResponse();
         }
     }
+    
 
     public function addNewMember($data, $invoice ,$profilePicture)
     {
