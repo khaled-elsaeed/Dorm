@@ -16,139 +16,20 @@ class Member
         $this->db = $db;
     }
 
-    public function memberAuthenticate($email, $password) {
-        $conn = $this->db->getConnection();
-        try {
-            $sql = "SELECT 
-            memberId, 
-            passwordHash,
-            CONCAT(member.firstName, member.lastName) AS username
-        FROM 
-            logininfo 
-        JOIN 
-            member ON logininfo.memberId = member.id 
-        WHERE 
-            email = :email;
-        ";
-            $stmt = $conn->prepare($sql);
-            $stmt->bindParam(':email', $email);
-            $stmt->execute();
-            $data = $stmt->fetch(PDO::FETCH_ASSOC);
-            if ($data) {
-                if (password_verify($password, $data['passwordHash'])) {
-                    $responseData = [
-                        'memberId' => $data['memberId'],
-                        'username' => $data['username']
-                    ];
-                    return successResponse($responseData);
-                } else {
-                    log_error("Authentication failed for email: $email - Incorrect password", $conn);
-                    return errorResponseText("Incorrect password");
-                }
-            } else {
-                log_error("Authentication failed - Email not found: $email", $conn);
-                return errorResponseText("Email not found");
-            }
-        } catch (PDOException $e) {
-            log_error("Database error: " . $e->getMessage(), $conn);
-            return errorResponse();
-        }
-    }
-    
-
-    public function addNewMember($data, $invoice ,$profilePicture)
+    public function addNewMember($data, $invoice, $profilePicture)
     {
         $conn = $this->db->getConnection();
         try {
             $conn->beginTransaction();
-
-            try {
-                $insertMemberStmt = $conn->prepare(
-                    "INSERT INTO Member (firstName, middleName, lastName, birthDate, gender, nationality, governmentId) VALUES (:firstName, :middleName, :lastName, :birthDate, :gender, :nationality, :governmentId)"
-                );
-                $insertMemberStmt->bindParam(":firstName", $data["firstName"]);
-                $insertMemberStmt->bindParam(
-                    ":middleName",
-                    $data["middleName"]
-                );
-                $insertMemberStmt->bindParam(":lastName", $data["lastName"]);
-                $insertMemberStmt->bindParam(":birthDate", $data["birthDate"]);
-                $insertMemberStmt->bindParam(":gender", $data["gender"]);
-                $insertMemberStmt->bindParam(
-                    ":nationality",
-                    $data["nationality"]
-                );
-                $insertMemberStmt->bindParam(
-                    ":governmentId",
-                    $data["govtIssuedId"]
-                );
-                $insertMemberStmt->execute();
-                $memberId = $conn->lastInsertId();
-            } catch (PDOException $e) {
-                throw new Exception(
-                    "Error inserting into member table: " . $e->getMessage()
-                );
-            }
-
-            // LoginInfo table
-            try {
-                $generatedPassword = $this->generatePassword();
-                $password = $generatedPassword["password"];
-                $hashedPassword = $generatedPassword["hashedPassword"];
-                $insertLoginStmt = $conn->prepare(
-                    "INSERT INTO LoginInfo (email, passwordHash, memberId) VALUES (:emailAddress, :hashedPassword, :memberId)"
-                );
-                $insertLoginStmt->bindParam(":emailAddress", $data["email"]);
-                $insertLoginStmt->bindParam(":hashedPassword", $hashedPassword);
-                $insertLoginStmt->bindParam(":memberId", $memberId);
-                $insertLoginStmt->execute();
-            } catch (PDOException $e) {
-                throw new Exception(
-                    "Error inserting into LoginInfo table: " . $e->getMessage()
-                );
-            }
-
-            // ContactInfo table
-            try {
-                $insertContactStmt = $conn->prepare(
-                    "INSERT INTO ContactInfo (email, phoneNumber, memberId) VALUES (:emailAddress, :phoneNumber, :memberId)"
-                );
-                $insertContactStmt->bindParam(":emailAddress", $data["email"]);
-                $insertContactStmt->bindParam(
-                    ":phoneNumber",
-                    $data["phoneNumber"]
-                );
-                $insertContactStmt->bindParam(":memberId", $memberId);
-                $insertContactStmt->execute();
-            } catch (PDOException $e) {
-                throw new Exception(
-                    "Error inserting into ContactInfo table: " .
-                        $e->getMessage()
-                );
-            }
-
-            // AddressInfo table
-            try {
-                $insertAddressStmt = $conn->prepare(
-                    "INSERT INTO AddressInfo ( governorate, city, address, memberId) VALUES (:addressGovernorate, :addressCity, :address, :memberId)"
-                );
-                $insertAddressStmt->bindParam(
-                    ":addressGovernorate",
-                    $data["governorate"]
-                );
-                $insertAddressStmt->bindParam(":addressCity", $data["city"]);
-                $insertAddressStmt->bindParam(":address", $data["street"]);
-                $insertAddressStmt->bindParam(":memberId", $memberId);
-                $insertAddressStmt->execute();
-            } catch (PDOException $e) {
-                throw new Exception(
-                    "Error inserting into AddressInfo table: " .
-                        $e->getMessage()
-                );
-            }
-
+    
+            $memberId = $this->insertMember($data, $conn);
+            $this->insertLoginInfo($data, $memberId, $conn);
+            $this->insertContactInfo($data, $memberId, $conn);
+            $this->insertAddressInfo($data, $memberId, $conn);
+            $this->insertFacultyInfo($data, $memberId, $conn);
+    
             if (isset($data["cgpa"])) {
-                $cgpa = $data["cgpa"]; // Assuming 'gpa' corresponds to cgpa
+                $cgpa = $data["cgpa"];
                 $certificateType = null;
                 $certificateScore = null;
             } else {
@@ -156,97 +37,13 @@ class Member
                 $certificateType = $data["certificateType"];
                 $certificateScore = $data["certificateScore"];
             }
-
-            $sql = "INSERT INTO FacultyInfo (faculty, department, studentId, level, cgpa, certificateType, certificateScore, email, memberId) 
-                    VALUES (:faculty, :department, :studentId, :level, :cgpa, :certificateType, :certificateScore, :email, :memberId)";
-
-            try {
-                $insertFacultyStmt = $conn->prepare($sql);
-                $insertFacultyStmt->bindParam(":faculty", $data["faculty"]);
-                $insertFacultyStmt->bindParam(":department", $data["program"]);
-                $insertFacultyStmt->bindParam(":email", $data["email"]);
-                $insertFacultyStmt->bindParam(":level", $data["level"]);
-                $insertFacultyStmt->bindParam(":studentId", $data["studentId"]);
-                $insertFacultyStmt->bindParam(":cgpa", $cgpa);
-                $insertFacultyStmt->bindParam(
-                    ":certificateType",
-                    $certificateType
-                );
-                $insertFacultyStmt->bindParam(
-                    ":certificateScore",
-                    $certificateScore
-                );
-                $insertFacultyStmt->bindParam(":memberId", $memberId);
-
-                $insertFacultyStmt->execute();
-            } catch (PDOException $e) {
-                throw new Exception(
-                    "Error inserting into FacultyInfo table: " .
-                        $e->getMessage()
-                );
-            }
-
-            // ParentalInfo table
-            try {
-                $parentName =
-                    $data["parentFirstName"] . " " . $data["parentLastName"];
-                $insertParentStmt = $conn->prepare(
-                    "INSERT INTO ParentalInfo (name, phoneNumber, location, memberId) VALUES (:parentName, :parentPhoneNumber, :parentLocation, :memberId)"
-                );
-                $insertParentStmt->bindParam(":parentName", $parentName);
-                $insertParentStmt->bindParam(
-                    ":parentPhoneNumber",
-                    $data["parentPhoneNumber"]
-                );
-                $insertParentStmt->bindParam(
-                    ":parentLocation",
-                    $data["parentLocation"]
-                );
-                $insertParentStmt->bindParam(":memberId", $memberId);
-                $insertParentStmt->execute();
-            } catch (PDOException $e) {
-                throw new Exception(
-                    "Error inserting into ParentalInfo table: " .
-                        $e->getMessage()
-                );
-            }
-
-            try {
-                $insertPaymentStmt = $conn->prepare(
-                    "INSERT INTO payment (memberId) VALUES (:memberId)"
-                );
-                $insertPaymentStmt->bindParam(":memberId", $memberId);
-                $insertPaymentStmt->execute();
-                $paymentId = $conn->lastInsertId();
-            } catch (PDOException $e) {
-                throw new Exception(
-                    "Error inserting into Payment table: " . $e->getMessage()
-                );
-            }
-
-            try {
-                $this->uploadInvoice($memberId,$invoice, $paymentId,$profilePicture);
-            } catch (PDOException $e) {
-                throw new Exception(
-                    "Error uploading invoice image: " . $e->getMessage()
-                );
-            }
-
-            try {
-                $insertResidentStmt = $conn->prepare(
-                    "INSERT INTO resident (memberId, score) VALUES (:memberId, :score)"
-                );
-                $insertResidentStmt->bindParam(":memberId", $memberId);
-                $insertResidentStmt->bindParam(":score", $data["score"]);
-                $insertResidentStmt->execute();
-            } catch (PDOException $e) {
-                throw new Exception(
-                    "Error inserting into Resident table: " . $e->getMessage()
-                );
-            }
-
+    
+            $paymentId = $this->insertPayment($memberId, $conn);
+            $this->uploadInvoice($memberId, $invoice, $paymentId, $profilePicture);
+            $this->insertResident($memberId, $data["score"], $conn);
+    
             $conn->commit();
-
+    
             return [
                 "success" => true,
                 "message" => "Member added successfully",
@@ -254,67 +51,213 @@ class Member
             ];
         } catch (PDOException $e) {
             $conn->rollBack();
+            log_error("Transaction failed: " . $e->getMessage(), $conn);
             return [
                 "success" => false,
                 "message" => "Transaction failed: " . $e->getMessage(),
             ];
         } catch (Exception $e) {
             $conn->rollBack();
+            log_error("Error adding member: " . $e->getMessage(), $conn);
             return ["success" => false, "message" => $e->getMessage()];
         }
     }
-
-    public function generatePassword()
-    {
-        $length = 10;
-        $chars =
-            "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
-        $password = "";
-        $charsLength = strlen($chars) - 1;
-        for ($i = 0; $i < $length; $i++) {
-            $password .= $chars[rand(0, $charsLength)];
-        }
-
-        $hashedPassword = md5($password);
-
-        return ["password" => $password, "hashedPassword" => $hashedPassword];
-    }
-
-    public function uploadInvoice($memberId,$invoice,$paymentId,$profilePicture)
+    
+    private function insertMember($data, $conn)
     {
         try {
-            $invoiceData = file_get_contents($invoice["tmp_name"]);
-            $profilePictureData = file_get_contents($profilePicture["tmp_name"]);
-
-
-            $encodedInvoice = new MongoDB\BSON\Binary(
-                $invoiceData,
-                MongoDB\BSON\Binary::TYPE_GENERIC
+            $insertMemberStmt = $conn->prepare(
+                "INSERT INTO Member (firstName, middleName, lastName, birthDate, gender, nationality, governmentId) VALUES (:firstName, :middleName, :lastName, :birthDate, :gender, :nationality, :governmentId)"
             );
-
-            $encodedprofilePicture = new MongoDB\BSON\Binary(
-                $profilePictureData,
-                MongoDB\BSON\Binary::TYPE_GENERIC
-            );
-
-            $document = [
-                "memberId" => $memberId,
-                "paymentId" => $paymentId,
-                "invoice" => $encodedInvoice,
-                "profilePicture" =>$encodedprofilePicture
-            ];
-
-            $result = insertDocument($document);
-
-            if ($result->getInsertedCount() > 0) {
-                return "sucess to upload files to MongoDB.";
-            } else {
-                return "Failed to upload files to MongoDB.";
-            }
-        } catch (Exception $e) {
-            return "Error: " . $e->getMessage();
+            $insertMemberStmt->bindParam(":firstName", $data["firstName"]);
+            $insertMemberStmt->bindParam(":middleName", $data["middleName"]);
+            $insertMemberStmt->bindParam(":lastName", $data["lastName"]);
+            $insertMemberStmt->bindParam(":birthDate", $data["birthDate"]);
+            $insertMemberStmt->bindParam(":gender", $data["gender"]);
+            $insertMemberStmt->bindParam(":nationality", $data["nationality"]);
+            $insertMemberStmt->bindParam(":governmentId", $data["govtIssuedId"]);
+            $insertMemberStmt->execute();
+            return $conn->lastInsertId();
+        } catch (PDOException $e) {
+            log_error("Error inserting into member table: " . $e->getMessage(), $conn);
+            throw new Exception("Error inserting into member table: " . $e->getMessage());
         }
     }
+    
+    private function insertLoginInfo($data, $memberId, $conn)
+    {
+        try {
+            $generatedPassword = $this->generatePassword();
+            $hashedPassword = $generatedPassword["hashedPassword"];
+            $insertLoginStmt = $conn->prepare(
+                "INSERT INTO LoginInfo (email, passwordHash, memberId) VALUES (:emailAddress, :hashedPassword, :memberId)"
+            );
+            $insertLoginStmt->bindParam(":emailAddress", $data["email"]);
+            $insertLoginStmt->bindParam(":hashedPassword", $hashedPassword);
+            $insertLoginStmt->bindParam(":memberId", $memberId);
+            $insertLoginStmt->execute();
+        } catch (PDOException $e) {
+            log_error("Error inserting into LoginInfo table: " . $e->getMessage(), $conn);
+            throw new Exception("Error inserting into LoginInfo table: " . $e->getMessage());
+        }
+    }
+    
+    private function insertContactInfo($data, $memberId, $conn)
+    {
+        try {
+            $insertContactStmt = $conn->prepare(
+                "INSERT INTO ContactInfo (email, phoneNumber, memberId) VALUES (:emailAddress, :phoneNumber, :memberId)"
+            );
+            $insertContactStmt->bindParam(":emailAddress", $data["email"]);
+            $insertContactStmt->bindParam(":phoneNumber", $data["phoneNumber"]);
+            $insertContactStmt->bindParam(":memberId", $memberId);
+            $insertContactStmt->execute();
+        } catch (PDOException $e) {
+            log_error("Error inserting into ContactInfo table: " . $e->getMessage(), $conn);
+            throw new Exception("Error inserting into ContactInfo table: " . $e->getMessage());
+        }
+    }
+    
+    private function insertAddressInfo($data, $memberId, $conn)
+    {
+        try {
+            $insertAddressStmt = $conn->prepare(
+                "INSERT INTO AddressInfo ( governorate, city, address, memberId) VALUES (:addressGovernorate, :addressCity, :address, :memberId)"
+            );
+            $insertAddressStmt->bindParam(":addressGovernorate", $data["governorate"]);
+            $insertAddressStmt->bindParam(":addressCity", $data["city"]);
+            $insertAddressStmt->bindParam(":address", $data["street"]);
+            $insertAddressStmt->bindParam(":memberId", $memberId);
+            $insertAddressStmt->execute();
+        } catch (PDOException $e) {
+            log_error("Error inserting into AddressInfo table: " . $e->getMessage(), $conn);
+            throw new Exception("Error inserting into AddressInfo table: " . $e->getMessage());
+        }
+    }
+    
+    private function insertFacultyInfo($data, $memberId, $conn)
+    {
+        try {
+            if (isset($data["cgpa"])) {
+                $cgpa = $data["cgpa"]; 
+                $certificateType = null;
+                $certificateScore = null;
+            } else {
+                $cgpa = null;
+                $certificateType = $data["certificateType"];
+                $certificateScore = $data["certificateScore"];
+            }
+    
+            $sql = "INSERT INTO FacultyInfo (faculty, department, studentId, level, cgpa, certificateType, certificateScore, email, memberId) 
+                    VALUES (:faculty, :department, :studentId, :level, :cgpa, :certificateType, :certificateScore, :email, :memberId)";
+    
+            $insertFacultyStmt = $conn->prepare($sql);
+            $insertFacultyStmt->bindParam(":faculty", $data["faculty"]);
+            $insertFacultyStmt->bindParam(":department", $data["program"]);
+            $insertFacultyStmt->bindParam(":email", $data["email"]);
+            $insertFacultyStmt->bindParam(":level", $data["level"]);
+            $insertFacultyStmt->bindParam(":studentId", $data["studentId"]);
+            $insertFacultyStmt->bindParam(":cgpa", $cgpa);
+            $insertFacultyStmt->bindParam(":certificateType", $certificateType);
+            $insertFacultyStmt->bindParam(":certificateScore", $certificateScore);
+            $insertFacultyStmt->bindParam(":memberId", $memberId);
+    
+            $insertFacultyStmt->execute();
+        } catch (PDOException $e) {
+            log_error("Error inserting into FacultyInfo table: " . $e->getMessage(), $conn);
+            throw new Exception("Error inserting into FacultyInfo table: " . $e->getMessage());
+        }
+    }
+    
+    private function insertPayment($memberId, $conn)
+    {
+        try {
+            $insertPaymentStmt = $conn->prepare(
+                "INSERT INTO Payment ( memberId ) VALUES (:memberId)"
+            );
+            $insertPaymentStmt->bindParam(":memberId", $memberId);
+            $insertPaymentStmt->execute();
+            return $conn->lastInsertId();
+        } catch (PDOException $e) {
+            log_error("Error inserting into Payment table: " . $e->getMessage(), $conn);
+            throw new Exception("Error inserting into Payment table: " . $e->getMessage());
+        }
+    }
+    
+    private function uploadInvoice($memberId, $invoice, $paymentId, $profilePicture)
+{
+    try {
+        // Directory for uploads
+        $targetDir = "../uploads/";
+
+        // Create directory if it doesn't exist
+        if (!file_exists($targetDir)) {
+            mkdir($targetDir, 0777, true);
+        }
+
+        // Uploading Invoice
+        $invoiceFileName = basename($invoice["name"]);
+        $targetFilePathInvoice = $targetDir . $invoiceFileName;
+        move_uploaded_file($invoice["tmp_name"], $targetFilePathInvoice);
+
+        // Uploading Profile Picture
+        $profilePictureName = basename($profilePicture["name"]);
+        $targetFilePathProfile = $targetDir . $profilePictureName;
+        move_uploaded_file($profilePicture["tmp_name"], $targetFilePathProfile);
+
+        // Updating docs Table with File Paths
+        $conn = $this->db->getConnection();
+        $insertDocsStmt = $conn->prepare(
+            "INSERT INTO docs (memberId, invoicePath, profilePicturePath) VALUES (:memberId, :invoicePath, :profilePicturePath)"
+        );
+        $insertDocsStmt->bindParam(":memberId", $memberId);
+        $insertDocsStmt->bindParam(":invoicePath", $targetFilePathInvoice);
+        $insertDocsStmt->bindParam(":profilePicturePath", $targetFilePathProfile);
+        $insertDocsStmt->execute();
+
+        
+    } catch (PDOException $e) {
+        log_error("Error uploading files: " . $e->getMessage(), $conn);
+        throw new Exception("Error uploading files: " . $e->getMessage());
+    }
+}
+
+    
+    private function insertResident($memberId, $score, $conn)
+    {
+        try {
+            $insertResidentStmt = $conn->prepare(
+                "INSERT INTO Resident (score, memberId) VALUES (:score, :memberId)"
+            );
+            $insertResidentStmt->bindParam(":score", $score);
+            $insertResidentStmt->bindParam(":memberId", $memberId);
+            $insertResidentStmt->execute();
+        } catch (PDOException $e) {
+            log_error("Error inserting into Resident table: " . $e->getMessage(), $conn);
+            throw new Exception("Error inserting into Resident table: " . $e->getMessage());
+        }
+    }
+    
+    function randomPassword($length = 10) {
+        $characters = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
+        $password = '';
+        $charLength = strlen($characters);
+        
+        for ($i = 0; $i < $length; $i++) {
+            $password .= $characters[rand(0, $charLength - 1)];
+        }
+        
+        return $password;
+    }
+    
+    private function generatePassword()
+    {
+        $password = $this->randomPassword();
+        $hashedPassword = password_hash($password, PASSWORD_DEFAULT);
+        return ["password" => $password, "hashedPassword" => $hashedPassword];
+    }
+    
+    
     
    
     public function getAllMemberStatuses() {
@@ -345,62 +288,6 @@ class Member
     }
     
 
-    public function getAllDocs(): array {
-        try {
-            // Query MongoDB to retrieve all docs
-            $docs = getAllDocuments();
-    
-            // Convert MongoDB cursor to array of documents
-            $docsArray = iterator_to_array($docs);
-    
-            // Decode doc images if they are stored as BSON binary
-            foreach ($docsArray as &$doc) {
-                if (isset($doc['image']) && $doc['image'] instanceof MongoDB\BSON\Binary) {
-                    $doc['image'] = $this->decodeDocImage($doc['image']);
-                }
-            }
-    
-            // Retrieve member statuses
-            // Retrieve member statuses
-            $memberStatuses = $this->getAllMemberStatuses();
-            // Assign member statuses to documents
-            foreach ($docsArray as &$doc) {
-                // Cast memberId from the document to an integer
-                $memberId = (int)$doc['memberId'];
-                foreach ($memberStatuses as $status) {
-                    if ($status['memberId'] === $memberId) {
-                        $doc['memberStatus'] = $status['status'];
-                        $doc['name'] = $status['name'];
-                        break;
-                    }
-                }
-                // If member status not found, set it as 'Unknown'
-                if (!isset($doc['memberStatus'])) {
-                    $doc['memberStatus'] = 'Unknown';
-                }
-            }
-
-    
-            return successResponse($docsArray);
-        } catch (Exception $e) {
-            // Handle any exceptions that occur during the retrieval process
-            die("Error retrieving docs: " . $e->getMessage());
-        }
-    }
-    
-
-    public function decodeDocImage($encodedImage) {
-        try {
-            $imageData = $encodedImage->getData();
-            return $imageData;
-        } catch (Exception $e) {
-            return "Error decoding image: " . $e->getMessage();
-        }
-    }
-    
-    
-
-    
     
     
     

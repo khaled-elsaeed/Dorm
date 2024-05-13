@@ -162,6 +162,8 @@
                            <ul class="submenu-list list-unstyled">
                               <li class="submenu-item"><a class="submenu-link" href="pages/criteria/criteria.html">Criteria</a></li>
                               <li class="submenu-item"><a class="submenu-link" href="pages/reservation/reservation.html">Reserve Process</a></li>
+                              <li class="submenu-item"><a class="submenu-link" href="pages/recommender/recommendation.html">Recommendation</a></li>
+
                            </ul>
                         </div>
                      </li>
