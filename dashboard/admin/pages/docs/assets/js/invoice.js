@@ -34,29 +34,33 @@ function populateImageInCards(docs) {
         const card = document.createElement('div');
         card.classList.add('col-6', 'col-md-4', 'col-xl-3', 'col-xxl-2', 'mb-4');
 
-        // Check the status of the doc and set the badge accordingly
+        // Determine badge class and text based on document status
         let badgeClass = '';
         let badgeText = '';
-        let showActions = true;
-        if (doc.memberStatus=== 'accepted') {
-            badgeClass = 'bg-success';
-            badgeText = 'Accepted';
-            showActions = false; 
-        } else if (doc.memberStatus=== 'rejected') {
-            badgeClass = 'bg-danger';
-            badgeText = 'Rejected';
-            showActions = false; 
-        } else {
-            badgeClass = 'bg-warning';
-            badgeText = 'Pending';
+        switch (doc.status) {
+            case 'accepted':
+                badgeClass = 'bg-success';
+                badgeText = 'Accepted';
+                break;
+            case 'rejected':
+                badgeClass = 'bg-danger';
+                badgeText = 'Rejected';
+                break;
+            default:
+                badgeClass = 'bg-warning';
+                badgeText = 'Pending';
+                break;
         }
+
+        // Determine whether to show all dropdown options or only view based on document status
+        const showAllOptions = doc.status === 'pending';
 
         const cardInnerHtml = `
             <div class="app-card app-card-doc shadow-sm h-100">
                 <input type="hidden" class="member-id" value="${doc.memberId}">
                 <div class="app-card-thumb-holder p-3">
                     <div class="app-card-thumb">
-                        <img class="thumb-image" src="data:image/png;base64,${doc.profilePicture.$binary.replace(/^data:image\/\w+;base64,/, '')}" alt="">
+                        <img class="thumb-image" src="uploads/${doc.profilePicturePath}" alt="">
                     </div>
                     <a class="app-card-link-mask" href="#file-link"></a>
                 </div>
@@ -65,11 +69,10 @@ function populateImageInCards(docs) {
                         <a href="#file-link"></a>
                         <span class="badge ${badgeClass}">${badgeText}</span>
                     </h4>
-                    <!-- Append badge here -->
                     <div class="app-doc-meta">
                         <ul class="list-unstyled mb-0">
                             <li><span class="text-muted">Member ID : ${doc.memberId}</span> </li>
-                            <li><span class="text-muted">Name : ${doc.name}</span> </li>
+                            <li><span class="text-muted">Member Name : ${doc.memberName}</span> </li>
                         </ul>
                     </div>
                     <!--//app-doc-meta-->
@@ -82,7 +85,7 @@ function populateImageInCards(docs) {
                             </div>
                             <!--//dropdown-toggle-->
                             <ul class="dropdown-menu">
-                                ${showActions ? `
+                                ${showAllOptions ? `
                                     <li><a class="dropdown-item view-image" href="#">View</a></li>
                                     <li><a class="dropdown-item accept-doc" href="#">Accept</a></li>
                                     <li><a class="dropdown-item reject-doc" href="#">Reject</a></li>
@@ -102,49 +105,46 @@ function populateImageInCards(docs) {
         card.innerHTML = cardInnerHtml;
         cardContainer.appendChild(card);
 
-        // Add click event listener to the 'View' option in dropdown
-        const viewOption = card.querySelector('.dropdown-menu .view-image');
-        viewOption.addEventListener('click', function(event) {
-            event.preventDefault(); // Prevent default link behavior
-            
-            // Open modal and display image
-            const modalElement = document.getElementById('imageModal');
-            
-            // Select modalImage and modalImage2 separately
-            const img = modalElement.querySelector('#modalImage');
-            const img2 = modalElement.querySelector('#modalImage2');
-        
-            // Assuming doc object is defined elsewhere
-            img.src = `data:image/png;base64,${doc.invoice.$binary.replace(/^data:image\/\w+;base64,/, '')}`;
-            img2.src = `data:image/png;base64,${doc.profilePicture.$binary.replace(/^data:image\/\w+;base64,/, '')}`;
-        
-            // Open the modal
-            const modal = new bootstrap.Modal(modalElement);
-            modal.show();
-        });
-        
-
-        // Add click event listener to the 'Accept' option in dropdown
-        const acceptOption = card.querySelector('.dropdown-menu .accept-doc');
-        if (acceptOption) {
-            acceptOption.addEventListener('click', function(event) {
-                event.preventDefault(); // Prevent default link behavior
-                const memberId = card.querySelector('.member-id').value;
-                handleAcceptPayment(memberId);
-            });
-        }
-
-        // Add click event listener to the 'Reject' option in dropdown
-        const rejectOption = card.querySelector('.dropdown-menu .reject-doc');
-        if (rejectOption) {
-            rejectOption.addEventListener('click', function(event) {
-                event.preventDefault(); // Prevent default link behavior
-                const memberId = card.querySelector('.member-id').value;
-                handleRejectPayment(memberId);
-            });
-        }
+        // Add event listeners for the actions
+        addEventListeners(card, doc);
     });
 }
+
+
+function addEventListeners(card, doc) {
+    // Add click event listener to the 'View' option in dropdown
+    const viewOption = card.querySelector('.dropdown-menu .view-image');
+    viewOption.addEventListener('click', function(event) {
+        event.preventDefault(); // Prevent default link behavior
+        openModalWithImages(doc.invoicePath, doc.profilePicturePath);
+    });
+
+    // Add click event listener to the 'Accept' option in dropdown
+    const acceptOption = card.querySelector('.dropdown-menu .accept-doc');
+    acceptOption.addEventListener('click', function(event) {
+        event.preventDefault(); // Prevent default link behavior
+        handleAcceptPayment(doc.memberId);
+    });
+
+    // Add click event listener to the 'Reject' option in dropdown
+    const rejectOption = card.querySelector('.dropdown-menu .reject-doc');
+    rejectOption.addEventListener('click', function(event) {
+        event.preventDefault(); // Prevent default link behavior
+        handleRejectPayment(doc.memberId);
+    });
+}
+
+async function openModalWithImages(invoicePath, profilePicturePath) {
+    const modalElement = document.getElementById('imageModal');
+    const img = modalElement.querySelector('#modalImage');
+    const img2 = modalElement.querySelector('#modalImage2');
+    img.src = 'uploads/' + invoicePath;
+    img2.src = 'uploads/' + profilePicturePath;
+    const modal = new bootstrap.Modal(modalElement);
+    modal.show();
+}
+
+
 
 
 
@@ -222,16 +222,7 @@ document.getElementById('search-docs').addEventListener('input', function() {
 
 
 
-// Function to convert base64 to Blob
-function b64toBlob(b64Data) {
-    const byteCharacters = atob(b64Data);
-    const byteNumbers = new Array(byteCharacters.length);
-    for (let i = 0; i < byteCharacters.length; i++) {
-        byteNumbers[i] = byteCharacters.charCodeAt(i);
-    }
-    const byteArray = new Uint8Array(byteNumbers);
-    return new Blob([byteArray], { type: 'image/png' });
-}
+
 
 
 

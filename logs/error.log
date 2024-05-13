@@ -711,3 +711,36 @@ Stack trace:
 2024-05-09 20:51:00 Authentication failed for email: khaled221101039@nmu.edu.eg - Incorrect password | File: C:\xampp\htdocs\projects\Dorm\handlers\memberhandler.php | Line: 50
 2024-05-09 20:51:08 Authentication failed for email: khaled221101039@nmu.edu.eg - Incorrect password | File: C:\xampp\htdocs\projects\Dorm\handlers\memberhandler.php | Line: 50
 2024-05-09 20:52:41 Authentication failed for email: khaled221101039@nmu.edu.eg - Incorrect password | File: C:\xampp\htdocs\projects\Dorm\handlers\memberhandler.php | Line: 50
+2024-05-13 22:59:20 Authentication failed - Email not found: shaymalarby984@gmail.com | File: C:\xampp\htdocs\projects\Dorm\handlers\memberhandler.php | Line: 50
+2024-05-13 23:04:23 Database error: SQLSTATE[42S22]: Column not found: 1054 Unknown column 'm.name' in 'field list' | File: C:\xampp\htdocs\projects\Dorm\handlers\memberhandler.php | Line: 96
+2024-05-13 23:04:26 Database error: SQLSTATE[42S22]: Column not found: 1054 Unknown column 'm.name' in 'field list' | File: C:\xampp\htdocs\projects\Dorm\handlers\memberhandler.php | Line: 96
+2024-05-13 23:04:34 Database error: SQLSTATE[42S22]: Column not found: 1054 Unknown column 'm.name' in 'field list' | File: C:\xampp\htdocs\projects\Dorm\handlers\memberhandler.php | Line: 96
+2024-05-13 23:14:43 Error: PDOException: SQLSTATE[42S22]: Column not found: 1054 Unknown column 'p.status' in 'field list' in C:\xampp\htdocs\projects\Dorm\classes\Resident.php:186
+Stack trace:
+#0 C:\xampp\htdocs\projects\Dorm\classes\Resident.php(186): PDOStatement->execute()
+#1 C:\xampp\htdocs\projects\Dorm\handlers\residenthandler.php(100): Resident->getResidentDetails('24')
+#2 C:\xampp\htdocs\projects\Dorm\handlers\residenthandler.php(21): ResidentHandler->getResidentDetails()
+#3 C:\xampp\htdocs\projects\Dorm\handlers\index.php(77): ResidentHandler->handleAction('fetchResidentDe...')
+#4 {main} An error occurred: SQLSTATE[42S22]: Column not found: 1054 Unknown column 'p.status' in 'field list' | File: C:\xampp\htdocs\projects\Dorm\classes\Resident.php | Line: 212
+2024-05-13 23:14:46 Error: PDOException: SQLSTATE[42S22]: Column not found: 1054 Unknown column 'p.status' in 'field list' in C:\xampp\htdocs\projects\Dorm\classes\Resident.php:186
+Stack trace:
+#0 C:\xampp\htdocs\projects\Dorm\classes\Resident.php(186): PDOStatement->execute()
+#1 C:\xampp\htdocs\projects\Dorm\handlers\residenthandler.php(100): Resident->getResidentDetails('24')
+#2 C:\xampp\htdocs\projects\Dorm\handlers\residenthandler.php(21): ResidentHandler->getResidentDetails()
+#3 C:\xampp\htdocs\projects\Dorm\handlers\index.php(77): ResidentHandler->handleAction('fetchResidentDe...')
+#4 {main} An error occurred: SQLSTATE[42S22]: Column not found: 1054 Unknown column 'p.status' in 'field list' | File: C:\xampp\htdocs\projects\Dorm\classes\Resident.php | Line: 212
+2024-05-13 23:14:48 Error: PDOException: SQLSTATE[42S22]: Column not found: 1054 Unknown column 'p.status' in 'field list' in C:\xampp\htdocs\projects\Dorm\classes\Resident.php:186
+Stack trace:
+#0 C:\xampp\htdocs\projects\Dorm\classes\Resident.php(186): PDOStatement->execute()
+#1 C:\xampp\htdocs\projects\Dorm\handlers\residenthandler.php(100): Resident->getResidentDetails('24')
+#2 C:\xampp\htdocs\projects\Dorm\handlers\residenthandler.php(21): ResidentHandler->getResidentDetails()
+#3 C:\xampp\htdocs\projects\Dorm\handlers\index.php(77): ResidentHandler->handleAction('fetchResidentDe...')
+#4 {main} An error occurred: SQLSTATE[42S22]: Column not found: 1054 Unknown column 'p.status' in 'field list' | File: C:\xampp\htdocs\projects\Dorm\classes\Resident.php | Line: 212
+2024-05-13 23:15:00 Error: PDOException: SQLSTATE[42S22]: Column not found: 1054 Unknown column 'p.status' in 'field list' in C:\xampp\htdocs\projects\Dorm\classes\Resident.php:186
+Stack trace:
+#0 C:\xampp\htdocs\projects\Dorm\classes\Resident.php(186): PDOStatement->execute()
+#1 C:\xampp\htdocs\projects\Dorm\handlers\residenthandler.php(100): Resident->getResidentDetails('24')
+#2 C:\xampp\htdocs\projects\Dorm\handlers\residenthandler.php(21): ResidentHandler->getResidentDetails()
+#3 C:\xampp\htdocs\projects\Dorm\handlers\index.php(77): ResidentHandler->handleAction('fetchResidentDe...')
+#4 {main} An error occurred: SQLSTATE[42S22]: Column not found: 1054 Unknown column 'p.status' in 'field list' | File: C:\xampp\htdocs\projects\Dorm\classes\Resident.php | Line: 212
+2024-05-14 00:53:20 Authentication failed for email: shaymalarby984@gmail.com - Incorrect password | File: C:\xampp\htdocs\projects\Dorm\handlers\adminhandler.php | Line: 39

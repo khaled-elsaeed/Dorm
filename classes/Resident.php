@@ -146,7 +146,6 @@ class Resident {
                         li.email AS loginEmail,
                         li.passwordHash AS loginPasswordHash,
                         p.amount AS paymentAmount,
-                        p.status AS paymentStatus,
                         res.id AS reservationId,
                         res.reservationDate,
                         res.roomId,

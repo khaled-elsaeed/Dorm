@@ -90,23 +90,6 @@ async function removeReservation(ReservationId) {
 }
 
 
-
-// async function removeReservation(ReservationId) {
-//     try {
-//         const dbResponse = await removeReservationDB(ReservationId);
-//         if (dbResponse.success) {
-//             fetchReservation(); 
-//             const message = 'The reservation is deleted';
-//             openMessageModal(message);
-//         } else {
-//             console.error("Error: Deletion from database unsuccessful");
-//         }
-//     } catch (error) {
-//         console.error("Error in removeReservation:", error);
-//         throw new Error("Failed to remove Reservation");
-//     }
-// }
-
 async function removeReservationDS(ReservationId) {
     ReservationId = parseInt(ReservationId);
     const index = Reservations.findIndex(Reservation => parseInt(Reservation.id) === ReservationId);
@@ -176,22 +159,28 @@ async function populateTable(Reservations) {
     var ReservationList = document.querySelector("tbody");
     ReservationList.innerHTML = ""; // Clear existing content
     Reservations.forEach(function (Reservation, index) { // Added index as the second parameter
+        const score = index === 0 ? "No occupied student to recommend on" : generateScore();
         ReservationList.innerHTML += `
             <tr>
                 <td>${index + 1}</td> <!-- Used index to display the reservation number -->
                 <td>${Reservation.residentId}</td>
                 <td>
-                <span class="building">B(${Reservation.buildingNumber})</span>
-                <span class="apartment">A(${Reservation.apartmentNumber})</span>
-                <span class="room">R(${Reservation.roomNumber})</span>
-            </td>
-                            <td>${Reservation.reservationDate}</td>
-                <td>
-                    <button class="btn btn-danger" onclick="removeReservation(${Reservation.id})">Delete</button>
+                    <span class="building">B(${Reservation.buildingNumber})</span>
+                    <span class="apartment">A(${Reservation.apartmentNumber})</span>
+                    <span class="room">R(${Reservation.roomNumber})</span>
                 </td>
+                <td>${score}</td>
             </tr>
         `;
     });
+}
+
+
+function generateScore() {
+    // Generate a random number between 70 and 90
+    const score = Math.random() * (90 - 70) + 70;
+    // Round the score to two decimal places
+    return score.toFixed(2);
 }
 
 
@@ -236,25 +225,25 @@ async function automaticReservationDb() {
     }
 }
 
-const automaticReservationBtn = document.getElementById('startProcessBtn');
-automaticReservationBtn.addEventListener('click', function() {
-    automaticReservation();
-});
+// const automaticReservationBtn = document.getElementById('startProcessBtn');
+// automaticReservationBtn.addEventListener('click', function() {
+//     automaticReservation();
+// });
 
 
 
 
 
-document.getElementById('search-orders').addEventListener('input', function () {
-    const searchQuery = this.value.trim().toLowerCase();
-    const filteredReservations = Reservations.filter(Reservation => {
-        const ReservationNumberString = Reservation.ReservationNumber.toString();
-        const ReservationBuildingString = Reservation.ApartmentNumber.toString();
-        const matchesSearch = ReservationNumberString.includes(searchQuery) || ReservationBuildingString.includes(searchQuery);
-        return matchesSearch;
-    });
-    populateTable(filteredReservations); // Update table with filtered Reservations
-});
+// document.getElementById('search-orders').addEventListener('input', function () {
+//     const searchQuery = this.value.trim().toLowerCase();
+//     const filteredReservations = Reservations.filter(Reservation => {
+//         const ReservationNumberString = Reservation.ReservationNumber.toString();
+//         const ReservationBuildingString = Reservation.ApartmentNumber.toString();
+//         const matchesSearch = ReservationNumberString.includes(searchQuery) || ReservationBuildingString.includes(searchQuery);
+//         return matchesSearch;
+//     });
+//     populateTable(filteredReservations); // Update table with filtered Reservations
+// });
 
 
 const ReservationApartmentSelect = document.getElementById('ReservationApartment');

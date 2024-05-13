@@ -27,8 +27,8 @@ class MemberHandler {
             case 'addExpelledStudent':
                 return $this->addExpelledStudent();
                 case 'fetchDocs':
-                    // return $this->fetchDocs();
-                    // case 'updateDocStatues':
+                    return $this->fetchDocs();
+                    case 'updateDocStatues':
                         return $this->updateDocStatues();
 
             default:
@@ -91,19 +91,19 @@ class MemberHandler {
     }
 
 
-    // private function fetchDocs() {
-    //     if ($_SERVER['REQUEST_METHOD'] === 'GET') {
-    //         $fetchData = $this->member->getAllDocs();
+    private function fetchDocs() {
+        if ($_SERVER['REQUEST_METHOD'] === 'GET') {
+            $fetchData = $this->member->getAllDocsData();
     
-    //         if ($fetchData['success']) {
-    //             return successResponse($fetchData['data']); // Assuming successResponse is a method in the same class
-    //         } else {
-    //             return errorResponse("Failed to fetch expelled students data");
-    //         }
-    //     } else {
-    //         return array("success" => false, "message" => "Invalid request method");
-    //     }
-    // }
+            if ($fetchData['success']) {
+                return successResponse($fetchData['data']); // Assuming successResponse is a method in the same class
+            } else {
+                return errorResponse("Failed to fetch expelled students data");
+            }
+        } else {
+            return array("success" => false, "message" => "Invalid request method");
+        }
+    }
 
 private function addExpelledStudent() {
     if ($_SERVER['REQUEST_METHOD'] === 'POST') {

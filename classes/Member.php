@@ -16,6 +16,45 @@ class Member
         $this->db = $db;
     }
 
+    public function memberAuthenticate($email, $password) {
+        $conn = $this->db->getConnection();
+        try {
+            $sql = "SELECT 
+            memberId, 
+            passwordHash,
+            CONCAT(member.firstName, member.lastName) AS username
+        FROM 
+            logininfo 
+        JOIN 
+            member ON logininfo.memberId = member.id 
+        WHERE 
+            email = :email;
+        ";
+            $stmt = $conn->prepare($sql);
+            $stmt->bindParam(':email', $email);
+            $stmt->execute();
+            $data = $stmt->fetch(PDO::FETCH_ASSOC);
+            if ($data) {
+                if (password_verify($password, $data['passwordHash'])) {
+                    $responseData = [
+                        'memberId' => $data['memberId'],
+                        'username' => $data['username']
+                    ];
+                    return successResponse($responseData);
+                } else {
+                    log_error("Authentication failed for email: $email - Incorrect password", $conn);
+                    return errorResponseText("Incorrect password");
+                }
+            } else {
+                log_error("Authentication failed - Email not found: $email", $conn);
+                return errorResponseText("Email not found");
+            }
+        } catch (PDOException $e) {
+            log_error("Database error: " . $e->getMessage(), $conn);
+            return errorResponse();
+        }
+    }
+
     public function addNewMember($data, $invoice, $profilePicture)
     {
         $conn = $this->db->getConnection();
@@ -188,7 +227,7 @@ class Member
 {
     try {
         // Directory for uploads
-        $targetDir = "../uploads/";
+        $targetDir = "../dashboard/admin/pages/invoice/";
 
         // Create directory if it doesn't exist
         if (!file_exists($targetDir)) {
@@ -221,6 +260,27 @@ class Member
         throw new Exception("Error uploading files: " . $e->getMessage());
     }
 }
+
+function getAllDocsData() {
+    try {
+        $conn = $this->db->getConnection();
+
+        // Prepare the SQL query to fetch all data from the docs table
+        $sql = "SELECT d.*, CONCAT(m.firstName, ' ', m.lastName) AS memberName , m.status FROM docs d JOIN Member m ON d.memberId = m.id";
+        $stmt = $conn->query($sql);
+        $docsData = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+        // Return success response with the retrieved data
+        return successResponse($docsData);
+    } catch (PDOException $e) {
+        // Log any database errors
+        log_error("Database error: " . $e->getMessage());
+        // Return error response
+        return errorResponseText("Database error occurred");
+    }
+}
+
+
 
     
     private function insertResident($memberId, $score, $conn)
