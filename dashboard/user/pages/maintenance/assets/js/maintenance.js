@@ -79,22 +79,22 @@ async function populateTable(tableBody, maintenanceRequests) {
         const statusBadge = `<span class="badge ${badgeClass}">${status}</span>`;
 
         // Create buttons based on the status
-        let actionButtons = '';
-        if (status === 'pending') {
-            actionButtons = `
-                <button type="button" class="btn btn-success btn-sm actionBtn" data-action="inProgress" data-maintenanceRequestId="${maintenanceRequestId}">Accept</button>
-                <button type="button" class="btn btn-danger btn-sm actionBtn" data-action="reject" data-maintenanceRequestId="${maintenanceRequestId}">Reject</button>
-            `;
-        }
-         else if (status === 'inProgress') {
-            actionButtons = `
-                <button type="button" class="btn btn-danger btn-sm actionBtn" data-action="complete" data-maintenanceRequestId="${maintenanceRequestId}">Complete</button>
-            `;
-        }else{
-            actionButtons = `
-                <button type="button" class="btn btn-danger btn-sm actionBtn" data-action="complete" data-maintenanceRequestId="${maintenanceRequestId}" disabled>Complete</button>
-            `;
-        }
+        // let actionButtons = '';
+        // if (status === 'pending') {
+        //     actionButtons = `
+        //         <button type="button" class="btn btn-success btn-sm actionBtn" data-action="inProgress" data-maintenanceRequestId="${maintenanceRequestId}">Accept</button>
+        //         <button type="button" class="btn btn-danger btn-sm actionBtn" data-action="reject" data-maintenanceRequestId="${maintenanceRequestId}">Reject</button>
+        //     `;
+        // }
+        //  else if (status === 'inProgress') {
+        //     actionButtons = `
+        //         <button type="button" class="btn btn-danger btn-sm actionBtn" data-action="complete" data-maintenanceRequestId="${maintenanceRequestId}">Complete</button>
+        //     `;
+        // }else{
+        //     actionButtons = `
+        //         <button type="button" class="btn btn-danger btn-sm actionBtn" data-action="complete" data-maintenanceRequestId="${maintenanceRequestId}" disabled>Complete</button>
+        //     `;
+        // }
 
         // Create a new row for each maintenance request
         const row = document.createElement('tr');
@@ -105,9 +105,6 @@ async function populateTable(tableBody, maintenanceRequests) {
             <td>${description}</td>
             <td>${requestDate}</td>
             <td>${statusBadge}</td> <!-- Status badge -->
-            <td>
-                ${actionButtons}
-            </td>
             <td>${assignedToValue}</td>
             <td>${completeDateValue}</td>
         `;
@@ -115,34 +112,66 @@ async function populateTable(tableBody, maintenanceRequests) {
         // Append the row to the table
         tableBody.appendChild(row);
 
-        // Add event listener to the action buttons
-        const actionBtns = row.querySelectorAll('.actionBtn');
-        actionBtns.forEach(btn => {
-            btn.addEventListener('click', (event) => {
-                event.preventDefault();
-                const action = btn.dataset.action;
-                const maintenanceRequestId = btn.getAttribute('data-maintenanceRequestId');
-                handleAction(action, maintenanceRequestId);
-            });
-        });
+        // // Add event listener to the action buttons
+        // const actionBtns = row.querySelectorAll('.actionBtn');
+        // actionBtns.forEach(btn => {
+        //     btn.addEventListener('click', (event) => {
+        //         event.preventDefault();
+        //         const action = btn.dataset.action;
+        //         const maintenanceRequestId = btn.getAttribute('data-maintenanceRequestId');
+        //         handleAction(action, maintenanceRequestId);
+        //     });
+        // });
     });
 }
 
 
+document.getElementById("maintenanceForm").addEventListener("submit", function(event) {
+    event.preventDefault(); // Prevent the form from submitting normally
+    // Get the value of the maintenance description
+    var maintenanceDescription = document.getElementById("maintenanceDescription").value;
+    // Do something with the maintenance description, like sending it to the server via AJAX
+    
+    insertNewRequestDb(maintenanceDescription);
+    // Close the modal
+    var modal = new bootstrap.Modal(document.getElementById("maintenanceModal"));
+    modal.hide();
+  });
 
-
-
-function handleAction(action, maintenanceRequestId) {
-    // Check the action
-    if (action === 'inProgress') {
-        handleInProgressRequest(maintenanceRequestId);
-    } else if (action === 'complete') {
-        handleCompleteRequest(maintenanceRequestId);
-    }else{
-        handleRejectRequest(maintenanceRequestId);
-
+  async function insertNewRequestDb(maintenanceDescription) {
+    const url = "../../../../handlers/?action=newRequest";
+    const data = {
+        maintenanceDescription: maintenanceDescription,
+    };
+    try {
+        const response = await postData(url, data);
+        if (response && response.success) {
+            updateMaintenanceRequestsView(maintenanceRequests);
+                            }
+        
+    } catch (error) {
+        console.error("Error in insertNewRequestDb:", error);
+        // Handle error appropriately, e.g., show an error message to the user
     }
 }
+
+
+
+
+
+
+
+// function handleAction(action, maintenanceRequestId) {
+//     // Check the action
+//     if (action === 'inProgress') {
+//         handleInProgressRequest(maintenanceRequestId);
+//     } else if (action === 'complete') {
+//         handleCompleteRequest(maintenanceRequestId);
+//     }else{
+//         handleRejectRequest(maintenanceRequestId);
+
+//     }
+// }
 
 // Function to open the modal and get input
 async function handleInProgressRequest(maintenanceRequestId) {

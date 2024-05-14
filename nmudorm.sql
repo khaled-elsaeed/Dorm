@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: May 08, 2024 at 02:51 AM
+-- Generation Time: May 14, 2024 at 02:11 AM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -40,8 +40,7 @@ CREATE TABLE `addressinfo` (
 --
 
 INSERT INTO `addressinfo` (`id`, `governorate`, `city`, `address`, `memberId`) VALUES
-(6, 'Dakahlia', 'Mansoura', 'manzala', 6),
-(9, 'Aswan', 'Kom Ombo', 'fdadfadsf', 9);
+(28, 'Dakahlia', 'Al Manzala', 'manzala', 29);
 
 -- --------------------------------------------------------
 
@@ -122,13 +121,6 @@ CREATE TABLE `apartment` (
   `buildingId` int(11) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
---
--- Dumping data for table `apartment`
---
-
-INSERT INTO `apartment` (`id`, `apartmentNumber`, `roomCount`, `buildingId`) VALUES
-(2, 5454, 30, 2);
-
 -- --------------------------------------------------------
 
 --
@@ -141,13 +133,6 @@ CREATE TABLE `building` (
   `apartmentLimit` int(11) NOT NULL DEFAULT 24,
   `buildingCategory` enum('male','female','academic staff') NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
---
--- Dumping data for table `building`
---
-
-INSERT INTO `building` (`id`, `buildingNumber`, `apartmentLimit`, `buildingCategory`) VALUES
-(2, '213', 24, 'male');
 
 -- --------------------------------------------------------
 
@@ -167,8 +152,28 @@ CREATE TABLE `contactinfo` (
 --
 
 INSERT INTO `contactinfo` (`contactId`, `email`, `phoneNumber`, `memberId`) VALUES
-(6, 'khaled221101039@nmu.edu.eg', '01212939615', 6),
-(9, 'khaled221101039@nmu.edu.eg', '01212939615', 9);
+(28, 'khaled221101039@nmu.edu.eg', '01212939615', 29);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `docs`
+--
+
+CREATE TABLE `docs` (
+  `id` int(11) NOT NULL,
+  `memberId` int(11) DEFAULT NULL,
+  `invoicePath` varchar(255) DEFAULT NULL,
+  `profilePicturePath` varchar(255) DEFAULT NULL,
+  `created_at` timestamp NOT NULL DEFAULT current_timestamp()
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `docs`
+--
+
+INSERT INTO `docs` (`id`, `memberId`, `invoicePath`, `profilePicturePath`, `created_at`) VALUES
+(3, 29, 'Invoice-Example-Payment-Terms-4.png', 'martins-zemlickis-zbukvoF68UY-unsplash.jpg', '2024-05-14 00:02:39');
 
 -- --------------------------------------------------------
 
@@ -216,8 +221,7 @@ CREATE TABLE `facultyinfo` (
 --
 
 INSERT INTO `facultyinfo` (`id`, `faculty`, `department`, `studentId`, `level`, `email`, `cgpa`, `certificateType`, `certificateScore`, `memberId`) VALUES
-(4, 'Faculty of Computer Science & Engineering', 'Computer Science Program', 221101039, 2, 'khaled221101039@nmu.edu.eg', 2, NULL, NULL, 6),
-(7, 'Faculty of Science', 'Molecular Biology Program', 221102555, 2, 'khaled221101039@nmu.edu.eg', 3, NULL, NULL, 9);
+(26, 'Faculty of Computer Science & Engineering', 'Computer Engineering Program', 221101039, 1, 'khaled221101039@nmu.edu.eg', 3, NULL, NULL, 29);
 
 -- --------------------------------------------------------
 
@@ -272,13 +276,6 @@ CREATE TABLE `insurance` (
   `amount` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
---
--- Dumping data for table `insurance`
---
-
-INSERT INTO `insurance` (`insuranceId`, `memberId`, `amount`) VALUES
-(1, 6, 2500);
-
 -- --------------------------------------------------------
 
 --
@@ -297,8 +294,7 @@ CREATE TABLE `logininfo` (
 --
 
 INSERT INTO `logininfo` (`id`, `email`, `passwordHash`, `memberId`) VALUES
-(6, 'khaled221101039@nmu.edu.eg', '67d1daa312b438528b703a1931aa7ace', 6),
-(9, 'khaled221101039@nmu.edu.eg', 'ca44ba436a174fc8894f5db22e699eae', 9);
+(28, 'khaled221101039@nmu.edu.eg', '$2y$10$0TS3yfZ.K/Ui9jKTmoTzvOypyVEw.klT1H.GUHSt60Om6X4Uvi1Ke', 29);
 
 -- --------------------------------------------------------
 
@@ -315,13 +311,6 @@ CREATE TABLE `maintenance` (
   `assignedTo` varchar(35) DEFAULT NULL,
   `roomId` int(11) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
---
--- Dumping data for table `maintenance`
---
-
-INSERT INTO `maintenance` (`id`, `description`, `requestDate`, `status`, `completeDate`, `assignedTo`, `roomId`) VALUES
-(2, 'fdafdaf', '2024-05-07 12:33:35', 'pending', NULL, NULL, 1);
 
 -- --------------------------------------------------------
 
@@ -346,8 +335,7 @@ CREATE TABLE `member` (
 --
 
 INSERT INTO `member` (`id`, `firstName`, `middleName`, `lastName`, `birthdate`, `gender`, `nationality`, `governmentId`, `status`) VALUES
-(6, 'Khaled', 'El-Saeid', 'zahran', '2024-05-16', 'male', 'Egyptian', '30308218800598', 'accepted'),
-(9, 'mohamed ', 'Ahmed Mohamed', 'essam', '2024-05-08', 'male', 'Bangladeshi', '22110133333025', 'accepted');
+(29, 'Khaled', 'El-Saeid Hamed', 'Zahran', '2024-05-02', 'male', 'Egyptian', '22110133333025', 'accepted');
 
 -- --------------------------------------------------------
 
@@ -402,14 +390,6 @@ CREATE TABLE `parentalinfo` (
   `memberId` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
---
--- Dumping data for table `parentalinfo`
---
-
-INSERT INTO `parentalinfo` (`id`, `name`, `phoneNumber`, `location`, `memberId`) VALUES
-(4, 'saeed zahran', '01224083706', 'local', 6),
-(7, 'Khaled Zahran', '01212939615', 'abroad', 9);
-
 -- --------------------------------------------------------
 
 --
@@ -427,8 +407,7 @@ CREATE TABLE `payment` (
 --
 
 INSERT INTO `payment` (`id`, `memberId`, `amount`) VALUES
-(4, 6, 20000),
-(7, 9, 20000);
+(26, 29, 20000);
 
 -- --------------------------------------------------------
 
@@ -442,13 +421,6 @@ CREATE TABLE `reservation` (
   `roomId` int(11) DEFAULT NULL,
   `reservationDate` timestamp NOT NULL DEFAULT current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
---
--- Dumping data for table `reservation`
---
-
-INSERT INTO `reservation` (`id`, `residentId`, `roomId`, `reservationDate`) VALUES
-(1, 3, 1, '2024-05-07 12:10:36');
 
 -- --------------------------------------------------------
 
@@ -470,8 +442,7 @@ CREATE TABLE `resident` (
 --
 
 INSERT INTO `resident` (`id`, `score`, `memberId`, `occupancyStatus`, `moveInDate`, `moveOutDate`) VALUES
-(3, 1500, 6, 'occupied', '2024-05-07 11:55:35', NULL),
-(6, 0, 9, 'vacant', '2024-05-07 16:22:28', NULL);
+(25, 0, 29, 'vacant', '2024-05-14 00:02:39', NULL);
 
 -- --------------------------------------------------------
 
@@ -485,13 +456,6 @@ CREATE TABLE `room` (
   `apartmentId` int(11) DEFAULT NULL,
   `occupancyStatus` varchar(255) NOT NULL DEFAULT 'vacant'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
---
--- Dumping data for table `room`
---
-
-INSERT INTO `room` (`id`, `roomNumber`, `apartmentId`, `occupancyStatus`) VALUES
-(1, 21, 2, 'occupied');
 
 --
 -- Indexes for dumped tables
@@ -542,6 +506,13 @@ ALTER TABLE `building`
 --
 ALTER TABLE `contactinfo`
   ADD PRIMARY KEY (`contactId`),
+  ADD KEY `memberId` (`memberId`);
+
+--
+-- Indexes for table `docs`
+--
+ALTER TABLE `docs`
+  ADD PRIMARY KEY (`id`),
   ADD KEY `memberId` (`memberId`);
 
 --
@@ -656,7 +627,7 @@ ALTER TABLE `room`
 -- AUTO_INCREMENT for table `addressinfo`
 --
 ALTER TABLE `addressinfo`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=29;
 
 --
 -- AUTO_INCREMENT for table `admincredentials`
@@ -692,7 +663,13 @@ ALTER TABLE `building`
 -- AUTO_INCREMENT for table `contactinfo`
 --
 ALTER TABLE `contactinfo`
-  MODIFY `contactId` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
+  MODIFY `contactId` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=29;
+
+--
+-- AUTO_INCREMENT for table `docs`
+--
+ALTER TABLE `docs`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT for table `expelledstudent`
@@ -704,7 +681,7 @@ ALTER TABLE `expelledstudent`
 -- AUTO_INCREMENT for table `facultyinfo`
 --
 ALTER TABLE `facultyinfo`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=27;
 
 --
 -- AUTO_INCREMENT for table `field`
@@ -728,19 +705,19 @@ ALTER TABLE `insurance`
 -- AUTO_INCREMENT for table `logininfo`
 --
 ALTER TABLE `logininfo`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=29;
 
 --
 -- AUTO_INCREMENT for table `maintenance`
 --
 ALTER TABLE `maintenance`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT for table `member`
 --
 ALTER TABLE `member`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=30;
 
 --
 -- AUTO_INCREMENT for table `note`
@@ -758,25 +735,25 @@ ALTER TABLE `notification`
 -- AUTO_INCREMENT for table `parentalinfo`
 --
 ALTER TABLE `parentalinfo`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=24;
 
 --
 -- AUTO_INCREMENT for table `payment`
 --
 ALTER TABLE `payment`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=27;
 
 --
 -- AUTO_INCREMENT for table `reservation`
 --
 ALTER TABLE `reservation`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT for table `resident`
 --
 ALTER TABLE `resident`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=26;
 
 --
 -- AUTO_INCREMENT for table `room`
@@ -817,6 +794,12 @@ ALTER TABLE `apartment`
 --
 ALTER TABLE `contactinfo`
   ADD CONSTRAINT `contactinfo_ibfk_1` FOREIGN KEY (`memberId`) REFERENCES `member` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
+
+--
+-- Constraints for table `docs`
+--
+ALTER TABLE `docs`
+  ADD CONSTRAINT `docs_ibfk_1` FOREIGN KEY (`memberId`) REFERENCES `member` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
 -- Constraints for table `facultyinfo`

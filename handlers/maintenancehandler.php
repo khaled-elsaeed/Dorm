@@ -42,6 +42,8 @@ class MaintenanceHandler {
                     return $this->updateMaintenanceStatusReject();
                 case 'fetchMaintenanceRequestsCount':
                     return $this->getMaintenanceRequestsCount();
+                    case 'newRequest':
+                        return $this->newMaintenance();
                 default:
                     return errorResponse("Invalid admin action");
             }
@@ -82,6 +84,29 @@ class MaintenanceHandler {
                 return errorResponse("Maintenance Id and assigned To are required");
             }
             $updateResult = $this->Maintenance->updateMaintenanceStatusStart($maintenanceRequestId, $assignedToName);
+            if ($updateResult['success']) {
+                return $this->successResponse(null, "Status Updated successfully");
+            } else {
+                return errorResponse("Failed to Update maintenance status");
+            }
+        } catch (Exception $e) {
+            $this->logerror($e . " An error occurred: " . $e->getMessage());
+            return errorResponse();    
+            }
+    }
+
+
+    private function newMaintenance() {
+        try {
+            $jsonData = file_get_contents('php://input');
+            $requestData = json_decode($jsonData, true);
+            if (!$requestData) {
+                return errorResponse( "Invalid JSON data");
+            }
+            $maintanenceDes = isset($requestData['maintenanceDescription']) ? $requestData['maintenanceDescription'] : null;
+            $memberId = $_SESSION['userId'];
+
+            $updateResult = $this->Maintenance->newMaintenance($maintanenceDes, $memberId);
             if ($updateResult['success']) {
                 return $this->successResponse(null, "Status Updated successfully");
             } else {

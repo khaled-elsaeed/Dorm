@@ -77,6 +77,72 @@ class Maintenance {
         }
     }
 
+    public function getRoomIdByMemberId($memberId) {
+        try {
+            $conn = $this->db->getConnection();
+    
+            // Get the first resident ID by member ID
+            $sqlResident = "SELECT id FROM resident WHERE memberId = :memberId ORDER BY id ASC LIMIT 1";
+            $stmtResident = $conn->prepare($sqlResident);
+            $stmtResident->bindParam(':memberId', $memberId);
+            $stmtResident->execute();
+            $residentResult = $stmtResident->fetch(PDO::FETCH_ASSOC);
+    
+            if (!$residentResult) {
+                return null; // No resident found for the member
+            }
+    
+            $residentId = $residentResult['id'];
+    
+            // Using the resident ID, get the corresponding room ID from the reservation table
+            $sqlReservation = "SELECT roomId FROM reservation WHERE residentId = :residentId";
+            $stmtReservation = $conn->prepare($sqlReservation);
+            $stmtReservation->bindParam(':residentId', $residentId);
+            $stmtReservation->execute();
+            $reservationResult = $stmtReservation->fetch(PDO::FETCH_ASSOC);
+    
+            if ($reservationResult) {
+                return $reservationResult['roomId'];
+            } else {
+                return null; // No reservation found for the member's resident
+            }
+        } catch (PDOException $e) {
+            $this->logError($e . " An error occurred: " . $e->getMessage());
+            return null; // Error occurred, return null
+        }
+    }
+    
+
+    public function newMaintenance($maintenanceDescription, $memberId) {
+        try {
+            // Get room ID based on member ID
+            $roomId = $this->getRoomIdByMemberId($memberId);
+            
+            if ($roomId === null) {
+                // Handle case where no room is found for the member
+                return $this->errorResponse("No room found for member ID: $memberId");
+            }
+    
+            // Insert maintenance request with retrieved room ID
+            $conn = $this->db->getConnection();
+            $sql = "INSERT INTO `maintenance` (`description`, `roomId`) VALUES (:description, :roomId)";
+            $stmt = $conn->prepare($sql); 
+            $stmt->bindParam(':description', $maintenanceDescription);
+            $stmt->bindParam(':roomId', $roomId);
+            $result = $stmt->execute(); 
+            
+            if ($result) {
+                return $this->successResponse();
+            } else {
+                return $this->errorResponse();
+            }
+        } catch (PDOException $e) {
+            $this->logError($e . " An error occurred: " . $e->getMessage());
+            return $this->errorResponse();
+        }
+    }
+    
+
     public function updateMaintenanceStatusEnd($maintenanceRequestId) {
         try {
             $conn = $this->db->getConnection();

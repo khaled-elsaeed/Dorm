@@ -44,6 +44,8 @@ $actionHandlers = [
     'endMaintenanceProcess' => 'maintenancehandler',
     'rejectMaintenanceProcess' => 'maintenancehandler',
     'fetchMaintenanceRequestsCount' => 'maintenancehandler',
+    'newRequest' => 'maintenancehandler',
+
     'fetchCriteria' => 'criteriahandler',
     'updateCriteriaWeight' => 'criteriahandler',
     'newCriteria' => 'criteriahandler',

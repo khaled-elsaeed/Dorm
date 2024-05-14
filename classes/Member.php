@@ -227,7 +227,7 @@ class Member
 {
     try {
         // Directory for uploads
-        $targetDir = "../dashboard/admin/pages/invoice/";
+        $targetDir = "../dashboard/admin/pages/docs/uploads/";
 
         // Create directory if it doesn't exist
         if (!file_exists($targetDir)) {
@@ -236,7 +236,7 @@ class Member
 
         // Uploading Invoice
         $invoiceFileName = basename($invoice["name"]);
-        $targetFilePathInvoice = $targetDir . $invoiceFileName;
+        $targetFilePathInvoice =  $invoiceFileName;
         move_uploaded_file($invoice["tmp_name"], $targetFilePathInvoice);
 
         // Uploading Profile Picture
